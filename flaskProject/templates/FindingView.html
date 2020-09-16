@@ -1,0 +1,179 @@
+<!-- extends the layout.html main structure to avoid repetition -->
+{% extends "layout.html" %}
+
+<!-- html code for the body of the page-->
+{% block content %}
+    <h1>Finding Overview</h1>
+    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditFinding') }}">Edit Finding</a></button>
+    <hr>
+    <h3>Finding information</h3>
+    <hr>
+    <h4>Title</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>ID</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Host Name</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>IP:Port</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Description</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Long Description</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Status</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Type</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Classification</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Evidence</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>System, Task or Subtask</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Related Findings</h4>
+    <p>This is some other text.</p>
+    <hr>
+
+    <h3>Finding Impact</h3>
+    <hr>
+    <h4>Confidentiality</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Integrity</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Availability</h4>
+    <p>This is some other text.</p>
+    <hr>
+
+    <h3>Analyst Information</h3>
+    <hr>
+    <h4>Analyst initials</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Collaborator</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Posture</h4>
+    <p>This is some other text.</p>
+    <hr>
+
+    <h3>Mitigation</h3>
+    <hr>
+    <h4>Mitigation</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Brief Description</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>long Description</h4>
+    <p>This is some other text.</p>
+    <hr>
+
+    <h3>Threat</h3>
+    <hr>
+    <h4>Threat Relevance</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Relevance</h4>
+    <p>This is some other text.</p>
+    <hr>
+
+    <h3>Countermeasure</h3>
+    <hr>
+    <h4>Countermeasure</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Effectiveness Rating</h4>
+    <p>This is some other text.</p>
+    <hr>
+
+    <h3>Imapact</h3>
+    <hr>
+    <h4>Impact</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Impact Description</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Impact Level</h4>
+    <p>This is some other text.</p>
+    <hr>
+
+    <h3>Severity</h3>
+    <hr>
+    <h4>Severity</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Severity Category Score</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Vulnerability Severity Level</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Quantitive Vulnerability Severity</h4>
+    <p>This is some other text.</p>
+    <hr>
+
+    <h3>Risk</h3>
+    <hr>
+    <h4>Risk</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>likehood</h4>
+    <p>This is some other text.</p>
+    <hr>
+
+    <h3>finding system level impact</h3>
+    <hr>
+    <h4>Confidentiality Finding Impact System</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Integrity Finding Impact on System</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Availability Finding Impact on System</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Impact Score</h4>
+    <p>This is some other text.</p>
+    <hr>
+
+{% endblock content %}
+{% block sidebar %}
+    <!-- side bar -->
+    <div class="content-section">
+        <h3>Sidebar</h3>
+        <p class='text-muted'>You can put any information here you'd like.
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light"><a href=""> Event Tree</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}"> Systems</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archive</a>
+            </li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
+                Configuration</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
+            </li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
+
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('GenerateReport') }}"> Generate
+                Report</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
+        </ul>
+        </p>
+    </div>
+{% endblock %}

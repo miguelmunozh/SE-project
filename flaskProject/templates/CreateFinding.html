@@ -1,0 +1,271 @@
+<!-- extends the layout.html main structure to avoid repetition -->
+{% extends "layout.html" %}
+
+<!-- html code for the body of the page-->
+{% block content %}
+    <h1>Create Finding</h1>
+    <form>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inputTitle">Title</label>
+                <input type="email" class="form-control" id="inputTitle">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Posture</label>
+            <select id="inputPriority" class="form-control">
+                <option>Insider</option>
+                <option>Nearsider</option>
+                <option>Outsider</option>
+                <option>Nearsider/Outsider</option>
+                <option>Nearsider/Insider</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Analyst initials</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">ID</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Relevance of Threat</label>
+            <select id="inputPriority" class="form-control">
+                <option>Confirmed</option>
+                <option>Expected</option>
+                <option>Anticipated</option>
+                <option>Predicated</option>
+                <option>Possible</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Finding Type</label>
+            <select id="inputPriority" class="form-control">
+                <option>Credentials complexity</option>
+                <option>Manufacturer default creds</option>
+                <option>Plain text protocols</option>
+                <option>Plain text web-login</option>
+                <option>Encryption</option>
+                <option>Authentication bypass</option>
+                <option>Port security</option>
+                <option>Access control</option>
+                <option>Least privilege</option>
+                <option>Privilege escalation</option>
+                <option>Access control</option>
+                <option>Missing patches</option>
+                <option>Physical Security</option>
+                <option>Information Disclosure</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Mitigation</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Short Description</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Long Description</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Classification</label>
+            <select id="inputPriority" class="form-control">
+                <option>Vulnerability</option>
+                <option>Information</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Host Name</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">IP:Port</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Status</label>
+            <select id="inputPriority" class="form-control">
+                <option>Open</option>
+                <option>Closed</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Evidence</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">System, Task or Subtask</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Related Findings</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Criticality</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Likelihood</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Impact</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Risk</label>
+            <select id="inputPriority" class="form-control">
+                <option>Very low</option>
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Very High</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Finding Impact</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Confidentiality</label>
+            <select id="inputPriority" class="form-control">
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Information</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Integrity</label>
+            <select id="inputPriority" class="form-control">
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Information</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Availability</label>
+            <select id="inputPriority" class="form-control">
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Information</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Analyst Initials</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Collaborator</label>
+            <select id="inputPriority" class="form-control">
+                <option>miguel munoz</option>
+                <option>jonathan roman</option>
+                <option>alberto machado</option>
+                <option>carlos dominguez</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="inputStatus">Criticality</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Impact</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Impact Description</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Impact Level</label>
+            <select id="inputPriority" class="form-control">
+                <option>VH</option>
+                <option>H</option>
+                <option>M</option>
+                <option>L</option>
+                <option>VL</option>
+                <option>Information</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Severity </label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Severity Category Score </label>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Vulnerability Severity Level </label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Quantitive Vulnerability Severity</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Risk</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">likehood</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Confidentiality Finding Impact System</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Integrity Finding Impact on System</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Availability Finding Impact on System</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Impact Score</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Countermeasure</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Effectiveness Rating</label>
+            <select id="inputPriority" class="form-control">
+                <option>Very High (10)</option>
+                <option>High 9</option>
+                <option>High 8</option>
+                <option>High 7</option>
+                <option>Moderate 6</option>
+                <option>Moderate 5</option>
+                <option>Low 4</option>
+                <option>Low 3</option>
+                <option>Low 2</option>
+                <option>Low 1</option>
+                <option>Very Low 0</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Attachment</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Description</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-secondary"><a href="#">Add attachments / files</a></button>
+        </div>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('FindingsView') }}">Create</a></button>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('FindingsView') }}">Cancel</a></button>
+        <br><br>
+    </form>
+{% endblock content %}

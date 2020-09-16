@@ -1,0 +1,204 @@
+<!-- extends the layout.html main structure to avoid repetition -->
+{% extends "layout.html" %}
+
+<!-- html code for the body of the page-->
+{% block content %}
+    <h1>Event overview</h1>
+    <br>
+    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditEvent') }}">Edit event</a></button>
+    <h3>Event Basic Information</h3>
+    <br>
+
+    <h4>Event name</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Event description</h4>
+    <p>lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+        lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+        lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum </p>
+    <br>
+    <h4>Event type</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Event version</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Organization name</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Event classification</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Customer name</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Event assessment date</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Event declassification date</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Event location</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Test plan title</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Switches routers accessed</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Event building accessed</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Event room accessed</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Finding classification</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>System Categorization Confidentiality</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>system Categorization Integrity</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Finding classification</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>system Categorization Availability</h4>
+    <p>This is some other text.</p>
+    <hr>
+
+    <h3>Event Team information</h3>
+    <br>
+
+    <h4>Event lead analyst</h4>
+    <p>This is some other text.</p>
+    <hr>
+    <h4>Event non-lead analysts</h4>
+    <p>This is some other text.</p>
+    <hr>
+
+
+
+
+    <h3>list of Systems</h3>
+    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateSystem') }}">Add system</a></button>
+    <hr>
+    <div class="list-group">
+        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+            <br>
+            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                <a href="{{ url_for('SystemView') }}">
+                    <h5 class="mb-1">System 1</h5>
+                </a>
+                <small>No. of Tasks: 4 </small>
+                <b>|</b>
+                <small>No. of Findings: 2</small>
+            </div>
+            <p class="mb-1">Description of what the System is about, steps, instructions, etc</p>
+            <h5>Progress:</h5>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
+                     aria-valuemax="100">25%
+                </div>
+            </div>
+            <div class="custom-control custom-checkbox mb-4">
+                <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
+            </div>
+        </div>
+        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+            <br>
+            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                <a href="{{ url_for('SystemView') }}">
+                    <h5 class="mb-1">System 2</h5>
+                </a>
+                <small>No. of Tasks: 4</small>
+                <b>|</b>
+                <small>No. of Findings: 2</small>
+            </div>
+            <p class="mb-1">Description of what the System is about, steps, instructions, etc</p>
+            <h5>Progress:</h5>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
+                     aria-valuemax="100">25%
+                </div>
+            </div>
+            <div class="custom-control custom-checkbox mb-4">
+                <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
+            </div>
+        </div>
+        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+            <br>
+            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                <a href="{{ url_for('SystemView') }}">
+                    <h5 class="mb-1">System 3</h5>
+                </a>
+                <small>No. of Tasks: 4</small>
+                <b>|</b>
+                <small>No. of Findings: 2</small>
+            </div>
+            <p class="mb-1">Description of what the System is about, steps, instructions, etc</p>
+            <h5>Progress:</h5>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
+                     aria-valuemax="100">25%
+                </div>
+            </div>
+            <div class="custom-control custom-checkbox mb-4">
+                <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
+            </div>
+        </div>
+        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+            <br>
+            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                <a href="{{ url_for('SystemView') }}">
+                    <h5 class="mb-1">System 4</h5>
+                </a>
+                <small>No. of Tasks: 4</small>
+                <b>|</b>
+                <small>No. of Findings: 2</small>
+            </div>
+            <p class="mb-1">Description of what the System is about, steps, instructions, etc</p>
+            <h5>Progress:</h5>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
+                     aria-valuemax="100">25%
+                </div>
+            </div>
+            <div class="custom-control custom-checkbox mb-4">
+                <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block sidebar %}
+    <!-- side bar -->
+    <div class="content-section">
+        <h3>FRIC menu</h3>
+        <p class='text-muted'>You can put any information here you'd like.
+        <ul class="list-group">
+            <!-- added these options according to the professor's final SRS -->
+            <li class="list-group-item list-group-item-light"><a href=""> Event Tree</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}"> Systems</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archive</a>
+            </li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
+                Configuration</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
+            </li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
+
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('GenerateReport') }}"> Generate
+                Report</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
+        </ul>
+        </p>
+    </div>
+{% endblock %}
+
+

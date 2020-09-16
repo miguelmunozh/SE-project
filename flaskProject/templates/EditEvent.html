@@ -1,0 +1,139 @@
+<!-- extends the layout.html main structure to avoid repetition -->
+{% extends "layout.html" %}
+
+<!-- html code for the body of the page-->
+{% block content %}
+    <h1>Edit Event</h1>
+    <form>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inputTitle">Name</label>
+                <input type="email" class="form-control" id="inputTitle">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Event type</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Event version</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Lead analyst</label>
+            <select id="" class="form-control">
+                <option>Miguel Munoz</option>
+                <option>Jonathan Roman</option>
+                <option>Alberto Machado</option>
+                <option>Christopher Janicky</option>
+                <option>Carlos Dominguez</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Non-lead analysts</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Customer name</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Organization name</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <!-- Date input -->
+            <label class="control-label" for="date">Start Date</label>
+            <input id="datepicker" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+            <label class="control-label" for="date">End Date</label>
+            <input id="datepicker1" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+        </div>
+
+        <div class="form-group">
+            <label for="inputStatus">Event location</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Event classification</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Test plan title</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Switches routers accessed</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Event building accessed</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Event room accessed</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Finding classification</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label>System Categorization Confidentiality</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <labelSystem Categorixation Integrity
+            </label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label>System Categorization Availability</label>
+            <input class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="inputPriority">Priority</label>
+            <select id="inputPriority" class="form-control">
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Description</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="inputStatus">First Name</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Last Name</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Initial</label>
+            <input class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="inputStatus">Title</label>
+            <input class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EventView') }}">Save</a></button>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EventView') }}">Cancel</a></button>
+        <br><br>
+    </form>
+
+    <script>
+        $('#datepicker').datepicker({
+            uiLibrary: 'bootstrap'
+        });
+        $('#datepicker1').datepicker({
+            uiLibrary: 'bootstrap'
+        });
+    </script>
+{% endblock content %}
+

@@ -1,0 +1,36 @@
+<!-- extends the layout.html main structure to avoid repetition -->
+{% extends "layout.html" %}
+
+<!-- html code for the body of the page-->
+{% block content %}
+    <h1>Generate Report page </h1>
+    <!-- content goes here -->
+
+{% endblock %}
+
+{% block sidebar %}
+    <!-- side bar -->
+    <div class="content-section">
+        <h3>Sidebar</h3>
+        <p class='text-muted'>You can put any information here you'd like.
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light"><a href=""> Event Tree</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}"> Systems</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archive</a>
+            </li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
+                Configuration</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
+            </li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
+
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('GenerateReport') }}"> Generate
+                Report</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
+        </ul>
+        </p>
+    </div>
+{% endblock %}

@@ -1,0 +1,49 @@
+<!-- Other html files extend this main structure file to avoid repetition, it is called template inheritance -->
+{% extends "bootstrap/base.html" %}
+
+<!DOCTYPE html>
+<html lang="en">
+<!-- use blocks instead of normal <head></head> & <body></body> html tags, since this class is a child of bootstrap, otherwise anything in head and body tags would not be
+     inherited to the child classes of this main structure file, for example, home html file wouldn't show the head or body from this class, everything in child classes needs
+     to be in blocks-->
+{% block title %}FRIC{% endblock %}
+{% block head %}
+    {{ super() }}
+    <!-- Required meta tag -->
+    <meta charset="utf-8">
+    <!--  jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <!-- Bootstrap Date-Picker Plugin -->
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+{% endblock %}
+
+{% block body %}
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand">FRIC</a>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="container">
+        <!-- main content goes here -->
+        <div class="row">
+            <div class="col-md-8">
+                {% block content %}{% endblock %}
+            </div>
+
+            <!-- decided not to put the side bar in the main structure so that
+                 the forms do not contain a sidebar -->
+            <!-- side bar -->
+            <div class="col-md-4">
+                {% block sidebar %} {% endblock %}
+            </div>
+        </div>
+    </main>
+{% endblock %}
+</html>

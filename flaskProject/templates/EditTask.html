@@ -1,0 +1,61 @@
+<!-- extends the layout.html main structure to avoid repetition -->
+{% extends "layout.html" %}
+
+<!-- html code for the body of the page-->
+{% block content %}
+    <h1>Edit Task</h1>
+    <form>
+        <div class="form-group">
+            <label for="inputTitle">Name</label>
+            <input type="email" class="form-control" id="inputTitle">
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="date">Date</label>
+            <input id="datepicker" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+        </div>
+        <script>
+            $('#datepicker').datepicker({
+                uiLibrary: 'bootstrap'
+            });
+        </script>
+
+        <div class="form-group">
+            <label>Priority</label>
+            <select class="form-control">
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Assigned analysts</label>
+            <select class="form-control">
+                <option>Jonathan Roman</option>
+                <option>Alberto Machado</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Collaborators </label>
+            <select class="form-control">
+                <option>Miguel Munoz</option>
+                <option>Jonathan Roman</option>
+                <option>Alberto Machado</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Related tasks</label>
+            <select class="form-control">
+                <option>Task 1</option>
+                <option>Task 2</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Description</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('TaskView') }}">Edit</a></button>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('TaskView') }}">Cancel</a></button>
+    </form>
+    <br>
+{% endblock content %}

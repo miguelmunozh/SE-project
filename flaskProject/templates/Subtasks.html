@@ -1,0 +1,202 @@
+<!-- extends the layout.html main structure to avoid repetition -->
+{% extends "layout.html" %}
+
+<!-- html code for the body of the page-->
+{% block content %}
+    <h1>list of All subtasks in event</h1>
+
+    <div class="list-group">
+        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                <a href="{{ url_for('SubTaskView') }}">
+                    <h4 class="mb-1">Subtask 1</h4>
+                </a>
+                <small>No. of Findings: 2</small>
+                <h5>Aanalyst: Jonathan Roman</h5>
+                <h5>Task: task 1</h5>
+                <h5>Due date:
+                    <medium>08/07/20</medium>
+                </h5>
+            </div>
+            <p class="mb-1">Description of what the sub task is about, steps, instructions, etc</p>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                <label class="custom-control-label" for="customCheck">Complete</label>
+                <button type="submit" class="btn btn-secondary"><a href="">Archive subtask</a></button>
+                <button type="submit" class="btn btn-secondary"><a href="">Promote subtask</a></button>
+            </div>
+        </div>
+        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                <a href="{{ url_for('SubTaskView') }}">
+                    <h4 class="mb-1">Subtask 2</h4>
+                </a>
+                <small>No. of Findings: 2</small>
+                <h5>Aanalyst: Jonathan Roman</h5>
+                <h5>Task: task 1</h5>
+                <h5>Due date:
+                    <medium>08/07/20</medium>
+                </h5>
+            </div>
+            <p class="mb-1">Description of what the sub task is about, steps, instructions, etc</p>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                <label class="custom-control-label" for="customCheck">Complete</label>
+                <button type="submit" class="btn btn-secondary"><a href="">Archive subtask</a></button>
+                <button type="submit" class="btn btn-secondary"><a href="">Promote subtask</a></button>
+            </div>
+        </div>
+        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                <a href="{{ url_for('SubTaskView') }}">
+                    <h4 class="mb-1">Subtask 3</h4>
+                </a>
+                <small>No. of Findings: 2</small>
+                <h5>Aanalyst: Jonathan Roman</h5>
+                <h5>Task: task 2</h5>
+                <h5>Due date:
+                    <medium>08/07/20</medium>
+                </h5>
+            </div>
+            <p class="mb-1">Description of what the sub task is about, steps, instructions, etc</p>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                <label class="custom-control-label" for="customCheck">Complete</label>
+                <button type="submit" class="btn btn-secondary"><a href="">Archive subtask</a></button>
+                <button type="submit" class="btn btn-secondary"><a href="">Promote subtask</a></button>
+            </div>
+        </div>
+        `
+        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                <a href="{{ url_for('SubTaskView') }}">
+                    <h4 class="mb-1">Subtask 4</h4>
+                </a>
+                <small>No. of Findings: 2</small>
+                <h5>Aanalyst: Jonathan Roman</h5>
+                <h5>Task: task 2</h5>
+                <h5>Due date:
+                    <medium>08/07/20</medium>
+                </h5>
+            </div>
+            <p class="mb-1">Description of what the sub task is about, steps, instructions, etc</p>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                <label class="custom-control-label" for="customCheck">Complete</label>
+                <button type="submit" class="btn btn-secondary"><a href="">Archive subtask</a></button>
+                <button type="submit" class="btn btn-secondary"><a href="">Promote subtask</a></button>
+            </div>
+        </div>
+        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                <a href="{{ url_for('SubTaskView') }}">
+                    <h4 class="mb-1">Subtask 4</h4>
+                </a>
+                <small>No. of Findings: 2</small>
+                <h5>Aanalyst: Jonathan Roman</h5>
+                <h5>Task: task 3</h5>
+                <h5>Due date:
+                    <medium>08/07/20</medium>
+                </h5>
+            </div>
+            <p class="mb-1">Description of what the sub task is about, steps, instructions, etc</p>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                <label class="custom-control-label" for="customCheck">Complete</label>
+                <button type="submit" class="btn btn-secondary"><a href="">Archive subtask</a></button>
+                <button type="submit" class="btn btn-secondary"><a href="">Promote subtask</a></button>
+            </div>
+        </div>
+        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                <a href="{{ url_for('SubTaskView') }}">
+                    <h4 class="mb-1">Subtask 3</h4>
+                </a>
+                <small>No. of Findings: 2</small>
+                <h5>Aanalyst: Jonathan Roman</h5>
+                <h5>Task: task 4</h5>
+                <h5>Due date:
+                    <medium>08/07/20</medium>
+                </h5>
+            </div>
+            <p class="mb-1">Description of what the sub task is about, steps, instructions, etc</p>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                <label class="custom-control-label" for="customCheck">Complete</label>
+                <button type="submit" class="btn btn-secondary"><a href="">Archive subtask</a></button>
+                <button type="submit" class="btn btn-secondary"><a href="">Promote subtask</a></button>
+            </div>
+        </div>
+        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                <a href="{{ url_for('SubTaskView') }}">
+                    <h4 class="mb-1">Subtask 2</h4>
+                </a>
+                <small>No. of Findings: 2</small>
+                <h5>Aanalyst: Jonathan Roman</h5>
+                <h5>Task: task 3</h5>
+                <h5>Due date:
+                    <medium>08/07/20</medium>
+                </h5>
+            </div>
+            <p class="mb-1">Description of what the sub task is about, steps, instructions, etc</p>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                <label class="custom-control-label" for="customCheck">Complete</label>
+                <button type="submit" class="btn btn-secondary"><a href="">Archive subtask</a></button>
+                <button type="submit" class="btn btn-secondary"><a href="">Promote subtask</a></button>
+            </div>
+        </div>
+        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                <a href="{{ url_for('SubTaskView') }}">
+                    <h4 class="mb-1">Subtask 1</h4>
+                </a>
+                <small>No. of Findings: 2</small>
+                <h5>Aanalyst: Jonathan Roman</h5>
+                <h5>Task: task 1</h5>
+                <h5>Due date:
+                    <medium>08/07/20</medium>
+                </h5>
+            </div>
+            <p class="mb-1">Description of what the sub task is about, steps, instructions, etc</p>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
+                <label class="custom-control-label" for="customCheck">Complete</label>
+                <button type="submit" class="btn btn-secondary"><a href="">Archive subtask</a></button>
+                <button type="submit" class="btn btn-secondary"><a href="">Promote subtask</a></button>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block sidebar %}
+    <!-- side bar -->
+    <div class="content-section">
+        <h3>Sidebar</h3>
+        <p class='text-muted'>You can put any information here you'd like.
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-light"><a href=""> Event Tree</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}"> Systems</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archive</a>
+            </li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
+                Configuration</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
+            </li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
+
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('GenerateReport') }}"> Generate
+                Report</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
+        </ul>
+        </p>
+    </div>
+{% endblock %}
+
+
+
+
