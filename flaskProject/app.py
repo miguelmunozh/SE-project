@@ -7,10 +7,10 @@ Bootstrap(app)
 
 
 @app.route('/')
-def Login():
+def SetupContentView():
     # main page, login page
     # return a html page at the directory specified by the app.rout above
-    return render_template('Login.html')
+    return render_template('SetupContentView.html')
 
 
 @app.route('/EventView')
@@ -101,11 +101,6 @@ def GenerateReport():
 @app.route('/ArchiveContentView')
 def ArchiveContentView():
     return render_template('ArchiveContentView.html')
-
-
-@app.route('/SetupContentView')
-def SetupContentView():
-    return render_template('SetupContentView.html')
 
 
 @app.route('/ConfigurationContentView')

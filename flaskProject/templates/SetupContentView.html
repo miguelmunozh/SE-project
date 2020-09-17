@@ -1,36 +1,30 @@
-<!-- extends the layout.html main structure to avoid repetition -->
-{% extends "layout.html" %}
-
-<!-- html code for the body of the page-->
-{% block content %}
-    <h1>Setup content Overview </h1>
-    <!-- content goes here -->
-
-{% endblock %}
-
-{% block sidebar %}
-    <!-- side bar -->
-    <div class="content-section">
-        <h3>Sidebar</h3>
-        <p class='text-muted'>You can put any information here you'd like.
-        <ul class="list-group">
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}"> Systems</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archive</a>
-            </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
-                Configuration</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
-            </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
-
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('GenerateReport') }}"> Generate
-                Report</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
-        </ul>
-        </p>
-    </div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+<div class="form">
+    <form>
+        <div>
+            <h1>Finding and Reporting Information Console (FRIC)</h1>
+            <h4>There is no existing event in your local system</h4>
+        </div>
+        <div>
+            <label>Please enter your initials</label>
+            <input type="text" class="form-control"  placeholder="Initial">
+        </div>
+        <label >Please select an option</label>
+        <select >
+            <option selected>Open this select menu</option>
+            <option value="1">Create a new event (any existing event will be archived)</option>
+            <option value="2">First time sync with lead analyst.</option>
+        </select>
+        <div>
+            <label>First time sync with lead analyst. Please enter the lead analyst’s IP”</label>
+            <input type="text" placeholder="Please enter the lead analyst’s IP">
+        </div>
+        <a href="{{ url_for('CreateEvent') }}">Submit</a>
+    </form>
+</div>
+</body>
+</html>
