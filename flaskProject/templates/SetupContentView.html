@@ -1,3 +1,8 @@
+<!-- extends the layout.html main structure to avoid repetition -->
+{% extends "layout.html" %}
+
+<!-- html code for the body of the page-->
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,18 +18,23 @@
             <label>Please enter your initials</label>
             <input type="text" class="form-control"  placeholder="Initial">
         </div>
-        <label >Please select an option</label>
-        <select >
-            <option selected>Open this select menu</option>
-            <option value="1">Create a new event (any existing event will be archived)</option>
-            <option value="2">First time sync with lead analyst.</option>
-        </select>
+        <hr>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Please select an option</label>
+            <select class="form-control" id="exampleFormControlSelect1">
+                <option>Create a new event (any existing event will be archived)</option>
+                <option>First time sync with lead analyst.</option>
+            </select>
+        </div>
+
         <div>
             <label>First time sync with lead analyst. Please enter the lead analyst’s IP”</label>
-            <input type="text" placeholder="Please enter the lead analyst’s IP">
+            <input type="text" class="form-control" placeholder="Please enter the lead analyst’s IP">
         </div>
-        <a href="{{ url_for('CreateEvent') }}">Submit</a>
+        <hr>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateEvent') }}">Submit</a></button>
     </form>
 </div>
+{% endblock content %}
 </body>
 </html>
