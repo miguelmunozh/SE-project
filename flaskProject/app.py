@@ -133,5 +133,10 @@ def Subtasks():
     return render_template('Subtasks.html')
 
 
+@app.route('/EventTree')
+def EventTree():
+    return render_template('EventTree.html')
+
+
 if __name__ == '__main__':
     app.run()  # runs the application
