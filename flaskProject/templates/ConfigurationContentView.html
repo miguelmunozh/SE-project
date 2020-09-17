@@ -3,8 +3,402 @@
 
 <!-- html code for the body of the page-->
 {% block content %}
+
     <h1>Configuration content Overview </h1>
     <!-- content goes here -->
+
+    <h3>Finding type table</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Credentials Complexity</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Manufacturer Default Creds.</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Lack of Authentication</td>
+        </tr>
+        <tr>
+            <th scope="row">4</th>
+            <td>Plain Text Protocols</td>
+        </tr>
+        <tr>
+            <th scope="row">5</th>
+            <td>Plain Text Web Login</td>
+        </tr>
+        <tr>
+            <th scope="row">6</th>
+            <td>Encryption</td>
+        </tr>
+        <tr>
+            <th scope="row">7</th>
+            <td>Authentication Bypass</td>
+        </tr>
+        <tr>
+            <th scope="row">8</th>
+            <td>Port Security</td>
+        </tr>
+        <tr>
+            <th scope="row">9</th>
+            <td>Access Control</td>
+        </tr>
+        <tr>
+            <th scope="row">10</th>
+            <td>Least Privilege</td>
+        </tr>
+        <tr>
+            <th scope="row">11</th>
+            <td>Privilege Escalation</td>
+        </tr>
+        <tr>
+            <th scope="row">12</th>
+            <td>Missing Patches</td>
+        </tr>
+        <tr>
+            <th scope="row">13</th>
+            <td>Physical Security</td>
+        </tr>
+        <tr>
+            <th scope="row">14</th>
+            <td>Information Disclosure</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+    <h3>Posture table</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Posture</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Insider</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Insider-nearsider</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Outsider</td>
+        </tr>
+        <tr>
+            <th scope="row">4</th>
+            <td>Nearsider</td>
+        </tr>
+        <tr>
+            <th scope="row">5</th>
+            <td>Nearsider-Outsider</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+    <h3>Threat level table</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Threat level</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>...</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+
+    <h3>Level table</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">level</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>VH</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>H</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>M</td>
+        </tr>
+        <tr>
+            <th scope="row">4</th>
+            <td>L</td>
+        </tr>
+        <tr>
+            <th scope="row">5</th>
+            <td>VL</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+    <h3>Finding classification table</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">classification</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Vulnerability</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Information</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+    <h3>Countermeasure table</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">countermeasure</th>
+            <th scope="col">semi-quantitive value</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Very High</td>
+            <td>10</td>
+            <td>Countermeasure not implemented</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>High</td>
+            <td>7-9</td>
+            <td>Countermeasure is implemented but MINIMALLY effective</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Moderate</td>
+            <td>4-6</td>
+            <td>Countermeasure is implemented but MODERATELY effective</td>
+        </tr>
+        <tr>
+            <th scope="row">4</th>
+            <td>Low</td>
+            <td>1-3</td>
+            <td>Countermeasure is implemented HIGHLY effective but can be improved.</td>
+        </tr>
+        <tr>
+            <th scope="row">5</th>
+            <td>Very Low</td>
+            <td>0</td>
+            <td>Countermeasure implemented is effective</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+    <h3>Event classification</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">classification</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>top secret</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>secret</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>confidential</td>
+        </tr>
+        <tr>
+            <th scope="row">4</th>
+            <td>classified</td>
+        </tr>
+        <tr>
+            <th scope="row">5</th>
+            <td>unclassified</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+    <h3>Event type </h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Cooperative</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Vulnerability penetration</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Assessment (CVPA)</td>
+        </tr>
+        <tr>
+            <th scope="row">4</th>
+            <td>Cooperative Vulnerability</td>
+        </tr>
+        <tr>
+            <th scope="row">5</th>
+            <td>Insvestigation (CVI)</td>
+        </tr>
+        <tr>
+            <th scope="row">5</th>
+            <td>Verification of fixes (VOF)</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+    <h3>Finding Impact</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Attribute</th>
+            <th scope="col">Data type</th>
+            <th scope="col">Values and Constraints</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Confidentiality</td>
+            <td>Enumeration</td>
+            <td>Required; {Low, Medium,High, Information}</td>
+            <td>Confidentiality level of a finding</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Integrity</td>
+            <td>Enumeration</td>
+            <td>Required; {Low, Medium,High, Information}</td>
+            <td>Integrity level of a finding</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Enumeration</td>
+            <td>Enumeration</td>
+            <td>Required; {Low, Medium,High, Information}</td>
+            <td>Availability level of a finding</td>
+        </tbody>
+    </table>
+    <hr>
+
+    <h3>Severity category code table</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Attribute</th>
+            <th scope="col">Data type</th>
+            <th scope="col">Values and Constraints</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Severity Category Code</td>
+            <td>Enumeration</td>
+            <td>Required; {Low, Medium,High, Information}</td>
+            <td>A classification of vulnerabilities used to
+                assess a facility or system security posture from
+                Defense Information Systems Agency
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Severity Category Code</td>
+            <td>Number</td>
+            <td>Derived; The system shall
+                return the following: 10 if
+                the severity category code
+                is I; 7 if the severity
+                category code is II; 4 if the
+                severity category code is
+                III.
+            </td>
+            <td>Calculated severity
+                category score
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Vulnerability Severity</td>
+            <td>Number</td>
+            <td>Derived; The system shall
+                calculate the vulnerability
+                severity by multiplying the
+                severity category score,
+                impact score,
+                countermeasure and divide
+                the total by 10.
+            </td>
+            <td>Vulnerability Metric</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Quantitative Vulnerability Severity</td>
+            <td>String</td>
+            <td>Derived; The system shall
+                return the following: Very
+                High if 95 <= Vulnerability
+                Severity <= 100; High if 80
+                <= Vulnerability Severity
+            </td>
+            <td>Quantitative Vulnerability Metric</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
 
 {% endblock %}
 
