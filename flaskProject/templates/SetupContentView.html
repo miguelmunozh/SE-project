@@ -12,7 +12,6 @@
     <form>
         <div>
             <h1>Finding and Reporting Information Console (FRIC)</h1>
-            <hr>
             <h4>There is no existing event in your local system</h4>
         </div>
         <div>
@@ -33,7 +32,7 @@
             <input type="text" class="form-control" placeholder="Please enter the lead analyst’s IP">
         </div>
         <hr>
-        <button class="btn btn-info btn-block" type="submit">Submit</button>
+        <a href="{{ url_for('CreateEvent') }}">Submit</a>
     </form>
 </div>
 {% endblock content %}
