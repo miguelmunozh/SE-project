@@ -3,50 +3,34 @@
 
 <!-- html code for the body of the page-->
 {% block content %}
-    <h1>Sync</h1>
-    <form>
-        <div class="form-group">
-            <label> From:</label>
-            <select class="form-control" id="analystToSync">
-                <option>JR</option>
-                <option>CJ</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="ipAddress">ipAddress</label>
-            <input type="text" class="form-control" placeholder="0.0.0.0" id="sipAddress">
-        </div>
-        <table class="table table-bordered table-sm">
-        <thead>
-          <tr>
-            <th>Analyst Initials</th>
-            <th>ipAddress</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-                <input type="text" class="form-control" placeholder="CJ" id="ranalystInitials">
-            </td>
-            <td>
-                <input type="text" class="form-control" placeholder="0.0.0.0" id="ripAddress">
-            </td>
-            <td><input type="checkbox" class="form-input" id="rCheck"></td>
-          </tr>
-          <tr>
-            <td>
-                <input type="text" class="form-control" placeholder="JR" id="analystInitials">
-            </td>
-            <td>
-                <input type="text" class="form-control" placeholder="0.0.0.0" id="ipAddress">
-            </td>
-            <td><input type="checkbox" class="form-input" id="exampleCheck1"></td>
-          </tr>
-        </tbody>
-      </table>
-        <button type="button" style= "background-color: grey" class="btn btn-secondary">Sync</button>
-    </form>
+    <h2>Event Tree</h2>
+    <br></br><br></br>
+
+    <h4>
+        <ul> Event
+            <li>System 1
+                <ul>
+                    <li>Task 1
+                        <ul>
+                            <li>Substask 1
+                                <ul>
+                                    <li>Finding 1</li>
+                                    <li>Finding 2</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Task 2
+                        <ul>
+                            <li>Finding 3</li>
+                        </ul>
+                    </li>
+                    <li>Finding 4</li>
+                </ul>
+            </li>
+            <li>System 2</li>
+        </ul>
+    </h4>
     <!-- content goes here -->
 
 {% endblock %}
