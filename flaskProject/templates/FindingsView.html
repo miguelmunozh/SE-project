@@ -4,7 +4,12 @@
 <!-- html code for the body of the page-->
 {% block content %}
     <h1>Findings Overview </h1>
-    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateFinding') }}">Add finding</a></button>
+    <div class="btn-group">
+        <a class="btn btn-primary" href="{{ url_for('CreateFinding') }}" role="button">Add Finding</a>
+        <a class="btn btn-primary" href="#" role="button">ERB Report</a>
+        <a class="btn btn-primary" href="#" role="button">Risk Matrix</a>
+        <a class="btn btn-primary" href="#" role="button">Final Report</a>
+    </div>
     <hr>
     <div class="list-group">
         <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
