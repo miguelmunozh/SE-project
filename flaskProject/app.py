@@ -137,5 +137,12 @@ def EventTree():
 def AnalystProgressSummaryContentView():
     return render_template('AnalystProgressSummaryContentView.html')
 
+
+@app.route('/Systems')
+def Systems():
+    return render_template('Systems.html')
+
+
+
 if __name__ == '__main__':
     app.run()  # runs the application
