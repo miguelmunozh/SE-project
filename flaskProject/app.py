@@ -5,7 +5,6 @@ from flask_bootstrap import Bootstrap
 app = Flask(__name__)
 Bootstrap(app)
 
-
 @app.route('/')
 def SetupContentView():
     # main page, login page
@@ -141,7 +140,6 @@ def AnalystProgressSummaryContentView():
 @app.route('/Systems')
 def Systems():
     return render_template('Systems.html')
-
 
 
 if __name__ == '__main__':

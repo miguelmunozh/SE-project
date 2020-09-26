@@ -11,66 +11,96 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">type</th>
+            <th scope="col">No.</th>
+            <th scope="col">Data Type</th>
+            <th scope="col">Value and Constraints</th>
+            <th scope="col">Description.</th>
         </tr>
         </thead>
         <tbody>
         <tr>
             <th scope="row">1</th>
+            <td>Enumeration</td>
             <td>Credentials Complexity</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">2</th>
-            <td>Manufacturer Default Creds.</td>
+            <td>Enumeration</td>
+            <td>Manufacturer Default Creds</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">3</th>
+            <td>Enumeration</td>
             <td>Lack of Authentication</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">4</th>
+            <td>Enumeration</td>
             <td>Plain Text Protocols</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">5</th>
+            <td>Enumeration</td>
             <td>Plain Text Web Login</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">6</th>
+            <td>Enumeration</td>
             <td>Encryption</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">7</th>
+            <td>Enumeration</td>
             <td>Authentication Bypass</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">8</th>
+            <td>Enumeration</td>
             <td>Port Security</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">9</th>
+            <td>Enumeration</td>
             <td>Access Control</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">10</th>
+            <td>Enumeration</td>
             <td>Least Privilege</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">11</th>
+            <td>Enumeration</td>
             <td>Privilege Escalation</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">12</th>
+            <td>Enumeration</td>
             <td>Missing Patches</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">13</th>
+            <td>Enumeration</td>
             <td>Physical Security</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         <tr>
             <th scope="row">14</th>
+            <td>Enumeration</td>
             <td>Information Disclosure</td>
+            <td>Type of vulnerability/potential issue</td>
         </tr>
         </tbody>
     </table>
@@ -80,7 +110,7 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">No.</th>
             <th scope="col">Posture</th>
         </tr>
         </thead>
@@ -113,48 +143,55 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Threat level</th>
+            <th scope="col">No.</th>
+            <th scope="col">Attribute</th>
+            <th scope="col">Data Type</th>
+            <th scope="col">Values and Constraints</th>
+            <th scope="col">Description</th>
         </tr>
         </thead>
         <tbody>
         <tr>
             <th scope="row">1</th>
-            <td>...</td>
+            <td>Relevance</td>
+            <td>Enumeration</td>
+            <td>Required; Editable {Confirmed, Expected, Anticipated, Predicted, Possible}</td>
         </tr>
         </tbody>
     </table>
     <hr>
-
-
-    <h3>Level table</h3>
+    <h3>Impact Level table</h3>
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">level</th>
+            <th scope="col">No.</th>
+            <th scope="col">Attribute</th>
+            <th scope="col">Data Type</th>
+            <th scope="col">Values and Constraints</th>
+            <th scope="col">Description</th>
         </tr>
         </thead>
         <tbody>
         <tr>
             <th scope="row">1</th>
-            <td>VH</td>
+            <td>Confidentiality</td>
+            <td>Enumeration</td>
+            <td>Required{Low, Medium, High, Information}</td>
+            <td>Confidentiality level of a finding</td>
         </tr>
         <tr>
             <th scope="row">2</th>
-            <td>H</td>
+            <td>Integrity</td>
+            <td>Enumeration</td>
+            <td>Required{Low, Medium, High, Information}</td>
+            <td>Integrity level of a finding</td>
         </tr>
         <tr>
             <th scope="row">3</th>
-            <td>M</td>
-        </tr>
-        <tr>
-            <th scope="row">4</th>
-            <td>L</td>
-        </tr>
-        <tr>
-            <th scope="row">5</th>
-            <td>VL</td>
+            <td>Availability</td>
+            <td>Enumeration</td>
+            <td>Required{Low, Medium, High, Information}</td>
+            <td>Availability level of a finding</td>
         </tr>
         </tbody>
     </table>
@@ -164,18 +201,27 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">classification</th>
+            <th scope="col">No.</th>
+            <th scope="col">Attribute</th>
+            <th scope="col">Data type</th>
+            <th scope="col">Values and Constraints</th>
+            <th scope="col">Description</th>
         </tr>
         </thead>
         <tbody>
         <tr>
             <th scope="row">1</th>
-            <td>Vulnerability</td>
+            <td>Classification</td>
+            <td>Enumeration</td>
+            <td>Required; Editable, {Vulnerability}</td>
+            <td>Classification that determines if the discovery is a vulnerability or potential issue</td>
         </tr>
         <tr>
             <th scope="row">2</th>
-            <td>Information</td>
+            <td>Classification</td>
+            <td>Enumeration</td>
+            <td>Required; Editable, {Information}</td>
+            <td>Classification that determines if the discovery is a vulnerability or potential issue</td>
         </tr>
         </tbody>
     </table>
@@ -185,7 +231,7 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">No.</th>
             <th scope="col">countermeasure</th>
             <th scope="col">semi-quantitive value</th>
             <th scope="col">Description</th>
@@ -230,7 +276,7 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">No.</th>
             <th scope="col">classification</th>
         </tr>
         </thead>
@@ -258,12 +304,44 @@
         </tbody>
     </table>
     <hr>
+    <h3>Level table</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">level</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>VH</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>H</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>M</td>
+        </tr>
+        <tr>
+            <th scope="row">4</th>
+            <td>L</td>
+        </tr>
+        <tr>
+            <th scope="row">5</th>
+            <td>VL</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
 
     <h3>Event type </h3>
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">No.</th>
             <th scope="col">type</th>
         </tr>
         </thead>
@@ -300,7 +378,7 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">No.</th>
             <th scope="col">Attribute</th>
             <th scope="col">Data type</th>
             <th scope="col">Values and Constraints</th>
@@ -336,7 +414,7 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
+            <th scope="col">No.</th>
             <th scope="col">Attribute</th>
             <th scope="col">Data type</th>
             <th scope="col">Values and Constraints</th>
@@ -400,6 +478,230 @@
     </table>
     <hr>
 
+
+    <h3>A Progress table</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Attribute</th>
+            <th scope="col">Data type</th>
+            <th scope="col">Values and Constraints</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Severity Category Code</td>
+            <td>Enumeration</td>
+            <td>Required; {Low, Medium,High, Information}</td>
+            <td>A classification of vulnerabilities used to
+                assess a facility or system security posture from
+                Defense Information Systems Agency
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+    <hr>
+    <h3>Event Rules Table</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Attribute</th>
+            <th scope="col">Data type</th>
+            <th scope="col">Values and Constraints</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Severity Category Code</td>
+            <td>Enumeration</td>
+            <td>Required; {Low, Medium,High, Information}</td>
+            <td>A classification of vulnerabilities used to
+                assess a facility or system security posture from
+                Defense Information Systems Agency
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+    <hr>
+    <h3>Report Template Tables</h3>
+    <h4>Risk Matrix Table</h4>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Attribute</th>
+            <th scope="col">Data type</th>
+            <th scope="col">Values and Constraints</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Finding</td>
+            <td>List</td>
+            <td>Required</td>
+            <td>List of selected finding from the cyber engagement</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>System Categorization</td>
+            <td>List</td>
+            <td>Required</td>
+            <td>Name of the cyber engagement</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Event Name</td>
+            <td>String</td>
+            <td>Required</td>
+            <td>Name of the cyber engagement</td>
+        </tr>
+        <tr>
+            <th scope="row">4</th>
+            <td>Event Type</td>
+            <td>String</td>
+            <td>Required</td>
+            <td>Type of the cyber engagement</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+    <h4>ERB Report Table</h4>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Attribute</th>
+            <th scope="col">Data type</th>
+            <th scope="col">Values and Constraints</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Lead Analyst Name</td>
+            <td>String</td>
+            <td>Required</td>
+            <td>Name of lead analyst</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Title</td>
+            <td>String</td>
+            <td>Required</td>
+            <td>Title of lead analyst</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Event Name</td>
+            <td>String</td>
+            <td>Required</td>
+            <td>Name of the cyber engagement</td>
+        </tr>
+        <tr>
+            <th scope="row">4</th>
+            <td>Event Type</td>
+            <td>String</td>
+            <td>Required</td>
+            <td>Type of the cyber engagement</td>
+        </tr>
+        <tr>
+            <th scope="row">5</th>
+            <td>Summary Table</td>
+            <td>List</td>
+            <td>Required; summary table includes finding description, system name, impact, and risk</td>
+            <td>Summary table that displays finding description, system name, impact, and risk</td>
+        </tr>
+        <tr>
+            <th scope="row">6</th>
+            <td>Finding</td>
+            <td>List</td>
+            <td>Required</td>
+            <td>List of selected finding from the cyber engagement</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+    <h4>Final Technical Report Table</h4>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Attribute</th>
+            <th scope="col">Data type</th>
+            <th scope="col">Values and Constraints</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Analyst Name</td>
+            <td>List</td>
+            <td>Required</td>
+            <td>Name of analyst who participated in the cyber engagement</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Summary Table</td>
+            <td>List</td>
+            <td>Required; summary table includes finding description, likehood, impact, and risk</td>
+            <td>Summary table that displays finding description, likehood, impact, and risk</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>Finding</td>
+            <td>List</td>
+            <td>Required</td>
+            <td>List of selected finding from the cyber engagement</td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+
+
+    <h3>Notification table</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Attribute</th>
+            <th scope="col">Data type</th>
+            <th scope="col">Values and Constraints</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Duration</td>
+            <td>String</td>
+            <td>Required; Editable</td>
+            <td>Time before the threshold
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Frequency</td>
+            <td>String</td>
+            <td>Required; Editable</td>
+            <td>Recurring time a notification should appear.
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+    <hr>
 {% endblock %}
 
 {% block sidebar %}
@@ -409,12 +711,14 @@
         <p class='text-muted'>You can put any information here you'd like.
         <ul class="list-group">
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
+            <li class="list-group-item list-group-item-light"><a
+                    href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived Contents</a>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived
+                Contents</a>
             </li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
                 Configuration</a></li>
