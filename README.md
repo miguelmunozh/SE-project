@@ -1,7 +1,4 @@
 # FRIC
-
-## brief description of the project
-
 The purpose of the Findings and Reporting Information Console (FRIC) is to assist the 
 U.S. Cyber Experimentation & Analysis Division team (CEAD) in distributing and managing 
 work with documentation of cyber engagements amongst analysts. FRIC shall help create, 
