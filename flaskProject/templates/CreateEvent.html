@@ -4,7 +4,7 @@
 <!-- html code for the body of the page-->
 {% block content %}
     <h1>Create Event</h1>
-    <form>
+    <form action="{{ url_for('EventView') }}" method="post">
         <div class="form-row">
             <div class="form-group">
                 <label for="inputTitle">name</label>
@@ -36,6 +36,10 @@
             <input class="form-control" id="inputStatus">
         </div>
         <div class="form-group">
+            <label for="inputStatus">Security classification title guide</label>
+            <input class="form-control" id="inputStatus">
+        </div>
+        <div class="form-group">
             <!-- Date input -->
             <label class="control-label" for="date">Assessment Date</label>
             <input id="datepicker" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
@@ -48,7 +52,13 @@
         </div>
         <div class="form-group">
             <label for="inputStatus">Event classification</label>
-            <input class="form-control" id="inputStatus">
+            <select class="form-control">
+                <option>Top secret</option>
+                <option>Secret</option>
+                <option>Confidential</option>
+                <option>Classified</option>
+                <option>Unclassified</option>
+            </select>
         </div>
         <div class="form-group">
             <label for="inputStatus">Test plan title</label>
@@ -62,20 +72,11 @@
                 uiLibrary: 'bootstrap'
             });
         </script>
-
         <div class="form-group">
-            <label for="inputPriority">Priority</label>
-            <select id="inputPriority" class="form-control">
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
-            </select>
+            <label>Description</label>
+            <textarea class="form-control" rows="4"></textarea>
         </div>
-        <div class="form-group">
-            <label for="exampleFormControlTextarea1">Description</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
-        </div>
-        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EventView') }}">Create</a></button>
+        <button type="submit" class="btn btn-secondary">Create</button>
         <button type="submit" class="btn btn-secondary"><a href="{{ url_for('SetupContentView') }}">Cancel</a></button>
     </form>
     <hr>
