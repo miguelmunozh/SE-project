@@ -5,14 +5,14 @@ from flask_bootstrap import Bootstrap
 app = Flask(__name__)
 Bootstrap(app)
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def SetupContentView():
     # main page, login page
     # return a html page at the directory specified by the app.rout above
     return render_template('SetupContentView.html')
 
 
-@app.route('/EventView')
+@app.route('/EventView', methods=['POST'])
 def EventView():
     return render_template('EventView.html')
 
@@ -22,7 +22,7 @@ def EditEvent():
     return render_template('EditEvent.html')
 
 
-@app.route('/CreateEvent')
+@app.route('/CreateEvent', methods=['POST'])
 def CreateEvent():
     return render_template('CreateEvent.html')
 
