@@ -52,21 +52,21 @@ def EditEvent():
 @app.route('/CreateEvent', methods=['GET', 'POST'])
 def CreateEvent():
     # if the create button is pressed create a new object with the info entered by the user
-    if request.method == 'POST':
+    # if request.method == 'POST':
         # create an event object. which is stored in the database
         # creating the object here causes a bad request error in the browser, why? where do i create the object?
-        event = Event(request.form['eventName'],
-                      request.form['eventDescription'],
-                      EventType.VERIFICATION_OF_FIXES.value,
-                      "1.0",
-                      request.form['eventDateStart'],
-                      request.form['eventSCTG'],
-                      request.form['eventOrgName'],
-                      request.form['eventClassification'].value,
-                      request.form['eventDateEnd'],
-                      request.form['eventCustomerName'],
-                      False,
-                      request.form['eventNonLead'])
+    #    event = Event(request.form['eventName'],
+    #                  request.form['eventDescription'],
+    #                  EventType.VERIFICATION_OF_FIXES.value,
+    #                  "1.0",
+    #                  request.form['eventDateStart'],
+    #                  request.form['eventSCTG'],
+    #                  request.form['eventOrgName'],
+    #                  request.form['eventClassification'].value,
+    #                  request.form['eventDateEnd'],
+    #                  request.form['eventCustomerName'],
+    #                  False,
+    #                  request.form['eventNonLead'])
 
     return render_template('CreateEvent.html')
 
