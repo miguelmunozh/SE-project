@@ -10,48 +10,48 @@
     <br>
 
     <h4>Event name</h4>
-    <p>Testing Wells Fargo ATMs</p>
+    <!-- in the app.py when we render this template, we pass as parameter an event object to display its info here -->
+    <p>{{ event.getName() }}</p>
     <hr>
     <h4>Event description</h4>
-    <p>Penetration test on a Wells Fargo ATMs </p>
+    <p>{{ event.getDescription() }} </p>
     <br>
     <h4>Event type</h4>
-    <p>Cooperative Vulnerability Penetration Assessment</p>
+    <p>{{ event.getType() }}</p>
     <hr>
     <h4>Event version</h4>
     <p>1.0</p>
     <hr>
     <h4>Organization name</h4>
-    <p>Wells Fargo ATM</p>
+    <p>{{ event.getOrganizationName() }}</p>
     <hr>
     <h4>Customer name</h4>
-    <p>Wells Fargo</p>
+    <p>{{ event.getName() }}</p>
     <hr>
     <h4>Assessment date</h4>
-    <p>1/1/2020</p>
+    <p>{{ event.getDate() }}</p>
     <hr>
     <h4>Declassification date</h4>
-    <p>1/8/2020</p>
+    <p>{{ event.getDeclassificationDate() }}</p>
     <hr>
     <h4>Security Classification Title Guide</h4>
-    <p>Name of instruction guide</p>
+    <p>{{ event.getSecurityClassificationTitleGuide() }}</p>
     <hr>
     <h4>Event Classification</h4>
-    <p>Top secret</p>
+    <p>{{ event.getEventClassification() }}</p>
     <hr>
     <h4>Archive Status</h4>
-    <p>active</p>
+    <p>{{ event.getArchiveStatus() }}</p>
     <hr>
 
     <h3>Event Team Information</h3>
     <hr>
     <h4>Lead Analysts</h4>
-    <p>Felipe Jovel(FJ), John Rivers(JR),
-        Oscar Perez(OP), Andres Cuevos(AC)</p>
+    <!-- need to store lead analyst for the event in the event class (currently missing)-->
+    <p></p>
     <hr>
     <h4>Analysts</h4>
-    <p>Miguel Munoz (MM), John Rivers(JR),
-        Oscar Perez (OP), Andres Cuevos(AC)</p>
+    <p>{{ event.getEventTeam() }}</p>
     <hr>
 
 

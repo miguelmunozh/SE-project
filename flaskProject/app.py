@@ -1,29 +1,73 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from flask_bootstrap import Bootstrap
+from database.analyst import Analyst, Role
+from database.databaseHandler import DatabaseHandler
+from database.event import Event, EventType, EventClassification
 
 # creates the flask app
 app = Flask(__name__)
 Bootstrap(app)
 
-@app.route('/', methods=['GET','POST'])
+# get instance of db
+db = DatabaseHandler()
+events = db.getAllEvents()
+# event that is passed as parameters to display info in eventView.html
+# the ideal is to select the last element in the list, since it would
+# be the last event created, the rest would be archived
+event = events[0]
+
+analysts = db.getAllAnalyst()
+analyst = analysts[0]
+
+
+@app.route('/', methods=['GET', 'POST'])
 def SetupContentView():
     # main page, login page
     # return a html page at the directory specified by the app.rout above
+
+    # get analyst data and create object, store it in db
     return render_template('SetupContentView.html')
 
 
 @app.route('/EventView', methods=['POST'])
 def EventView():
-    return render_template('EventView.html')
+    # pass event as parameter to use the event variable in the EventView.html
+    return render_template('EventView.html', event=event)
 
 
-@app.route('/EditEvent')
+@app.route('/EditEvent', methods=['GET','POST'])
 def EditEvent():
+    # get the values of the fields from the editEvent.html form
+    if request.method == 'POST':
+        # for all of the fields of the actual event, get the value and then set it (--IS NOT WORKING--)
+        eventName = request.form['eventName']
+        eventDescription = request.form['eventDescription']
+
+        event.setName(eventName)
+        event.setDescription(eventDescription)
+
     return render_template('EditEvent.html')
 
 
-@app.route('/CreateEvent', methods=['POST'])
+@app.route('/CreateEvent', methods=['GET', 'POST'])
 def CreateEvent():
+    # if the create button is pressed create a new object with the info entered by the user
+    if request.method == 'POST':
+        # create an event object. which is stored in the database
+        # creating the object here causes a bad request error in the browser, why? where do i create the object?
+        event = Event(request.form['eventName'],
+                      request.form['eventDescription'],
+                      EventType.VERIFICATION_OF_FIXES.value,
+                      "1.0",
+                      request.form['eventDateStart'],
+                      request.form['eventSCTG'],
+                      request.form['eventOrgName'],
+                      request.form['eventClassification'].value,
+                      request.form['eventDateEnd'],
+                      request.form['eventCustomerName'],
+                      False,
+                      request.form['eventNonLead'])
+
     return render_template('CreateEvent.html')
 
 

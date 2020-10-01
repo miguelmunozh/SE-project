@@ -7,52 +7,52 @@
     <form action="{{ url_for('EventView') }}" method="post">
         <div class="form-row">
             <div class="form-group">
-                <label for="inputTitle">name</label>
-                <input type="email" class="form-control" id="inputTitle">
+                <label>name</label>
+                <input class="form-control" name="eventName">
             </div>
         </div>
         <div class="form-group">
-            <label for="inputStatus">Event type</label>
-            <input class="form-control" id="inputStatus">
+            <label>Event type</label>
+            <input class="form-control" name="eventType">
         </div>
         <div class="form-group">
             <label>lead analyst</label>
-            <select class="form-control">
+            <select class="form-control" name="eventLeadAnalyst">
                 <option>Miguel Munoz</option>
                 <option>Jonathan Roman</option>
                 <option>Alberto Machado</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="inputStatus">non-lead analysts</label>
-            <input class="form-control" id="inputStatus">
+            <label>non-lead analysts</label>
+            <input class="form-control" name="eventNonLead">
         </div>
         <div class="form-group">
-            <label for="inputStatus">Organization name</label>
-            <input class="form-control" id="inputStatus">
+            <label>Organization name</label>
+            <input class="form-control" name="eventOrgName">
         </div>
         <div class="form-group">
-            <label for="inputStatus">customer name</label>
-            <input class="form-control" id="inputStatus">
+            <label>customer name</label>
+            <input class="form-control" name="eventCustomerName">
         </div>
         <div class="form-group">
-            <label for="inputStatus">Security classification title guide</label>
-            <input class="form-control" id="inputStatus">
+            <label>Security classification title guide</label>
+            <input class="form-control" name="eventSCTG">
         </div>
         <div class="form-group">
             <!-- Date input -->
             <label class="control-label" for="date">Assessment Date</label>
-            <input id="datepicker" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+            <input name="eventDateStart" id="datepicker" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
             <label class="control-label" for="date">declassification Date</label>
-            <input id="datepicker1" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+            <input name="eventDateEnd" id="datepicker1" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
         </div>
         <div class="form-group">
-            <label for="inputStatus">Event location</label>
-            <input class="form-control" id="inputStatus">
+            <label>Event location</label>
+            <input class="form-control" name="eventLocation">
         </div>
         <div class="form-group">
-            <label for="inputStatus">Event classification</label>
-            <select class="form-control">
+            <label>Event classification</label>
+            <select name="eventClassification" class="form-control">
                 <option>Top secret</option>
                 <option>Secret</option>
                 <option>Confidential</option>
@@ -61,8 +61,8 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="inputStatus">Test plan title</label>
-            <input class="form-control" id="inputStatus">
+            <label>Test plan title</label>
+            <input class="form-control" name="eventTPT">
         </div>
         <script>
             $('#datepicker').datepicker({
@@ -74,10 +74,11 @@
         </script>
         <div class="form-group">
             <label>Description</label>
-            <textarea class="form-control" rows="4"></textarea>
+            <textarea class="form-control" name="eventDescription" rows="4"></textarea>
         </div>
         <button type="submit" class="btn btn-secondary">Create</button>
         <button type="submit" class="btn btn-secondary"><a href="{{ url_for('SetupContentView') }}">Cancel</a></button>
     </form>
     <hr>
 {% endblock content %}
+

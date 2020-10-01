@@ -7,45 +7,46 @@
     <form action="{{ url_for('EventView') }}" method="post">
         <div class="form-row">
             <div class="form-group">
-                <label for="inputTitle">Name</label>
-                <input type="email" class="form-control" id="inputTitle">
+                <label>Name</label>
+                <input name="eventName" class="form-control">
             </div>
         </div>
 
         <div class="form-group">
             <label>Event type</label>
-            <input class="form-control">
+            <input name="eventType" class="form-control">
         </div>
         <div class="form-group">
             <label>Event version</label>
-            <input class="form-control">
+            <input name="version" class="form-control">
         </div>
         <div class="form-group">
             <label>Event Description</label>
-            <input class="form-control">
+            <input name="eventDescription" class="form-control">
+        </div>
         <div class="form-group">
             <label>lead analyst</label>
-            <select class="form-control">
+            <select name="eventLeadAnalyst" class="form-control">
                 <option>Miguel Munoz</option>
                 <option>Jonathan Roman</option>
                 <option>Alberto Machado</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="inputStatus">non-lead analysts</label>
-            <input class="form-control" id="inputStatus">
+            <label>non-lead analysts</label>
+            <input name="eventNon-LeadAnalysts" class="form-control">
         </div>
         <div class="form-group">
             <label>Archive Status</label>
-            <input class="form-control">
+            <input name="eventArchiveStatus" class="form-control">
         </div>
         <div class="form-group">
             <label>Customer name</label>
-            <input class="form-control">
+            <input name="eventCustomerName" class="form-control">
         </div>
         <div class="form-group">
             <label>Organization name</label>
-            <input class="form-control">
+            <input name="eventOrgName" class="form-control">
         </div>
         <div class="form-group">
             <!-- Date input -->
@@ -57,31 +58,31 @@
 
         <div class="form-group">
             <label>Event classification</label>
-            <input class="form-control">
+            <input name="eventClassification" class="form-control">
         </div>
         <div class="form-group">
             <label>Security Classification Title Guide</label>
-            <input class="form-control">
+            <input name="eventSCTG" class="form-control">
         </div>
         <div class="form-group">
-            <label for="exampleFormControlTextarea1">Description</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+            <label>Description</label>
+            <textarea name="eventDescription" class="form-control" rows="4"></textarea>
         </div>
 
         <div class="form-group">
-            <label for="inputStatus">First Name</label>
+            <label>First Name</label>
             <input class="form-control">
         </div>
         <div class="form-group">
-            <label for="inputStatus">Last Name</label>
+            <label>Last Name</label>
             <input class="form-control">
         </div>
         <div class="form-group">
-            <label for="inputStatus">Initial</label>
+            <label>Initial</label>
             <input class="form-control">
         </div>
         <div class="form-group">
-            <label for="inputStatus">Title</label>
+            <label>Title</label>
             <input class="form-control">
         </div>
 

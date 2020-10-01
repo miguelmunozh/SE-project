@@ -1,6 +1,6 @@
-from flaskProject.database.analyst import Analyst
-from flaskProject.database.event import Event, EventType, EventClassification
-from flaskProject.database.db import Db
+from database.analyst import Analyst
+from database.event import Event, EventType, EventClassification
+from database.db import Db
 
 
 class DatabaseHandler:
