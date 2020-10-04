@@ -19,8 +19,8 @@ class CreateEventForm(FlaskForm):
                                      ('VERIFICATION_OF_FIXES', 'Verification of Fixes (VOF)')])
     OrganizationName = StringField('Organization Name')
     CustomerName = StringField('Customer name')
-    AssessmentDate = DateField('Assessment date', format='%m/%d/%Y')
-    DeclassificationDate = DateField('Declassification date', format='%m/%d/%Y')
+    AssessmentDate = DateField('Assessment date')
+    DeclassificationDate = DateField('Declassification date')
     SCTG = StringField('Security Classification Title Guide')
     EventClassification = SelectField('Event Classification',
                                       choices=[('TOP_SECRET', 'Top secret'),
