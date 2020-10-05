@@ -1,3 +1,4 @@
+from datetime import datetime, date
 from flask import Flask, render_template, url_for, request, redirect
 from flask_bootstrap import Bootstrap
 from database.analyst import Analyst, Role
@@ -44,23 +45,23 @@ def CreateEvent():
 
     # check if the submit button has been pressed, if so create an event obj
     if request.method == 'POST':
-        # the date returns none
-        w = form.DeclassificationDate.data
-        print(w)
-        # uncomment to create an event object in your local db
-        # newEvent = Event(form.EventName.data,
-        #              form.EventDescription.data,
-        #              form.EventType.data,
-        #              "1.0",
-        #              form.AssessmentDate.data,
-        #              form.SCTG.data,
-        #              form.OrganizationName.data,
-        #              form.EventClassification.data,
-        #              form.DeclassificationDate.data,
-        #              form.CustomerName.data,
-        #              False,
-        #              form.EventAnalysts.data)
-        # db.updateEvent(newEvent)
+        # printing dates to make sure we get the value
+        print(form.DeclassificationDate.data)
+        print(form.AssessmentDate.data)
+        # uncomment to create an event object in your local db (there is an error in the date)
+        newEvent = Event(form.EventName.data,
+                         form.EventDescription.data,
+                         form.EventType.data,
+                         1.0,
+                         form.AssessmentDate.data.strftime('%m/%d/%Y'),
+                         form.SCTG.data,
+                         form.OrganizationName.data,
+                         form.EventClassification.data,
+                         form.DeclassificationDate.data.strftime('%m/%d/%Y'),
+                         form.CustomerName.data,
+                         False,
+                         form.EventAnalysts.data)
+        db.updateEvent(newEvent)
         # if the button with name attribute's value 'create' is pressed, then redirect to the right page
         if 'create' in request.form:
             return redirect(url_for("EventView"))
