@@ -43,8 +43,8 @@ def CreateEvent():
     # create a form from the forms.py file (need to import the file)
     form = CreateEventForm()
 
-    # check if the submit button has been pressed, if so create an event obj
-    if request.method == 'POST':
+    # check if the create event button has been pressed, if so create an event obj
+    if 'create' in request.form:
         # printing dates to make sure we get the value
         print(form.DeclassificationDate.data)
         print(form.AssessmentDate.data)
@@ -62,9 +62,8 @@ def CreateEvent():
                          False,
                          form.EventAnalysts.data)
         db.updateEvent(newEvent)
-        # if the button with name attribute's value 'create' is pressed, then redirect to the right page
-        if 'create' in request.form:
-            return redirect(url_for("EventView"))
+        # redirect to the right page after creating the form
+        return redirect(url_for("EventView"))
 
     return render_template('CreateEvent.html', form=form)
 
