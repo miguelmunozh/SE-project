@@ -14,21 +14,26 @@ app.config['SECRET_KEY'] = 'encrypted'
 
 # get instance of db
 db = DatabaseHandler()
-events = db.getAllEvents()
-
-print(len(events))
-event = events[0]
 
 
 @app.route('/', methods=['GET', 'POST'])
 def SetupContentView():
-    # main page, login page
+    # checks if the submit btn has been pressed
+    if request.method == 'POST':
+        # prints the value of the html field with the name attribute set to 'initials'
+        print(request.form['initials'])
     # return a html page at the directory specified by the app.rout above
     return render_template('SetupContentView.html')
 
 
 @app.route('/EventView', methods=['GET', 'POST'])
 def EventView():
+    events = db.getAllEvents()
+    # make sure that events[0] is the last event added,so that in case you create another event that last event shows up
+    # in the event view
+    events.reverse()
+    event = events[0]
+    
     # pass event as parameter to use the event variable in the EventView.html
     return render_template('EventView.html', event=event)
 
@@ -45,10 +50,6 @@ def CreateEvent():
 
     # check if the create event button has been pressed, if so create an event obj
     if 'create' in request.form:
-        # printing dates to make sure we get the value
-        print(form.DeclassificationDate.data)
-        print(form.AssessmentDate.data)
-        # uncomment to create an event object in your local db (there is an error in the date)
         newEvent = Event(form.EventName.data,
                          form.EventDescription.data,
                          form.EventType.data,
