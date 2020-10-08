@@ -1,0 +1,35 @@
+<!-- extends the layout.html main structure to avoid repetition -->
+{% extends "layout.html" %}
+
+<!-- html code for the body of the page-->
+{% block content %}
+
+    <h1>Add Event Type Row</h1>
+    <form>
+        <div class="form-row">
+            <div class="form-group">
+                <label>No</label>
+                <input name="eventTypeNo" class="form-control">
+            </div>
+        </div>
+
+         <fieldset class="form-group">
+                <label>Type</label>
+                <select name="type" id="type" class="selection form-control">
+                    <option disabled selected hidden>Select an option</option>
+                    <option value="cooperative">Cooperative</option>
+                    <option value="cooperativevulnerability">Cooperative vulnerability</option>
+                    <option value="vof">Verification of fixes (VOF)</option>
+                    <option value="vulnerabilitypenetration">Vulnerability Penetration</option>
+                    <option value="assessment">Assessment (CVPA)</option>
+                    <option value="assessment">Investigation (CVI)</option>
+                </select>
+
+        </fieldset>
+
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('ConfigurationContentView') }}">Save</a></button>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('ConfigurationContentView') }}">Cancel</a></button>
+        <br><br>
+    </form>
+
+{% endblock content %}

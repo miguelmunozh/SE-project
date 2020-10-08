@@ -1,0 +1,49 @@
+<!-- extends the layout.html main structure to avoid repetition -->
+{% extends "layout.html" %}
+
+<!-- html code for the body of the page-->
+{% block content %}
+
+    <h1>Add Finding Classification Row</h1>
+    <form>
+        <div class="form-row">
+            <div class="form-group">
+                <label>No</label>
+                <input name="findingNo" class="form-control">
+            </div>
+        </div>
+
+         <fieldset class="form-group">
+                <label>Countermeasure</label>
+                <select name="attribute" id="attribute" class="selection form-control">
+                    <option disabled selected hidden>Select an option</option>
+                    <option value="verylow">Very Low</option>
+                    <option value="low">Low</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="high">High</option>
+                    <option value="veryhigh">Very High</option>
+                </select>
+
+                <label>Semi-quantitive value</label>
+                <select name="dataType" id="dataType" class="selection form-control">
+                    <option disabled selected hidden>Select a value</option>
+                    <option value="zero">0</option>
+                    <option value="one">1-3</option>
+                    <option value="four">4-6</option>
+                    <option value="seven">7-9</option>
+                    <option value="ten">10</option>
+                </select>
+        </fieldset>
+
+
+        <div class="form-group">
+                <label>Description</label>
+                <input name="description" class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('ConfigurationContentView') }}">Save</a></button>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('ConfigurationContentView') }}">Cancel</a></button>
+        <br><br>
+    </form>
+
+{% endblock content %}
