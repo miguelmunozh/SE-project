@@ -1,16 +1,10 @@
 from datetime import datetime, date
 from flask import Flask, render_template, url_for, request, redirect
 from flask_bootstrap import Bootstrap
-<<<<<<< HEAD
 from flaskProject.database.analyst import Analyst, Role
 from flaskProject.database.databaseHandler import DatabaseHandler
 from flaskProject.database.event import Event, EventType, EventClassification
-=======
-from database.analyst import Analyst, Role
-from database.databaseHandler import DatabaseHandler
-from database.event import Event, EventType, EventClassification
-from forms import *
->>>>>>> 8125c4e0bab99e25fd5d7b45909f1f3077dedb06
+from flaskProject.forms import *
 
 # creates the flask app
 app = Flask(__name__)
@@ -51,7 +45,6 @@ def EditEvent():
 
 @app.route('/CreateEvent', methods=['GET', 'POST'])
 def CreateEvent():
-<<<<<<< HEAD
     # if the create button is pressed create a new object with the info entered by the user
     # if request.method == 'POST':
     # create an event object. which is stored in the database
@@ -69,8 +62,8 @@ def CreateEvent():
     #                  False,
     #                  request.form['eventNonLead'])
 
-    return render_template('CreateEvent.html')
-=======
+    #return render_template('CreateEvent.html')
+
     # create a form from the forms.py file (need to import the file)
     form = CreateEventForm()
 
@@ -93,7 +86,6 @@ def CreateEvent():
         return redirect(url_for("EventView"))
 
     return render_template('CreateEvent.html', form=form)
->>>>>>> 8125c4e0bab99e25fd5d7b45909f1f3077dedb06
 
 
 @app.route('/CreateSystem')
