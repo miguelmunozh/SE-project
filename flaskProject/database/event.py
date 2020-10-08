@@ -18,10 +18,10 @@ class EventClassification(Enum):
 
 class Event:
 
-    def __init__(self, name=None, description=None, type={None, EventType}, version=None, date=None,
+    def __init__(self, name=None, description=None, type=None, version=None, date=None,
                  organizationName=None, securityClassificationTitleGuide=None,
-                 eventClassification={None, EventClassification}, declassificationDate={None, date},
-                 customerName=None, archiveStatus={None, bool}, eventTeam=None):
+                 eventClassification=None, declassificationDate=None,
+                 customerName=None, archiveStatus=None, eventTeam=None):
         self.__id = -1
         self.__name = name
         self.__description = description

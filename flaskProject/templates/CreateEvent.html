@@ -4,79 +4,78 @@
 <!-- html code for the body of the page-->
 {% block content %}
     <h1>Create Event</h1>
-    <form action="{{ url_for('EventView') }}" method="post">
+    <form method="POST">
         <div class="form-row">
             <div class="form-group">
-                <label>name</label>
-                <input class="form-control" name="eventName">
+                {#                <label>Event type</label>#}
+                {#                <input class="form-control" name="eventType">#}
+                {{ form.EventName.label }}
+                <br>
+                {{ form.EventName(class_="form-control") }}
             </div>
         </div>
         <div class="form-group">
-            <label>Event type</label>
-            <input class="form-control" name="eventType">
+            {{ form.EventType.label }}
+            <br>
+            {{ form.EventType(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>lead analyst</label>
-            <select class="form-control" name="eventLeadAnalyst">
-                <option>Miguel Munoz</option>
-                <option>Jonathan Roman</option>
-                <option>Alberto Machado</option>
-            </select>
+            {{ form.EventLeadAnalysts.label }}
+            <br>
+            {{ form.EventLeadAnalysts(class_="form-control", placeholder="MM, CJ, JJ") }}
         </div>
         <div class="form-group">
-            <label>non-lead analysts</label>
-            <input class="form-control" name="eventNonLead">
+            {{ form.EventAnalysts.label }}
+            <br>
+            {{ form.EventAnalysts(class_="form-control", placeholder="MM, CJ, JJ") }}
         </div>
         <div class="form-group">
-            <label>Organization name</label>
-            <input class="form-control" name="eventOrgName">
+            {{ form.OrganizationName.label }}
+            <br>
+            {{ form.OrganizationName(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>customer name</label>
-            <input class="form-control" name="eventCustomerName">
+            {{ form.CustomerName.label }}
+            <br>
+            {{ form.CustomerName(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Security classification title guide</label>
-            <input class="form-control" name="eventSCTG">
+            {{ form.SCTG.label }}
+            <br>
+            {{ form.SCTG(class_="form-control") }}
         </div>
         <div class="form-group">
-            <!-- Date input -->
-            <label class="control-label" for="date">Assessment Date</label>
-            <input name="eventDateStart" id="datepicker" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
-            <label class="control-label" for="date">declassification Date</label>
-            <input name="eventDateEnd" id="datepicker1" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+            {{ form.AssessmentDate.label }}
+            <br>
+            {{ form.AssessmentDate(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Event location</label>
-            <input class="form-control" name="eventLocation">
+            {{ form.DeclassificationDate.label }}
+            <br>
+            {{ form.DeclassificationDate(class_="form-control") }}
         </div>
+
+        {#        <div class="form-group">#}
+        {#            <label>Event location</label>#}
+        {#            <input class="form-control" name="eventLocation">#}
+        {#        </div>#}
         <div class="form-group">
             <label>Event classification</label>
-            <select name="eventClassification" class="form-control">
-                <option>Top secret</option>
-                <option>Secret</option>
-                <option>Confidential</option>
-                <option>Classified</option>
-                <option>Unclassified</option>
-            </select>
+            {{ form.EventClassification.label }}
+            <br>
+            {{ form.EventClassification(class_="form-control") }}
         </div>
+        {#        <div class="form-group">#}
+        {#            <label>Test plan title</label>#}
+        {#            <input class="form-control" name="eventTPT">#}
+        {#        </div>#}
+
         <div class="form-group">
-            <label>Test plan title</label>
-            <input class="form-control" name="eventTPT">
+            {{ form.EventDescription.label }}
+            <br>
+            {{ form.EventDescription(class_="form-control") }}
         </div>
-        <script>
-            $('#datepicker').datepicker({
-                uiLibrary: 'bootstrap'
-            });
-            $('#datepicker1').datepicker({
-                uiLibrary: 'bootstrap'
-            });
-        </script>
-        <div class="form-group">
-            <label>Description</label>
-            <textarea class="form-control" name="eventDescription" rows="4"></textarea>
-        </div>
-        <button type="submit" class="btn btn-secondary">Create</button>
+        <button type="submit" name="create" class="btn btn-secondary">Create</button>
         <button type="submit" class="btn btn-secondary"><a href="{{ url_for('SetupContentView') }}">Cancel</a></button>
     </form>
     <hr>

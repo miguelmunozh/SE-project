@@ -94,7 +94,7 @@ class DatabaseHandler:
         event.setDescription(document["description"])
         event.setType(document["type"])
         event.setVersion(document["version"])
-        event.setDate(["date"])
+        event.setDate(document["date"])
         event.setOrganizationName(document["organizationName"])
         event.setSecurityClassificationTitleGuide(document["securityClassificationTitleGuide"])
         event.setEventClassification(document["eventClassification"])

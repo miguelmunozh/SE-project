@@ -1,56 +1,57 @@
-from flask import Flask, render_template, url_for, request
+from datetime import datetime, date
+from flask import Flask, render_template, url_for, request, redirect
 from flask_bootstrap import Bootstrap
+<<<<<<< HEAD
 from flaskProject.database.analyst import Analyst, Role
 from flaskProject.database.databaseHandler import DatabaseHandler
 from flaskProject.database.event import Event, EventType, EventClassification
+=======
+from database.analyst import Analyst, Role
+from database.databaseHandler import DatabaseHandler
+from database.event import Event, EventType, EventClassification
+from forms import *
+>>>>>>> 8125c4e0bab99e25fd5d7b45909f1f3077dedb06
 
 # creates the flask app
 app = Flask(__name__)
 Bootstrap(app)
+# needed for flask-wtf
+app.config['SECRET_KEY'] = 'encrypted'
 
 # get instance of db
 db = DatabaseHandler()
-events = db.getAllEvents()
-# event that is passed as parameters to display info in eventView.html
-# the ideal is to select the last element in the list, since it would
-# be the last event created, the rest would be archived
-event = events[0]
-
-analysts = db.getAllAnalyst()
-analyst = analysts[0]
 
 
 @app.route('/', methods=['GET', 'POST'])
 def SetupContentView():
-    # main page, login page
+    # checks if the submit btn has been pressed
+    if request.method == 'POST':
+        # prints the value of the html field with the name attribute set to 'initials'
+        print(request.form['initials'])
     # return a html page at the directory specified by the app.rout above
-
-    # get analyst data and create object, store it in db
     return render_template('SetupContentView.html')
 
 
-@app.route('/EventView', methods=['POST'])
+@app.route('/EventView', methods=['GET', 'POST'])
 def EventView():
+    events = db.getAllEvents()
+    # make sure that events[0] is the last event added,so that in case you create another event that last event shows up
+    # in the event view
+    events.reverse()
+    event = events[0]
+    
     # pass event as parameter to use the event variable in the EventView.html
     return render_template('EventView.html', event=event)
 
 
 @app.route('/EditEvent', methods=['GET', 'POST'])
 def EditEvent():
-    # get the values of the fields from the editEvent.html form
-    if request.method == 'POST':
-        # for all of the fields of the actual event, get the value and then set it (--IS NOT WORKING--)
-        eventName = request.form['eventName']
-        eventDescription = request.form['eventDescription']
-
-        event.setName(eventName)
-        event.setDescription(eventDescription)
-
     return render_template('EditEvent.html')
 
 
 @app.route('/CreateEvent', methods=['GET', 'POST'])
 def CreateEvent():
+<<<<<<< HEAD
     # if the create button is pressed create a new object with the info entered by the user
     # if request.method == 'POST':
     # create an event object. which is stored in the database
@@ -69,6 +70,30 @@ def CreateEvent():
     #                  request.form['eventNonLead'])
 
     return render_template('CreateEvent.html')
+=======
+    # create a form from the forms.py file (need to import the file)
+    form = CreateEventForm()
+
+    # check if the create event button has been pressed, if so create an event obj
+    if 'create' in request.form:
+        newEvent = Event(form.EventName.data,
+                         form.EventDescription.data,
+                         form.EventType.data,
+                         1.0,
+                         form.AssessmentDate.data.strftime('%m/%d/%Y'),
+                         form.SCTG.data,
+                         form.OrganizationName.data,
+                         form.EventClassification.data,
+                         form.DeclassificationDate.data.strftime('%m/%d/%Y'),
+                         form.CustomerName.data,
+                         False,
+                         form.EventAnalysts.data)
+        db.updateEvent(newEvent)
+        # redirect to the right page after creating the form
+        return redirect(url_for("EventView"))
+
+    return render_template('CreateEvent.html', form=form)
+>>>>>>> 8125c4e0bab99e25fd5d7b45909f1f3077dedb06
 
 
 @app.route('/CreateSystem')
@@ -257,4 +282,4 @@ def Systems():
 
 
 if __name__ == '__main__':
-    app.run()  # runs the application
+    app.run(debug=True)  # runs the application
