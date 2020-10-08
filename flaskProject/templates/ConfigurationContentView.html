@@ -196,53 +196,204 @@
 
     </script>
 
-    <!-- extends the layout.html main structure to avoid repetition -->
-{% extends "layout.html" %}
-
-<!-- html code for the body of the page-->
-{% block content %}
-
     <h1>Configuration content Overview </h1>
     <!-- content goes here -->
 
     <h3>Finding type table</h3>
         <div class="well clearfix">
-            <a id="updateButton" class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationFindingType') }}"><i class="glyphicon glyphicon-plus" onclick="findingType()"></i> Add Row</a>
+            <a id="updateButton" class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationFindingType')}}" ><i class="glyphicon glyphicon-plus" onclick="findingType()"></i> Add Row</a>
         </div>
-            <table class="table table-bordered" id="finding_type">
-                <thead class="thread-dark">
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Attribute</th>
-                        <th scope="col">Data Type</th>
-                        <th scope="col">Value and Constraints</th>
-                        <th scope="col">Description.</th>
-                        <th>Delete</th>
-                        <th>Edit</th>
-                    </tr>
-                </thead>
-            </table>
+        <table class="table table-bordered" id="finding_type">
+            <thead class="thread-dark">
+                <tr>
+                    <th><span class="sn">No</span>.</th>
+                    <th scope="col">Data Type</th>
+                    <th scope="col">Value and Constraints</th>
+                    <th scope="col">Description.</th>
+                    <th>Delete</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody id="finding_type_body">
+            <tr id="rec-1">
+                <th><span class="sn">1</span>.</th>
+                <td>Enumeration</td>
+                <td>Credentials Complexity</td>
+                <td>Type of vulnerability/potential issue</td>
+                <td><a class="btn btn-xs delete-record" data-id="1"><i class="glyphicon glyphicon-trash"></i></a></td>
+                <td><a class="btn btn-primary pull-right edit-record mr-1" data-added="1"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+            </tr>
+            <tr id="rec-2">
+                <th><span class="sn">2</span>.</th>
+                <td>Enumeration</td>
+            <td>Manufacturer Default Creds</td>
+            <td>Type of vulnerability/potential issue</td>
+                <td><a class="btn btn-xs delete-record" data-id="2"><i class="glyphicon glyphicon-trash"></i></a>
+                    <a class="btn btn-primary pull-right edit-record mr-1" data-added="2"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+
+        </tr>
+        <tr id="rec-3">
+            <th><span class="sn">3</span>.</th>
+            <td>Enumeration</td>
+            <td>Lack of Authentication</td>
+            <td>Type of vulnerability/potential issue</td>
+            <td><a class="btn btn-xs delete-record" data-id="3"><i class="glyphicon glyphicon-trash"></i></a>
+                <a class="btn btn-primary pull-right edit-record mr-1" data-added="3"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+
+        </tr>
+        <tr id="rec-4">
+            <th><span class="sn">4</span>.</th>
+            <td>Enumeration</td>
+            <td>Plain Text Protocols</td>
+            <td>Type of vulnerability/potential issue</td>
+            <td><a class="btn btn-xs delete-record" data-id="4"><i class="glyphicon glyphicon-trash"></i></a>
+                <a class="btn btn-primary pull-right edit-record mr-1" data-added="4"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+
+        </tr>
+        <tr id="rec-5">
+            <th><span class="sn">5</span>.</th>
+            <td>Enumeration</td>
+            <td>Plain Text Web Login</td>
+            <td>Type of vulnerability/potential issue</td>
+            <td><a class="btn btn-xs delete-record" data-id="5"><i class="glyphicon glyphicon-trash"></i></a>
+                <a class="btn btn-primary pull-right edit-record mr-1" data-added="5"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+
+        </tr>
+        <tr id="rec-6">
+            <th><span class="sn">6</span>.</th>
+            <td>Enumeration</td>
+            <td>Encryption</td>
+            <td>Type of vulnerability/potential issue</td>
+            <td><a class="btn btn-xs delete-record" data-id="6"><i class="glyphicon glyphicon-trash"></i></a>
+                <a class="btn btn-primary pull-right edit-record mr-1" data-added="6"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+
+        </tr>
+        <tr id="rec-7">
+            <th><span class="sn">7</span>.</th>
+            <td>Enumeration</td>
+            <td>Authentication Bypass</td>
+            <td>Type of vulnerability/potential issue</td>
+            <td><a class="btn btn-xs delete-record" data-id="7"><i class="glyphicon glyphicon-trash"></i></a>
+                <a class="btn btn-primary pull-right edit-record mr-1" data-added="7"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+
+        </tr>
+        <tr id="rec-8">
+            <th><span class="sn">8</span>.</th>
+            <td>Enumeration</td>
+            <td>Port Security</td>
+            <td>Type of vulnerability/potential issue</td>
+            <td><a class="btn btn-xs delete-record" data-id="8"><i class="glyphicon glyphicon-trash"></i></a>
+                <a class="btn btn-primary pull-right edit-record mr-1" data-added="8"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+
+        </tr>
+        <tr id="rec-9">
+            <th><span class="sn">9</span>.</th>
+            <td>Enumeration</td>
+            <td>Access Control</td>
+            <td>Type of vulnerability/potential issue</td>
+            <td><a class="btn btn-xs delete-record" data-id="9"><i class="glyphicon glyphicon-trash"></i></a>
+                <a class="btn btn-primary pull-right edit-record mr-1" data-added="9"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+
+        </tr>
+        <tr id="rec-10">
+            <th><span class="sn">10</span>.</th>
+            <td>Enumeration</td>
+            <td>Least Privilege</td>
+            <td>Type of vulnerability/potential issue</td>
+            <td><a class="btn btn-xs delete-record" data-id="10"><i class="glyphicon glyphicon-trash"></i></a>
+                <a class="btn btn-primary pull-right edit-record mr-1" data-added="10"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+
+        </tr>
+        <tr id="rec-11">
+            <th><span class="sn">11</span>.</th>
+            <td>Enumeration</td>
+            <td>Privilege Escalation</td>
+            <td>Type of vulnerability/potential issue</td>
+            <td><a class="btn btn-xs delete-record" data-id="11"><i class="glyphicon glyphicon-trash"></i></a>
+                <a class="btn btn-primary pull-right edit-record mr-1" data-added="11"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+
+        </tr>
+        <tr id="rec-12">
+            <th><span class="sn">12</span>.</th>
+            <td>Enumeration</td>
+            <td>Missing Patches</td>
+            <td>Type of vulnerability/potential issue</td>
+            <td><a class="btn btn-xs delete-record" data-id="12"><i class="glyphicon glyphicon-trash"></i></a>
+                <a class="btn btn-primary pull-right edit-record mr-1" data-added="12"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+
+        </tr>
+        <tr id="rec-13">
+            <th><span class="sn">13</span>.</th>
+            <td>Enumeration</td>
+            <td>Physical Security</td>
+            <td>Type of vulnerability/potential issue</td>
+            <td><a class="btn btn-xs delete-record" data-id="13"><i class="glyphicon glyphicon-trash"></i></a>
+                <a class="btn btn-primary pull-right edit-record mr-1" data-added="13"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+
+        </tr>
+        <tr id="rec-14">
+            <th><span class="sn">14</span>.</th>
+            <td>Enumeration</td>
+            <td>Information Disclosure</td>
+            <td>Type of vulnerability/potential issue</td>
+            <td><a class="btn btn-xs delete-record" data-id="14"><i class="glyphicon glyphicon-trash"></i></a>
+                <a class="btn btn-primary pull-right edit-record mr-1" data-added="14"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+        </tr>
+        </tbody>
+    </table>
     <hr>
 
     <h3>Posture table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationPostureTable') }}"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationPostureTable') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
-            <table class="table table-bordered" id="posture_table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th><span class="sn">No</span>.</th>
-                        <th scope="col">Posture</th>
-                        <th>Delete</th>
-                        <th>Edit</th>
-                    </tr>
-                </thead>
-            </table>
-    <hr>
+        <table class="table table-bordered" id="posture_table">
+            <thead class="thead-dark">
+            <tr>
+                <th><span class="sn">No</span>.</th>
+                <th scope="col">Posture</th>
+                <th>Delete</th>
+                <th>Edit</th>
+            </tr>
+            </thead>
+            <tbody id="posture_table_body">
+            <tr id="p-1">
+                <th><span class="sn">1</span>.</th>
+                <td>Insider</td>
+                <td><a class="btn btn-xs delete-record" data-id="1"><i class="glyphicon glyphicon-trash"></i></a>
+                    <a class="btn btn-primary pull-right edit-record mr-1" data-added="1"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+            </tr>
+            <tr id="p-2">
+                <th><span class="sn">2</span>.</th>
+                <td>Insider-nearsider</td>
+                <td><a class="btn btn-xs delete-record" data-id="2"><i class="glyphicon glyphicon-trash"></i></a>
+                    <a class="btn btn-primary pull-right edit-record mr-1" data-added="2"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+            </tr>
+            <tr id="p-3">
+                <th><span class="sn">3</span>.</th>
+                <td>Outsider</td>
+                <td><a class="btn btn-xs delete-record" data-id="3"><i class="glyphicon glyphicon-trash"></i></a>
+                    <a class="btn btn-primary pull-right edit-record mr-1" data-added="3"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+            </tr>
+            <tr id="p-4">
+                <th><span class="sn">4</span>.</th>
+                <td>Nearsider</td>
+                <td><a class="btn btn-xs delete-record" data-id="4"><i class="glyphicon glyphicon-trash"></i></a>
+                    <a class="btn btn-primary pull-right edit-record mr-1" data-added="4"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+            </tr>
+            <tr id="p-5">
+                <th><span class="sn">5</span>.</th>
+                <td>Nearsider-Outsider</td>
+                <td><a class="btn btn-xs delete-record" data-id="5"><i class="glyphicon glyphicon-trash"></i></a>
+                    <a class="btn btn-primary pull-right edit-record mr-1" data-added="5"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <hr>
 
     <h3>Threat level table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationThreatLevel') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="ConfigurationThreatLevel"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="threat_level">
         <thead class="thead-dark">
@@ -263,8 +414,8 @@
             <td>Enumeration</td>
             <td>Required; Editable {Confirmed, Expected, Anticipated, Predicted, Possible}</td>
             <td>Description</td>
-            <td><a class="btn btn-xs delete-record" data-id="1"><i class="glyphicon glyphicon-trash"></i></a></td>
-            <td><a class="btn btn-primary pull-right edit-record mr-1" data-added="1"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+            <td><a class="btn btn-xs delete-record" data-id="1"><i class="glyphicon glyphicon-trash"></i></a>
+                    <a class="btn btn-primary pull-right edit-record mr-1" data-added="1"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
         </tr>
         </tbody>
     </table>
@@ -292,8 +443,8 @@
             <td>Enumeration</td>
             <td>Required{Low, Medium, High, Information}</td>
             <td>Confidentiality level of a finding</td>
-            <td><a class="btn btn-xs delete-record" data-id="1"><i class="glyphicon glyphicon-trash"></i></a></td>
-            <td><a class="btn btn-primary pull-right edit-record mr-1" data-added="1"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+            <td><a class="btn btn-xs delete-record" data-id="1"><i class="glyphicon glyphicon-trash"></i></a>
+                    <a class="btn btn-primary pull-right edit-record mr-1" data-added="1"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
         </tr>
         <tr id="il-2">
             <th><span class="sn">2</span>.</th>
@@ -358,7 +509,7 @@
 
     <h3>Countermeasure table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationCountermeasureTable') }}"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationCountermeasureTable') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="countermeasure_table">
         <thead class="thead-dark">
@@ -367,8 +518,7 @@
             <th scope="col">countermeasure</th>
             <th scope="col">semi-quantitive value</th>
             <th scope="col">Description</th>
-            <th>Delete</th>
-            <th>Edit</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody id="countermeasure_table_body">
@@ -418,7 +568,7 @@
 
     <h3>Event classification</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationEventClassification') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="ConfigurationEventClassification"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="event_classification">
         <thead class="thead-dark">
@@ -465,7 +615,7 @@
     <hr>
     <h3>Level table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationLevelTable') }}"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationLevelTable') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="level_table">
         <thead class="thead-dark">
@@ -480,8 +630,8 @@
         <tr id="lt-1">
             <th><span class="sn">1</span>.</th>
             <td>VH</td>
-            <td><a class="btn btn-xs delete-record" data-id="1"><i class="glyphicon glyphicon-trash"></i></a></td>
-            <td><a class="btn btn-primary pull-right edit-record mr-1" data-added="1"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+            <td><a class="btn btn-xs delete-record" data-id="1"><i class="glyphicon glyphicon-trash"></i></a>
+                    <a class="btn btn-primary pull-right edit-record mr-1" data-added="1"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
         </tr>
         <tr id="lt-2">
             <th><span class="sn">2</span>.</th>
@@ -567,7 +717,7 @@
 
     <h3>Finding Impact</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationFindingImpact') }}"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationFindingImpact') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="finding_impact">
         <thead class="thead-dark">
@@ -577,7 +727,8 @@
             <th scope="col">Data type</th>
             <th scope="col">Values and Constraints</th>
             <th scope="col">Description</th>
-            <th>Action</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody id="finding_impact_body">
@@ -613,7 +764,7 @@
 
     <h3>Severity category code table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationSeverityCategory') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationSeverityCategory') }}"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="severity_cat_code">
         <thead class="thead-dark">
@@ -695,7 +846,7 @@
 
     <h3>A Progress table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationProgressTable') }}"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationRiskMatrix') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="progress_table">
         <thead class="thead-dark">
@@ -728,7 +879,7 @@
     <hr>
     <h3>Event Rules Table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationEventRules') }}"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationEventRules') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="event_rule">
         <thead class="thead-dark">
@@ -760,10 +911,10 @@
     </table>
     <hr>
     <h3>Report Template Tables</h3>
-        <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationRiskMatrix') }}"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
-        </div>
     <h4>Risk Matrix Table</h4>
+         <div class="well clearfix">
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationRiskMatrix') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+        </div>
     <table class="table table-bordered" id="report_template">
         <thead class="thead-dark">
         <tr>
@@ -772,8 +923,7 @@
             <th scope="col">Data type</th>
             <th scope="col">Values and Constraints</th>
             <th scope="col">Description</th>
-            <th>Delete</th>
-            <th>Edit</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody id="risk_matrix_body">
