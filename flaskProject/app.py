@@ -1,8 +1,8 @@
 from flask import Flask, render_template, url_for, request
 from flask_bootstrap import Bootstrap
-from database.analyst import Analyst, Role
-from database.databaseHandler import DatabaseHandler
-from database.event import Event, EventType, EventClassification
+from flaskProject.database.analyst import Analyst, Role
+from flaskProject.database.databaseHandler import DatabaseHandler
+from flaskProject.database.event import Event, EventType, EventClassification
 
 # creates the flask app
 app = Flask(__name__)
@@ -35,7 +35,7 @@ def EventView():
     return render_template('EventView.html', event=event)
 
 
-@app.route('/EditEvent', methods=['GET','POST'])
+@app.route('/EditEvent', methods=['GET', 'POST'])
 def EditEvent():
     # get the values of the fields from the editEvent.html form
     if request.method == 'POST':
@@ -53,8 +53,8 @@ def EditEvent():
 def CreateEvent():
     # if the create button is pressed create a new object with the info entered by the user
     # if request.method == 'POST':
-        # create an event object. which is stored in the database
-        # creating the object here causes a bad request error in the browser, why? where do i create the object?
+    # create an event object. which is stored in the database
+    # creating the object here causes a bad request error in the browser, why? where do i create the object?
     #    event = Event(request.form['eventName'],
     #                  request.form['eventDescription'],
     #                  EventType.VERIFICATION_OF_FIXES.value,
@@ -149,6 +149,76 @@ def ArchiveContentView():
 @app.route('/ConfigurationContentView')
 def ConfigurationContentView():
     return render_template('ConfigurationContentView.html')
+
+
+@app.route('/ConfigurationFindingType')
+def ConfigurationFindingType():
+    return render_template('ConfigurationFindingType.html')
+
+
+@app.route('/ConfigurationPostureTable')
+def ConfigurationPostureTable():
+    return render_template('ConfigurationPostureTable.html')
+
+
+@app.route('/ConfigurationThreatLevel')
+def ConfigurationThreatLevel():
+    return render_template('ConfigurationThreatLevel.html')
+
+
+@app.route('/ConfigurationImpactLevel')
+def ConfigurationImpactLevel():
+    return render_template('ConfigurationImpactLevel.html')
+
+
+@app.route('/ConfigurationFindingClassification')
+def ConfigurationFindingClassification():
+    return render_template('ConfigurationFindingClassification.html')
+
+
+@app.route('/ConfigurationCountermeasureTable')
+def ConfigurationCountermeasureTable():
+    return render_template('ConfigurationCountermeasureTable.html')
+
+
+@app.route('/ConfigurationEventClassification')
+def ConfigurationEventClassification():
+    return render_template('ConfigurationEventClassification.html')
+
+
+@app.route('/ConfigurationLevelTable')
+def ConfigurationLevelTable():
+    return render_template('ConfigurationLevelTable.html')
+
+
+@app.route('/ConfigurationEventType')
+def ConfigurationEventType():
+    return render_template('ConfigurationEventType.html')
+
+
+@app.route('/ConfigurationFindingImpact')
+def ConfigurationFindingImpact():
+    return render_template('ConfigurationFindingImpact.html')
+
+
+@app.route('/ConfigurationSeverityCategory')
+def ConfigurationSeverityCategory():
+    return render_template('ConfigurationSeverityCategory.html')
+
+
+@app.route('/ConfigurationProgressTable')
+def ConfigurationProgressTable():
+    return render_template('ConfigurationProgressTable.html')
+
+
+@app.route('/ConfigurationEventRules')
+def ConfigurationEventRules():
+    return render_template('ConfigurationEventRules.html')
+
+
+@app.route('/ConfigurationRiskMatrix')
+def ConfigurationRiskMatrix():
+    return render_template('ConfigurationRiskMatrix.html')
 
 
 @app.route('/Help')
