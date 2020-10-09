@@ -1,0 +1,34 @@
+<!-- extends the layout.html main structure to avoid repetition -->
+{% extends "layout.html" %}
+
+<!-- html code for the body of the page-->
+{% block content %}
+    <h1>Create Analyst</h1>
+    <form method="POST">
+        <div class="form-group">
+            {{ form.CreateAnalystFName.label }}
+            <br>
+            {{ form.CreateAnalystFName(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.CreateAnalystLName.label }}
+            <br>
+            {{ form.CreateAnalystLName(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.CreateAnalystInitials.label }}
+            <br>
+            {{ form.CreateAnalystInitials(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.CreateAnalystRole.label }}
+            <br>
+            {{ form.CreateAnalystRole(class_="form-control") }}
+        </div>
+
+        <button type="submit" name="createAnalyst" class="btn btn-secondary">Save</button>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EventView') }}">Cancel</a></button>
+        <br><br>
+    </form>
+{% endblock content %}
+

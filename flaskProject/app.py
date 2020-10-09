@@ -1,15 +1,16 @@
 from datetime import datetime, date
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, flash
 from flask_bootstrap import Bootstrap
-from flaskProject.database.analyst import Analyst, Role
-from flaskProject.database.databaseHandler import DatabaseHandler
-from flaskProject.database.event import Event, EventType, EventClassification
-from flaskProject.forms import *
+from database.analyst import Analyst, Role
+from database.databaseHandler import DatabaseHandler
+from database.event import Event, EventType, EventClassification
+from forms import *
+from Helper import *
 
 # creates the flask app
 app = Flask(__name__)
 Bootstrap(app)
-# needed for flask-wtf
+# needed for flask-wtforms
 app.config['SECRET_KEY'] = 'encrypted'
 
 # get instance of db
@@ -18,57 +19,133 @@ db = DatabaseHandler()
 
 @app.route('/', methods=['GET', 'POST'])
 def SetupContentView():
-    # checks if the submit btn has been pressed
-    if request.method == 'POST':
-        # prints the value of the html field with the name attribute set to 'initials'
-        print(request.form['initials'])
-    # return a html page at the directory specified by the app.rout above
-    return render_template('SetupContentView.html')
+    form = SetupContentViewForm()
+    # checks if the submit btn in SetupContentView page has been pressed
+    if 'LogCreateEvent' in request.form:
+        # redirect to the right page depending on the user selection
+        if form.SUCVSelection.data == 'create':
+            # print(form.SUCVInitials.data)
+
+            return redirect(url_for("CreateEvent"))
+
+        elif form.SUCVSelection.data == 'sync':
+            if is_valid_ipv4_address(form.SUCVIpAddress.data) or is_valid_ipv6_address(form.SUCVIpAddress.data):
+                return redirect(url_for("EventView"))
+            else:
+                flash("The Ip Address is not valid")
+
+    return render_template('SetupContentView.html', form=form)
+
+
+@app.route('/CreateAnalyst', methods=['GET', 'POST'])
+def CreateAnalyst():
+    events = db.getAllEvents()
+    events.reverse()
+    event = events[0]
+
+    form = CreateAnalystForm()
+    if 'createAnalyst' in request.form:
+        analyst = Analyst(form.CreateAnalystFName.data, form.CreateAnalystLName.data,
+                          form.CreateAnalystInitials.data, "title",
+                          form.CreateAnalystRole.data)
+        db.updateAnalyst(analyst)
+        # get event, add this analyst to the event team
+        event.getEventTeam().append(analyst.getInitial())
+        db.updateEvent(event)
+
+        return redirect(url_for("EventView"))
+    return render_template('CreateAnalyst.html', form=form)
+
+
+# function to delete analyst initials from db
+@app.route('/EventView/<string:initial>', methods=['GET', 'POST'])
+def deleteAnalyst(initial):
+    events = db.getAllEvents()
+    events.reverse()
+    event = events[0]
+    # get the event list of analyst initials and remove the selected one
+    event.getEventTeam().remove(initial)
+    db.updateEvent(event)
+    # delete analyst object from the db as well?
+    for analyst in db.getAllAnalyst():
+        if analyst.getInitial() == initial:
+            db.deleteAnalyst(analyst)
+    return redirect(url_for('EventView'))
 
 
 @app.route('/EventView', methods=['GET', 'POST'])
 def EventView():
     events = db.getAllEvents()
-    # make sure that events[0] is the last event added,so that in case you create another event that last event shows up
-    # in the event view
     events.reverse()
     event = events[0]
-    
+
     # pass event as parameter to use the event variable in the EventView.html
-    return render_template('EventView.html', event=event)
+    return render_template('EventView.html', event=event, db=db)
 
 
 @app.route('/EditEvent', methods=['GET', 'POST'])
 def EditEvent():
-    return render_template('EditEvent.html')
+    events = db.getAllEvents()
+    events.reverse()
+    event = events[0]
+
+    form = EditEventForm()
+    # populate the form with the data of the actual event
+    if request.method == 'GET':
+        form.EditEventName.data = event.getName()
+        form.EditEventDescription.data = event.getDescription()
+        form.EditEventType.data = event.getType()
+        form.EditEventVersion.data = event.getVersion()
+        form.EditEventOrganizationName.data = event.getOrganizationName()
+        form.EditEventCustomerName.data = event.getCustomerName()
+        form.EditEventAssessmentDate.data = datetime.strptime(event.getDate(), '%m/%d/%Y')
+        form.EditEventDeclassificationDate.data = datetime.strptime(event.getDeclassificationDate(), '%m/%d/%Y')
+        form.EditEventSCTG.data = event.getSecurityClassificationTitleGuide()
+        form.EditEventClassification.data = event.getEventClassification()
+        form.EditEventArchiveStatus.data = event.getArchiveStatus()
+
+    if 'editEvent' in request.form:
+        event.setName(form.EditEventName.data)
+        event.setType(form.EditEventType.data)
+        event.setDescription(form.EditEventDescription.data)
+        event.setVersion(form.EditEventVersion.data)
+        event.setCustomerName(form.EditEventCustomerName.data)
+        event.setOrganizationName(form.EditEventOrganizationName.data)
+        event.setDate(form.EditEventAssessmentDate.data.strftime('%m/%d/%Y'))
+        event.setDeclassificationDate(form.EditEventDeclassificationDate.data.strftime('%m/%d/%Y'))
+        event.setSecurityClassificationTitleGuide(form.EditEventSCTG.data)
+        event.setEventClassification(form.EditEventClassification.data)
+        event.setArchiveStatus(form.EditEventArchiveStatus.data)
+        db.updateEvent(event)
+
+        return redirect(url_for("EventView", event=event))
+
+    return render_template('EditEvent.html', event=event, form=form)  # pass parameter to populate with placeholders
 
 
 @app.route('/CreateEvent', methods=['GET', 'POST'])
 def CreateEvent():
-    # if the create button is pressed create a new object with the info entered by the user
-    # if request.method == 'POST':
-    # create an event object. which is stored in the database
-    # creating the object here causes a bad request error in the browser, why? where do i create the object?
-    #    event = Event(request.form['eventName'],
-    #                  request.form['eventDescription'],
-    #                  EventType.VERIFICATION_OF_FIXES.value,
-    #                  "1.0",
-    #                  request.form['eventDateStart'],
-    #                  request.form['eventSCTG'],
-    #                  request.form['eventOrgName'],
-    #                  request.form['eventClassification'].value,
-    #                  request.form['eventDateEnd'],
-    #                  request.form['eventCustomerName'],
-    #                  False,
-    #                  request.form['eventNonLead'])
-
-    #return render_template('CreateEvent.html')
-
     # create a form from the forms.py file (need to import the file)
     form = CreateEventForm()
 
     # check if the create event button has been pressed, if so create an event obj
-    if 'create' in request.form:
+    if 'createEvent' in request.form:
+        # get analysts lists together
+        lead = form.EventLeadAnalysts.data
+        list1 = list(lead.split("-"))
+        nonLead = form.EventAnalysts.data
+        list2 = list(nonLead.split("-"))
+        initialsList = list1 + list2
+
+        # list of analyst objects (to use later, when we change initials for analysts objects)
+        eventTeam = []
+        # create an analyst per each pair of initials entered by the user when the event is created
+        for initials in initialsList:
+            analyst = Analyst(None, None, initials, None, None)
+            db.updateAnalyst(analyst)
+            # list of analysts to be passed as eventName parameter in event creation
+            eventTeam.append(analyst)
+
         newEvent = Event(form.EventName.data,
                          form.EventDescription.data,
                          form.EventType.data,
@@ -80,7 +157,7 @@ def CreateEvent():
                          form.DeclassificationDate.data.strftime('%m/%d/%Y'),
                          form.CustomerName.data,
                          False,
-                         form.EventAnalysts.data)
+                         initialsList)
         db.updateEvent(newEvent)
         # redirect to the right page after creating the form
         return redirect(url_for("EventView"))
