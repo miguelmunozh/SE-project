@@ -19,7 +19,7 @@ class DatabaseHandler:
 
     def updateEvent(self, analyst, event):
         eventDoc = self.__fromEventToDocument(event)
-        analystDoc = self.__fromDocumentToAnalyst(analyst)
+        analystDoc = self.__fromAnalystToDocument(analyst)
         self.__db.storeEvent(eventDoc, analystDoc)
         return
 
@@ -70,19 +70,26 @@ class DatabaseHandler:
         logList = []
         for document in docLogList:
             logList.append(self.__fromDocumentToLogEntry(document))
-        return
+        return logList
+
+    def getAllSystems(self):
+        docSystemList = self.__db.getAllSystems()
+        systemList = []
+        for document in docSystemList:
+            systemList.append(self.__fromDocumentToSystem(document))
+        return systemList
 
     def __fromDocumentToLogEntry(self, document):
         log = LogEntry(document["actionPerformed"]
                        , document["analystInitials"]
-                       , datetime.datetime.strptime(document["logTime"], "%m/%d/%Y, %H:%M:%S"))
+                       , datetime.datetime.strptime(document["logTime"], "%m/%d/%Y, %H:%M:%S"), document["_id"])
         return log
 
 
     def __fromSystemToDocument(self, system):
         if system.getId() == -1:
             systemDoc = {
-                "systemName": system.getName(),
+                "name": system.getName(),
                 "description": system.getDescription(),
                 "location": system.getLocation(),
                 "router": system.getRouter(),
@@ -94,7 +101,7 @@ class DatabaseHandler:
         else:
             systemDoc = {
                 "_id": system.getId(),
-                "systemName": system.getName(),
+                "name": system.getName(),
                 "description": system.getDescription(),
                 "location": system.getLocation(),
                 "router": system.getRouter(),
@@ -108,7 +115,7 @@ class DatabaseHandler:
 
         system = System()
         system.setId(document["_id"])
-        system.setName(document["systemName"])
+        system.setName(document["name"])
         system.setDescription(document["description"])
         system.setRoom(document["room"])
         system.setRouter(document["router"])

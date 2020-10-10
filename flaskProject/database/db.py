@@ -100,6 +100,13 @@ class Db:
 
         return analystList
 
+    def getAllSystems(self):
+        systemList = []
+        for document in self.__systemCollection.find():
+            systemList.append(document)
+
+        return systemList
+
     def getAllEvents(self):
         eventList = []
         for document in self.__eventCollection.find():
