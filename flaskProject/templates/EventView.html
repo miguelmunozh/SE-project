@@ -20,7 +20,7 @@
     <p>{{ event.getType() }}</p>
     <hr>
     <h4>Event version</h4>
-    <p>1.0</p>
+    <p>{{ event.getVersion() }}</p>
     <hr>
     <h4>Organization name</h4>
     <p>{{ event.getOrganizationName() }}</p>
@@ -45,15 +45,24 @@
     <hr>
 
     <h3>Event Team Information</h3>
+    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateAnalyst') }}">Add Analyst</a></button>
     <hr>
     <h4>Lead Analysts</h4>
-    <!-- need to store lead analyst for the event in the event class (currently missing)-->
     <p></p>
     <hr>
-    <h4>Analysts</h4>
-    <p>{{ event.getEventTeam() }}</p>
+    <h4>Analysts (Event Team)</h4>
+    {% for initial in event.getEventTeam() %}
+        <ul>
+            <li>
+                {{ initial }}
+                <form action="{{ url_for('deleteAnalyst', initial=initial) }}" method=post>
+                    <input type="hidden" value="{{ initial }}">
+                    <input type="submit" value="Delete"/>
+                </form>
+            </li>
+        </ul>
+    {% endfor %}
     <hr>
-
 
     <h3>list of Systems</h3>
     <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateSystem') }}">Add system</a></button>

@@ -201,17 +201,18 @@
 
     <h3>Finding type table</h3>
         <div class="well clearfix">
-            <a id="updateButton" class="btn btn-primary pull-right add-record mr-1"><i class="glyphicon glyphicon-plus" onclick="findingType()"></i> Add Row</a>
+            <a id="updateButton" class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationFindingType')}}" ><i class="glyphicon glyphicon-plus" onclick="findingType()"></i> Add Row</a>
         </div>
         <table class="table table-bordered" id="finding_type">
             <thead class="thread-dark">
-            <tr>
-                <th><span class="sn">No</span>.</th>
-                <th scope="col">Data Type</th>
-                <th scope="col">Value and Constraints</th>
-                <th scope="col">Description.</th>
-                <th>Action</th>
-            </tr>
+                <tr>
+                    <th><span class="sn">No</span>.</th>
+                    <th scope="col">Data Type</th>
+                    <th scope="col">Value and Constraints</th>
+                    <th scope="col">Description.</th>
+                    <th>Delete</th>
+                    <th>Edit</th>
+                </tr>
             </thead>
             <tbody id="finding_type_body">
             <tr id="rec-1">
@@ -219,8 +220,8 @@
                 <td>Enumeration</td>
                 <td>Credentials Complexity</td>
                 <td>Type of vulnerability/potential issue</td>
-                <td><a class="btn btn-xs delete-record" data-id="1"><i class="glyphicon glyphicon-trash"></i></a>
-                    <a class="btn btn-primary pull-right edit-record mr-1" data-added="1"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
+                <td><a class="btn btn-xs delete-record" data-id="1"><i class="glyphicon glyphicon-trash"></i></a></td>
+                <td><a class="btn btn-primary pull-right edit-record mr-1" data-added="1"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
             </tr>
             <tr id="rec-2">
                 <th><span class="sn">2</span>.</th>
@@ -344,14 +345,15 @@
 
     <h3>Posture table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationPostureTable') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
         <table class="table table-bordered" id="posture_table">
             <thead class="thead-dark">
             <tr>
                 <th><span class="sn">No</span>.</th>
                 <th scope="col">Posture</th>
-                <th>Action</th>
+                <th>Delete</th>
+                <th>Edit</th>
             </tr>
             </thead>
             <tbody id="posture_table_body">
@@ -391,7 +393,7 @@
 
     <h3>Threat level table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="ConfigurationThreatLevel"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="threat_level">
         <thead class="thead-dark">
@@ -401,7 +403,8 @@
             <th scope="col">Data Type</th>
             <th scope="col">Values and Constraints</th>
             <th scope="col">Description</th>
-            <th>Action</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody id="threat_level_body">
@@ -419,7 +422,7 @@
     <hr>
     <h3>Impact Level table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationImpactLevel') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="impact_level">
         <thead class="thead-dark">
@@ -429,7 +432,8 @@
             <th scope="col">Data Type</th>
             <th scope="col">Values and Constraints</th>
             <th scope="col">Description</th>
-            <th>Action</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody id="impact_level_body">
@@ -466,7 +470,7 @@
 
     <h3>Finding classification table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationFindingClassification') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="finding_classification">
         <thead class="thead-dark">
@@ -476,7 +480,8 @@
             <th scope="col">Data type</th>
             <th scope="col">Values and Constraints</th>
             <th scope="col">Description</th>
-            <th>Action</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody id="finding_body">
@@ -504,7 +509,7 @@
 
     <h3>Countermeasure table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationCountermeasureTable') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="countermeasure_table">
         <thead class="thead-dark">
@@ -563,14 +568,15 @@
 
     <h3>Event classification</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="ConfigurationEventClassification"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="event_classification">
         <thead class="thead-dark">
         <tr>
             <th><span class="sn">No</span>.</th>
             <th scope="col">classification</th>
-            <th>Action</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody id="event_classification_body">
@@ -609,14 +615,15 @@
     <hr>
     <h3>Level table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationLevelTable') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="level_table">
         <thead class="thead-dark">
         <tr>
             <th><span class="sn">No</span>.</th>
             <th scope="col">level</th>
-            <th>Action</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody id="level_body">
@@ -656,14 +663,15 @@
 
     <h3>Event type </h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationEventType') }}"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="event_type">
         <thead class="thead-dark">
         <tr>
             <th><span class="sn">No</span>.</th>
             <th scope="col">type</th>
-            <th>Action</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody id="event_type_body">
@@ -709,7 +717,7 @@
 
     <h3>Finding Impact</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationFindingImpact') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="finding_impact">
         <thead class="thead-dark">
@@ -719,7 +727,8 @@
             <th scope="col">Data type</th>
             <th scope="col">Values and Constraints</th>
             <th scope="col">Description</th>
-            <th>Action</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody id="finding_impact_body">
@@ -755,7 +764,7 @@
 
     <h3>Severity category code table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationSeverityCategory') }}"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="severity_cat_code">
         <thead class="thead-dark">
@@ -765,7 +774,8 @@
             <th scope="col">Data type</th>
             <th scope="col">Values and Constraints</th>
             <th scope="col">Description</th>
-            <th>Action</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody id="severity_cat_code_body">
@@ -836,7 +846,7 @@
 
     <h3>A Progress table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationRiskMatrix') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="progress_table">
         <thead class="thead-dark">
@@ -846,7 +856,8 @@
             <th scope="col">Data type</th>
             <th scope="col">Values and Constraints</th>
             <th scope="col">Description</th>
-            <th>Action</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody id="progress_table_body">
@@ -868,7 +879,7 @@
     <hr>
     <h3>Event Rules Table</h3>
         <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationEventRules') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
         </div>
     <table class="table table-bordered" id="event_rule">
         <thead class="thead-dark">
@@ -878,7 +889,8 @@
             <th scope="col">Data type</th>
             <th scope="col">Values and Constraints</th>
             <th scope="col">Description</th>
-            <th>Action</th>
+            <th>Delete</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody id="event_rule_body">
@@ -899,10 +911,10 @@
     </table>
     <hr>
     <h3>Report Template Tables</h3>
-        <div class="well clearfix">
-            <a class="btn btn-primary pull-right add-record mr-1" data-added="0"><i class="glyphicon glyphicon-plus"></i> Add Row</a>
-        </div>
     <h4>Risk Matrix Table</h4>
+         <div class="well clearfix">
+            <a class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationRiskMatrix') }}" ><i class="glyphicon glyphicon-plus"></i> Add Row</a>
+        </div>
     <table class="table table-bordered" id="report_template">
         <thead class="thead-dark">
         <tr>

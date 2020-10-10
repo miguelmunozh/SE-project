@@ -4,100 +4,68 @@
 <!-- html code for the body of the page-->
 {% block content %}
     <h1>Edit Event</h1>
-    <form action="{{ url_for('EventView') }}" method="post">
+    <form action="" method="POST">
         <div class="form-row">
             <div class="form-group">
-                <label>Name</label>
-                <input name="eventName" class="form-control">
+                {{ form.EditEventName.label }}
+                <br>
+                {{ form.EditEventName(class_="form-control") }}
             </div>
         </div>
-
         <div class="form-group">
-            <label>Event type</label>
-            <input name="eventType" class="form-control">
+            {{ form.EditEventType.label }}
+            <br>
+            {{ form.EditEventType(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Event version</label>
-            <input name="version" class="form-control">
+            {{ form.EditEventVersion.label }}
+            <br>
+            {{ form.EditEventVersion(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Event Description</label>
-            <input name="eventDescription" class="form-control">
+            {{ form.EditEventArchiveStatus.label }}
+            <br>
+            {{ form.EditEventArchiveStatus(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>lead analyst</label>
-            <select name="eventLeadAnalyst" class="form-control">
-                <option>Miguel Munoz</option>
-                <option>Jonathan Roman</option>
-                <option>Alberto Machado</option>
-            </select>
+            {{ form.EditEventCustomerName.label }}
+            <br>
+            {{ form.EditEventCustomerName(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>non-lead analysts</label>
-            <input name="eventNon-LeadAnalysts" class="form-control">
+            {{ form.EditEventOrganizationName.label }}
+            <br>
+            {{ form.EditEventOrganizationName(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Archive Status</label>
-            <input name="eventArchiveStatus" class="form-control">
+            {{ form.EditEventAssessmentDate.label }}
+            <br>
+            {{ form.EditEventAssessmentDate(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Customer name</label>
-            <input name="eventCustomerName" class="form-control">
-        </div>
-        <div class="form-group">
-            <label>Organization name</label>
-            <input name="eventOrgName" class="form-control">
-        </div>
-        <div class="form-group">
-            <!-- Date input -->
-            <label class="control-label" for="date">Start Date</label>
-            <input id="datepicker" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
-            <label class="control-label" for="date">End Date</label>
-            <input id="datepicker1" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+            {{ form.EditEventDeclassificationDate.label }}
+            <br>
+            {{ form.EditEventDeclassificationDate(class_="form-control") }}
         </div>
 
         <div class="form-group">
-            <label>Event classification</label>
-            <input name="eventClassification" class="form-control">
+            {{ form.EditEventClassification.label }}
+            <br>
+            {{ form.EditEventClassification(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Security Classification Title Guide</label>
-            <input name="eventSCTG" class="form-control">
+            {{ form.EditEventSCTG.label }}
+            <br>
+            {{ form.EditEventSCTG(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Description</label>
-            <textarea name="eventDescription" class="form-control" rows="4"></textarea>
+            {{ form.EditEventDescription.label }}
+            <br>
+            {{ form.EditEventDescription(class_="form-control") }}
         </div>
-
-        <div class="form-group">
-            <label>First Name</label>
-            <input class="form-control">
-        </div>
-        <div class="form-group">
-            <label>Last Name</label>
-            <input class="form-control">
-        </div>
-        <div class="form-group">
-            <label>Initial</label>
-            <input class="form-control">
-        </div>
-        <div class="form-group">
-            <label>Title</label>
-            <input class="form-control">
-        </div>
-
-        <button type="submit" class="btn btn-secondary">Save</button>
+        <button type="submit" name="editEvent" class="btn btn-secondary">Save</button>
         <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EventView') }}">Cancel</a></button>
         <br><br>
     </form>
-
-    <script>
-        $('#datepicker').datepicker({
-            uiLibrary: 'bootstrap'
-        });
-        $('#datepicker1').datepicker({
-            uiLibrary: 'bootstrap'
-        });
-    </script>
 {% endblock content %}
 

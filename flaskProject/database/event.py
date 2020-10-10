@@ -1,5 +1,4 @@
 from enum import Enum
-from datetime import date
 
 
 class EventType(Enum):
@@ -116,5 +115,3 @@ class Event:
 
     def getEventTeam(self):
         return self.__eventTeam
-
-
