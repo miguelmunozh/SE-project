@@ -42,7 +42,8 @@ class System:
         return self.__archiveStatus
 
 
-
+    def setId(self, id):
+        self.__id = id
 
     def setName(self, name: str):
         self.__name = name
