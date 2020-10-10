@@ -1,5 +1,9 @@
 import pymongo
 from pymongo import MongoClient
+from datetime import date
+from flaskProject.database.log import LogEntry
+import datetime
+import overload
 
 
 class Db:
@@ -22,8 +26,10 @@ class Db:
             self.__database = self.__client.FRIC
             self.__analystCollection = self.__database.analyst
             self.__eventCollection = self.__database.event
+            self.__systemCollection = self.__database.system
+            self.__logCollection = self.__database.log
         else:
-            raise Exception("You cannot create another SingletonGovt class")
+            raise Exception("You cannot create another Db class")
 
     def findAnalyst(self, analystDoc):
         query = {"_id": analystDoc["_id"]}
@@ -43,11 +49,33 @@ class Db:
 
     def __addNewAnalyst(self, analystDoc):
         insertDocid = self.__analystCollection.insert_one(analystDoc)
-
         return
+
+    def __logAction(self, logDoc):
+        self.__logCollection.insert_one(logDoc)
+        return
+
 
     def __addNewEvent(self, eventDoc):
         self.__eventCollection.insert_one(eventDoc)
+        return
+
+    def __addNewSystem(self, systemDoc):
+        self.__systemCollection.insert_one(systemDoc)
+        return
+
+    def __updateSystem(self, systemDoc):
+        query = {"_id": systemDoc["_id"]}
+        result = self.__systemCollection.find_one_and_replace(query, systemDoc)
+        return
+
+    def storeSystem(self, systemDoc, analystDoc):
+        try:
+            self.__addNewSystem(systemDoc)
+            self.__logAction(LogEntry("Added new system: " + systemDoc["name"], analystDoc["initial"]).toDocument())
+        except pymongo.errors.DuplicateKeyError:
+            self.__updateSystem(systemDoc)
+            self.__logAction(LogEntry("Updated system: " + systemDoc["name"], analystDoc["initial"]).toDocument())
         return
 
     def storeAnalyst(self, analystDoc):
@@ -55,13 +83,15 @@ class Db:
             self.__addNewAnalyst(analystDoc)
         except pymongo.errors.DuplicateKeyError:
             self.__updateAnalyst(analystDoc)
-            return
+        return
 
-    def storeEvent(self, eventDoc):
+    def storeEvent(self, eventDoc, analystDoc):
         try:
             self.__addNewEvent(eventDoc)
+            self.__logAction(LogEntry("Started new event: " + eventDoc["name"], analystDoc["initial"]).toDocument())
         except pymongo.errors.DuplicateKeyError:
             self.__updateEvent(eventDoc)
+            self.__logAction(LogEntry("Updated system: " + eventDoc["name"], analystDoc["initial"]).toDocument())
 
     def getAllAnalyst(self):
         analystList = []
@@ -76,6 +106,12 @@ class Db:
             eventList.append(document)
 
         return eventList
+
+    def getAllLogs(self):
+        logList = []
+        for document in self.__logCollection.find():
+            logList.append(document)
+        return logList
 
     def removeEvent(self, eventDoc):
         query = {"_id": eventDoc["_id"]}

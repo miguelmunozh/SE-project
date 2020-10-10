@@ -1,6 +1,9 @@
-from database.analyst import Analyst
-from database.event import Event, EventType, EventClassification
-from database.db import Db
+from flaskProject.database.analyst import Analyst
+from flaskProject.database.event import Event, EventType, EventClassification
+from flaskProject.database.system import System
+from flaskProject.database.log import LogEntry
+from flaskProject.database.db import Db
+import datetime
 
 
 class DatabaseHandler:
@@ -8,20 +11,27 @@ class DatabaseHandler:
         self.__db = Db.getInstance()
         return
 
+
     def updateAnalyst(self, analyst):
         analystDocument = self.__fromAnalystToDocument(analyst)
-        self.__db.storeAnalyst( analystDocument)
+        self.__db.storeAnalyst(analystDocument)
         return
 
-    def updateEvent(self, event):
+    def updateEvent(self, analyst, event):
         eventDoc = self.__fromEventToDocument(event)
-        self.__db.storeEvent(eventDoc)
+        analystDoc = self.__fromDocumentToAnalyst(analyst)
+        self.__db.storeEvent(eventDoc, analystDoc)
         return
 
-    def deleteEvent(self, event):
+    def updateSystem(self, analyst, system):
+        systemDoc = self.__fromSystemToDocument(system)
+        analystDoc = self.__fromAnalystToDocument(analyst)
+        self.__db.storeSystem(systemDoc, analystDoc)
+
+    def deleteEvent(self, analyst, event):
         eventDoc = self.__fromEventToDocument(event)
+
         self.__db.removeEvent(eventDoc)
-
         return
 
     def deleteAnalyst(self, analyst):
@@ -54,6 +64,60 @@ class DatabaseHandler:
             eventList.append(self.__fromDocumentToEvent(document))
 
         return eventList
+
+    def getAllLogs(self):
+        docLogList = self.__db.getAllLogs()
+        logList = []
+        for document in docLogList:
+            logList.append(self.__fromDocumentToLogEntry(document))
+        return
+
+    def __fromDocumentToLogEntry(self, document):
+        log = LogEntry(document["actionPerformed"]
+                       , document["analystInitials"]
+                       , datetime.datetime.strptime(document["logTime"], "%m/%d/%Y, %H:%M:%S"))
+        return log
+
+
+    def __fromSystemToDocument(self, system):
+        if system.getId() == -1:
+            systemDoc = {
+                "systemName": system.getName(),
+                "description": system.getDescription(),
+                "location": system.getLocation(),
+                "router": system.getRouter(),
+                "switch": system.getSwitch(),
+                "room": system.getRoom(),
+                "testPlan": system.getTestPlan(),
+                "archiveStatus": system.getArchiveStatus()}
+            return systemDoc
+        else:
+            systemDoc = {
+                "_id": system.getId(),
+                "systemName": system.getName(),
+                "description": system.getDescription(),
+                "location": system.getLocation(),
+                "router": system.getRouter(),
+                "switch": system.getSwitch(),
+                "room": system.getRoom(),
+                "testPlan": system.getTestPlan(),
+                "archiveStatus": system.getArchiveStatus()}
+            return systemDoc
+
+    def __fromDocumentToSystem(self, document):
+
+        system = System()
+        system.setId(document["_id"])
+        system.setName(document["systemName"])
+        system.setDescription(document["description"])
+        system.setRoom(document["room"])
+        system.setRouter(document["router"])
+        system.setSwitch(document["switch"])
+        system.setLocation(document["location"])
+        system.setTestplan(document["testPlan"])
+        system.setArchiveStatus(document["archiveStatus"])
+
+        return system
 
     def __fromAnalystToDocument(self, analyst):
         if analyst.getId() == -1:
