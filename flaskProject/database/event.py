@@ -19,7 +19,8 @@ class Event:
 
     def __init__(self, name=None, description=None, type=None, version=None, date=None,
                  organizationName=None, securityClassificationTitleGuide=None,
-                 eventClassification=None, declassificationDate=None,
+                 eventClassification=None, classifiedBy=None, derivedFrom=None,
+                 declassificationDate=None,
                  customerName=None, archiveStatus=None, eventTeam=None):
         self.__id = -1
         self.__name = name
@@ -30,6 +31,8 @@ class Event:
         self.__organizationName = organizationName
         self.__securityClassificationTitleGuide = securityClassificationTitleGuide
         self.__eventClassification = eventClassification
+        self.__classifiedBy = classifiedBy
+        self.__derivedFrom = derivedFrom
         self.__declassificationDate = declassificationDate
         self.__customerName = customerName
         self.__archiveStatus = archiveStatus
@@ -63,6 +66,12 @@ class Event:
 
     def setEventClassification(self, eventClassification):
         self.__eventClassification = eventClassification
+
+    def setClassifiedBy(self, classifiedBy):
+        self.__classifiedBy = classifiedBy
+
+    def setDerivedFrom(self, derivedFrom):
+        self.__derivedFrom = derivedFrom
 
     def setDeclassificationDate(self, declassificationDate):
         self.__declassificationDate = declassificationDate
@@ -103,6 +112,12 @@ class Event:
 
     def getEventClassification(self):
         return self.__eventClassification
+
+    def getClassifiedBy(self):
+        return self.__classifiedBy
+
+    def getDerivedFrom(self):
+        return self.__derivedFrom
 
     def getDeclassificationDate(self):
         return self.__declassificationDate

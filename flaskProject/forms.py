@@ -13,7 +13,6 @@ class SetupContentViewForm(FlaskForm):
     SUCVSelection = SelectField('Select an option',
                                 choices=[('create', 'Create a new event (any existing event will be archived.'),
                                          ('sync', 'First time sync with lead analyst.')])
-    # the validation doesnt work!! >.<
     SUCVIpAddress = StringField('Lead Analyst Ip Address')
 
 
@@ -44,6 +43,9 @@ class CreateEventForm(FlaskForm):
     EventLeadAnalysts = StringField('Event Lead Analysts')
     EventAnalysts = StringField('Event Analysts')
 
+    EventClassifiedBy = StringField('Classified by', validators=[DataRequired()])
+    EventDerivedFrom = StringField('Derived from', validators=[DataRequired()])
+
 
 class EditEventForm(FlaskForm):
     EditEventName = StringField('Event Name')
@@ -67,10 +69,8 @@ class EditEventForm(FlaskForm):
                                                    ('CONFIDENTIAL', 'Confidential'),
                                                    ('CLASSIFIED', 'Classified'),
                                                    ('UNCLASSIFIED', 'Unclassified')])
-    # one t is archived we go to the main windows??? archive event button in eventview
-    EditEventArchiveStatus = SelectField('Event Archive status',
-                                         choices=[(True, 'True'),
-                                                  (False, 'False')])
+    EditEventClassifiedBy = StringField('Classified by')
+    EditEventDerivedFrom = StringField('Derived from')
 
 
 class CreateAnalystForm(FlaskForm):

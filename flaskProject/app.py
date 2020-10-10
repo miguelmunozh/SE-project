@@ -16,6 +16,9 @@ app.config['SECRET_KEY'] = 'encrypted'
 # get instance of db
 db = DatabaseHandler()
 
+# analyst to pass as parameter to the updateEvent function, used in order to compile
+analyst = Analyst("jonathan", "roman", "jr", ["jr", "sr"], Role.LEAD.value)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def SetupContentView():
@@ -25,13 +28,13 @@ def SetupContentView():
         # redirect to the right page depending on the user selection
         if form.SUCVSelection.data == 'create':
             # print(form.SUCVInitials.data)
-
             return redirect(url_for("CreateEvent"))
 
         elif form.SUCVSelection.data == 'sync':
             if is_valid_ipv4_address(form.SUCVIpAddress.data) or is_valid_ipv6_address(form.SUCVIpAddress.data):
                 return redirect(url_for("EventView"))
             else:
+                # flash an error message
                 flash("The Ip Address is not valid")
 
     return render_template('SetupContentView.html', form=form)
@@ -51,21 +54,23 @@ def CreateAnalyst():
         db.updateAnalyst(analyst)
         # get event, add this analyst to the event team
         event.getEventTeam().append(analyst.getInitial())
-        db.updateEvent(event)
+        db.updateEvent(analyst, event)
 
         return redirect(url_for("EventView"))
     return render_template('CreateAnalyst.html', form=form)
 
 
-# function to delete analyst initials from db
+# function to delete analyst initials from event and db
 @app.route('/EventView/<string:initial>', methods=['GET', 'POST'])
 def deleteAnalyst(initial):
     events = db.getAllEvents()
     events.reverse()
     event = events[0]
+    analyst = Analyst("jonathan", "roman", "jr", ["jr", "sr"], Role.LEAD.value)
+
     # get the event list of analyst initials and remove the selected one
     event.getEventTeam().remove(initial)
-    db.updateEvent(event)
+    db.updateEvent(analyst, event)
     # delete analyst object from the db as well?
     for analyst in db.getAllAnalyst():
         if analyst.getInitial() == initial:
@@ -78,6 +83,11 @@ def EventView():
     events = db.getAllEvents()
     events.reverse()
     event = events[0]
+    # check if archive event button has been pressed, if so, set it to be archived and redirect to main page
+    if 'ArchiveEvent' in request.form:
+        event.setArchiveStatus(True)
+        db.updateEvent(analyst, event)
+        return redirect(url_for('SetupContentView'))
 
     # pass event as parameter to use the event variable in the EventView.html
     return render_template('EventView.html', event=event, db=db)
@@ -99,6 +109,8 @@ def EditEvent():
         form.EditEventOrganizationName.data = event.getOrganizationName()
         form.EditEventCustomerName.data = event.getCustomerName()
         form.EditEventAssessmentDate.data = datetime.strptime(event.getDate(), '%m/%d/%Y')
+        form.EditEventClassifiedBy.data = event.getClassifiedBy()
+        form.EditEventDerivedFrom.data = event.getDerivedFrom()
         form.EditEventDeclassificationDate.data = datetime.strptime(event.getDeclassificationDate(), '%m/%d/%Y')
         form.EditEventSCTG.data = event.getSecurityClassificationTitleGuide()
         form.EditEventClassification.data = event.getEventClassification()
@@ -112,11 +124,13 @@ def EditEvent():
         event.setCustomerName(form.EditEventCustomerName.data)
         event.setOrganizationName(form.EditEventOrganizationName.data)
         event.setDate(form.EditEventAssessmentDate.data.strftime('%m/%d/%Y'))
+        event.setClassifiedBy(form.EditEventClassifiedBy.data)
+        event.setDerivedFrom(form.EditEventDerivedFrom.data)
         event.setDeclassificationDate(form.EditEventDeclassificationDate.data.strftime('%m/%d/%Y'))
         event.setSecurityClassificationTitleGuide(form.EditEventSCTG.data)
         event.setEventClassification(form.EditEventClassification.data)
-        event.setArchiveStatus(form.EditEventArchiveStatus.data)
-        db.updateEvent(event)
+
+        db.updateEvent(analyst, event)
 
         return redirect(url_for("EventView", event=event))
 
@@ -154,11 +168,13 @@ def CreateEvent():
                          form.SCTG.data,
                          form.OrganizationName.data,
                          form.EventClassification.data,
+                         form.EventClassifiedBy.data,
+                         form.EventDerivedFrom.data,
                          form.DeclassificationDate.data.strftime('%m/%d/%Y'),
                          form.CustomerName.data,
                          False,
                          initialsList)
-        db.updateEvent(newEvent)
+        db.updateEvent(analyst, newEvent)
         # redirect to the right page after creating the form
         return redirect(url_for("EventView"))
 

@@ -1,6 +1,8 @@
 import socket
 
 
+# Helper class
+
 def is_valid_ipv4_address(address):
     try:
         socket.inet_pton(socket.AF_INET, address)
@@ -22,3 +24,4 @@ def is_valid_ipv6_address(address):
     except socket.error:  # not a valid address
         return False
     return True
+

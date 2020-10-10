@@ -3,12 +3,16 @@
 
 <!-- html code for the body of the page-->
 {% block content %}
+
     <h1>Event overview</h1>
     <br>
-    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditEvent') }}">Edit event</a></button>
+    <form method=post>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditEvent') }}">Edit event</a></button>
+        <button type="submit" value="submit" name="ArchiveEvent" class="btn btn-secondary">Archive event</button>
+    </form>
+
     <h3>Event Basic Information</h3>
     <br>
-
     <h4>Event name</h4>
     <!-- in the app.py when we render this template, we pass as parameter an event object to display its info here -->
     <p>{{ event.getName() }}</p>
@@ -31,6 +35,12 @@
     <h4>Assessment date</h4>
     <p>{{ event.getDate() }}</p>
     <hr>
+    <h4>Classified by</h4>
+    <p>{{ event.getClassifiedBy() }}</p>
+    <hr>
+    <h4>Derived from</h4>
+    <p>{{ event.getDerivedFrom() }}</p>
+    <hr>
     <h4>Declassification date</h4>
     <p>{{ event.getDeclassificationDate() }}</p>
     <hr>
@@ -43,7 +53,6 @@
     <h4>Archive Status</h4>
     <p>{{ event.getArchiveStatus() }}</p>
     <hr>
-
     <h3>Event Team Information</h3>
     <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateAnalyst') }}">Add Analyst</a></button>
     <hr>
@@ -51,13 +60,14 @@
     <p></p>
     <hr>
     <h4>Analysts (Event Team)</h4>
+    <!-- loop through the list of initials that event.getEventTeam() retrieves  and display them along with a delete button-->
     {% for initial in event.getEventTeam() %}
         <ul>
             <li>
-                {{ initial }}
                 <form action="{{ url_for('deleteAnalyst', initial=initial) }}" method=post>
+                    {{ initial }}
                     <input type="hidden" value="{{ initial }}">
-                    <input type="submit" value="Delete"/>
+                    <input type="submit" class="btn btn-secondary" value="Delete"/>
                 </form>
             </li>
         </ul>
@@ -182,5 +192,3 @@
         </p>
     </div>
 {% endblock %}
-
-

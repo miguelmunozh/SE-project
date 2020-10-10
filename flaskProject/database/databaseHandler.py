@@ -1,8 +1,8 @@
-from flaskProject.database.analyst import Analyst
-from flaskProject.database.event import Event, EventType, EventClassification
-from flaskProject.database.system import System
-from flaskProject.database.log import LogEntry
-from flaskProject.database.db import Db
+from database.analyst import Analyst
+from database.event import Event, EventType, EventClassification
+from database.system import System
+from database.log import LogEntry
+from database.db import Db
 import datetime
 
 
@@ -167,6 +167,8 @@ class DatabaseHandler:
         event.setVersion(document["version"])
         event.setDate(document["date"])
         event.setOrganizationName(document["organizationName"])
+        event.setClassifiedBy(document["classifiedBy"])
+        event.setDerivedFrom(document["derivedFrom"])
         event.setSecurityClassificationTitleGuide(document["securityClassificationTitleGuide"])
         event.setEventClassification(document["eventClassification"])
         event.setDeclassificationDate(document["declassificationDate"])
@@ -186,6 +188,8 @@ class DatabaseHandler:
                 "organizationName": event.getOrganizationName(),
                 "securityClassificationTitleGuide": event.getSecurityClassificationTitleGuide(),
                 "eventClassification": event.getEventClassification(),
+                "classifiedBy": event.getClassifiedBy(),
+                "derivedFrom": event.getDerivedFrom(),
                 "declassificationDate": event.getDeclassificationDate(),
                 "customerName": event.getCustomerName(),
                 "archiveStatus": event.getArchiveStatus(),
@@ -203,6 +207,8 @@ class DatabaseHandler:
                 "organizationName": event.getOrganizationName(),
                 "securityClassificationTitleGuide": event.getSecurityClassificationTitleGuide(),
                 "eventClassification": event.getEventClassification(),
+                "classifiedBy": event.getClassifiedBy(),
+                "derivedFrom": event.getDerivedFrom(),
                 "declassificationDate": event.getDeclassificationDate(),
                 "customerName": event.getCustomerName(),
                 "archiveStatus": event.getArchiveStatus(),

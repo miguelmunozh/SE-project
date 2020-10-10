@@ -50,6 +50,16 @@
             {{ form.AssessmentDate(class_="form-control") }}
         </div>
         <div class="form-group">
+            {{ form.EventClassifiedBy.label }}
+            <br>
+            {{ form.EventClassifiedBy(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.EventDerivedFrom.label }}
+            <br>
+            {{ form.EventDerivedFrom(class_="form-control") }}
+        </div>
+        <div class="form-group">
             {{ form.DeclassificationDate.label }}
             <br>
             {{ form.DeclassificationDate(class_="form-control") }}
