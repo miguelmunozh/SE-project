@@ -1,7 +1,7 @@
 import pymongo
 from pymongo import MongoClient
 from datetime import date
-from database.log import LogEntry
+from flaskProject.database.log import LogEntry
 import datetime
 import overload
 
@@ -34,6 +34,14 @@ class Db:
     def findAnalyst(self, analystDoc):
         query = {"_id": analystDoc["_id"]}
         return self.__analystCollection.find_one(query)
+
+    def findSystem(self, systemDoc):
+        query = {"_id": systemDoc["_id"]}
+        return self.__systemCollection.find_one(query)
+
+    def findLogEntry(self, logDoc):
+        query = {"_id": logDoc["_id"]}
+        return self.__logCollection.find_one(query)
 
     def findEvent(self, eventDoc):
         query = {"_id": eventDoc["_id"]}
@@ -92,6 +100,7 @@ class Db:
         except pymongo.errors.DuplicateKeyError:
             self.__updateEvent(eventDoc)
             self.__logAction(LogEntry("Updated system: " + eventDoc["name"], analystDoc["initial"]).toDocument())
+        return
 
     def getAllAnalyst(self):
         analystList = []
@@ -123,9 +132,9 @@ class Db:
     def removeEvent(self, eventDoc):
         query = {"_id": eventDoc["_id"]}
         self.__eventCollection.delete_one(query)
-        pass
+        return
 
     def removeAnalyst(self, analystDoc):
         query = {"_id": analystDoc["_id"]}
         self.__analystCollection.delete_one(query)
-        pass
+        return

@@ -1,8 +1,8 @@
-from database.analyst import Analyst
-from database.event import Event, EventType, EventClassification
-from database.system import System
-from database.log import LogEntry
-from database.db import Db
+from flaskProject.database.analyst import Analyst
+from flaskProject.database.event import Event, EventType, EventClassification
+from flaskProject.database.system import System
+from flaskProject.database.log import LogEntry
+from flaskProject.database.db import Db
 import datetime
 
 
@@ -30,7 +30,6 @@ class DatabaseHandler:
 
     def deleteEvent(self, analyst, event):
         eventDoc = self.__fromEventToDocument(event)
-
         self.__db.removeEvent(eventDoc)
         return
 
@@ -41,13 +40,12 @@ class DatabaseHandler:
 
     def getEvent(self, event):
         eventDoc = self.__fromEventToDocument(event)
-        self.__db.findEvent(eventDoc)
-        return
+        return self.__fromDocumentToEvent(self.__db.findEvent(eventDoc))
 
     def getAnalyst(self, analyst):
         analystDoc = self.__fromAnalystToDocument(analyst)
-        self.__db.findAnalyst(analystDoc)
-        return
+        return self.__fromDocumentToAnalyst(self.__db.findAnalyst(analystDoc))
+
 
     def getAllAnalyst(self):
         docListAnalyst = self.__db.getAllAnalyst()
@@ -64,6 +62,16 @@ class DatabaseHandler:
             eventList.append(self.__fromDocumentToEvent(document))
 
         return eventList
+
+    def getLogEntry(self, logEntry):
+        logEntryDoc = logEntry.toDocument()
+        return self.__fromDocumentToLogEntry(self.__db.findLogEntry(logEntryDoc))
+
+
+    def getSystem(self, system):
+        systemDoc = self.__fromSystemToDocument(system)
+        return self.__fromDocumentToSystem(self.__db.findSystem(systemDoc))
+
 
     def getAllLogs(self):
         docLogList = self.__db.getAllLogs()
