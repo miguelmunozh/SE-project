@@ -9,6 +9,7 @@
     <form method=post>
         <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditEvent') }}">Edit event</a></button>
         <button type="submit" value="submit" name="ArchiveEvent" class="btn btn-secondary">Archive event</button>
+        <button type="submit" class="btn btn-secondary"><a>Help</a></button>
     </form>
 
     <h3>Event Basic Information</h3>
@@ -74,7 +75,7 @@
     {% endfor %}
     <hr>
 
-    <h3>list of Systems</h3>
+    <h3>Systems Table Overview</h3>
     <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateSystem') }}">Add system</a></button>
     <hr>
     <div class="list-group">

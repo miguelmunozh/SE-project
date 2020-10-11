@@ -1,8 +1,8 @@
-from flaskProject.database.analyst import Analyst
-from flaskProject.database.event import Event, EventType, EventClassification
-from flaskProject.database.system import System
-from flaskProject.database.log import LogEntry
-from flaskProject.database.db import Db
+from database.analyst import Analyst
+from database.event import Event, EventType, EventClassification
+from database.system import System
+from database.log import LogEntry
+from database.db import Db
 import datetime
 
 

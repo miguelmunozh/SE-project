@@ -4,6 +4,7 @@ from flask_bootstrap import Bootstrap
 from database.analyst import Analyst, Role
 from database.databaseHandler import DatabaseHandler
 from database.event import Event, EventType, EventClassification
+from database.system import System
 from forms import *
 from Helper import *
 
@@ -48,12 +49,12 @@ def CreateAnalyst():
 
     form = CreateAnalystForm()
     if 'createAnalyst' in request.form:
-        analyst = Analyst(form.CreateAnalystFName.data, form.CreateAnalystLName.data,
-                          form.CreateAnalystInitials.data, "title",
-                          form.CreateAnalystRole.data)
-        db.updateAnalyst(analyst)
+        a = Analyst(form.CreateAnalystFName.data, form.CreateAnalystLName.data,
+                    form.CreateAnalystInitials.data, "title",
+                    form.CreateAnalystRole.data)
+        db.updateAnalyst(a)
         # get event, add this analyst to the event team
-        event.getEventTeam().append(analyst.getInitial())
+        event.getEventTeam().append(a.getInitial())
         db.updateEvent(analyst, event)
 
         return redirect(url_for("EventView"))
@@ -63,10 +64,10 @@ def CreateAnalyst():
 # function to delete analyst initials from event and db
 @app.route('/EventView/<string:initial>', methods=['GET', 'POST'])
 def deleteAnalyst(initial):
+    global analyst
     events = db.getAllEvents()
     events.reverse()
     event = events[0]
-    analyst = Analyst("jonathan", "roman", "jr", ["jr", "sr"], Role.LEAD.value)
 
     # get the event list of analyst initials and remove the selected one
     event.getEventTeam().remove(initial)
@@ -183,7 +184,14 @@ def CreateEvent():
 
 @app.route('/CreateSystem')
 def CreateSystem():
-    return render_template('CreateSystem.html')
+    # create a form from the forms.py file (need to import the file)
+    form = CreateSystemForm()
+
+    # check if the create event button has been pressed, if so create an event obj
+    if 'createSystem' in request.form:
+        # incomplete
+         system = System()
+    return render_template('CreateSystem.html', system=system)
 
 
 @app.route('/EditSystem')

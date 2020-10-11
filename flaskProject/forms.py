@@ -81,3 +81,38 @@ class CreateAnalystForm(FlaskForm):
                                     choices=[('analyst', 'Non-lead Analyst'),
                                              ('lead', 'Lead Analyst'),
                                              ('collaborator', 'Collaborator')], validators=[DataRequired()])
+
+
+class CreateSystemForm(FlaskForm):
+    systemName = StringField("System Name", validators=[DataRequired()])
+    systemDescription = StringField("system Description")
+    systemLocation = StringField("System Location", validators=[DataRequired()])
+    systemRouter = StringField("System Router", validators=[DataRequired()])
+    systemSwitch = StringField("System Switch", validators=[DataRequired()])
+    systemRoom = StringField("System Room", validators=[DataRequired()])
+    systemTestPlan = StringField("System Test Plan", validators=[DataRequired()])
+    # this one is for the button in system view, set as default at creation
+    # archiveStatus = StringField()
+
+    systemConfidentiality = SelectField("System Confidentiality",
+                                        choices=[('Low', 'Low'),
+                                                 ('Medium', 'Medium'),
+                                                 ('High', 'High')], validators=[DataRequired()])
+    systemIntegrity = SelectField("System Integrity",
+                                  choices=[('Low', 'Low'),
+                                           ('Medium', 'Medium'),
+                                           ('High', 'High')], validators=[DataRequired()])
+    systemAvailability = SelectField("System mAvailability",
+                                     choices=[('Low', 'Low'),
+                                              ('Medium', 'Medium'),
+                                              ('High', 'High')], validators=[DataRequired()])
+
+
+class EditSystemForm(FlaskForm):
+    systemName = StringField("System Name")
+    systemDescription = StringField("system Description")
+    systemLocation = StringField("System Location")
+    systemRouter = StringField("System Router")
+    systemSwitch = StringField("System Switch")
+    systemRoom = StringField("System Room")
+    systemTestPlan = StringField("System Test Plan")

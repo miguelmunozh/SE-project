@@ -5,6 +5,8 @@
 {% block content %}
     <h1>System detailed view </h1>
     <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditSystem') }}">Edit System</a></button>
+    <button type="submit" class="btn btn-secondary"><a>Archive System</a></button>
+    <button type="submit" class="btn btn-secondary"><a>Help</a></button>
     <h3>System Information</h3>
     <h5>Progress:</h5>
     <div class="progress">
@@ -13,27 +15,25 @@
         </div>
     </div>
     <h4>System name</h4>
-    <p>This is some other text.</p>
+    <p>{{ system.getName() }}</p>
     <hr>
     <h4>System description</h4>
-    <p>lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-        lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
-        lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum </p>
+    <p>{{ system.getDescription() }} </p>
     <hr>
     <h4>System Location</h4>
-    <p>This is some other text.</p>
+    <p>{{ system.getLocation() }}</p>
     <hr>
     <h4>System Router</h4>
-    <p>This is some other text.</p>
+    <p>{{ system.getRouter() }}</p>
     <hr>
     <h4>System Switch</h4>
-    <p>This is some other text.</p>
+    <p>{{ system.getSwitch() }}</p>
     <hr>
     <h4>System Room</h4>
-    <p>This is some other text.</p>
+    <p>{{ system.getRoom() }}</p>
     <hr>
     <h4>System Test Plan</h4>
-    <p>This is some other text.</p>
+    <p>{{ system.getTestPlan() }}</p>
     <hr>
 
     <h3>System Categorization</h3>
