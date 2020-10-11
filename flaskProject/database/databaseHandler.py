@@ -30,7 +30,8 @@ class DatabaseHandler:
 
     def deleteEvent(self, analyst, event):
         eventDoc = self.__fromEventToDocument(event)
-        self.__db.removeEvent(eventDoc)
+        analystDoc = self.__fromAnalystToDocument(analyst)
+        self.__db.removeEvent(eventDoc, analystDoc)
         return
 
     def deleteAnalyst(self, analyst):
@@ -45,6 +46,12 @@ class DatabaseHandler:
     def getAnalyst(self, analyst):
         analystDoc = self.__fromAnalystToDocument(analyst)
         return self.__fromDocumentToAnalyst(self.__db.findAnalyst(analystDoc))
+
+    def deleteSystem(self, analyst, system):
+        systemDoc = self.__fromSystemToDocument(system)
+        analystDoc = self.__fromAnalystToDocument(analyst)
+        self.__db.removeSystem(systemDoc, analystDoc)
+        return
 
 
     def getAllAnalyst(self):

@@ -99,7 +99,7 @@ class Db:
             self.__logAction(LogEntry("Started new event: " + eventDoc["name"], analystDoc["initial"]).toDocument())
         except pymongo.errors.DuplicateKeyError:
             self.__updateEvent(eventDoc)
-            self.__logAction(LogEntry("Updated system: " + eventDoc["name"], analystDoc["initial"]).toDocument())
+            self.__logAction(LogEntry("Updated event: " + eventDoc["name"], analystDoc["initial"]).toDocument())
         return
 
     def getAllAnalyst(self):
@@ -129,12 +129,21 @@ class Db:
             logList.append(document)
         return logList
 
-    def removeEvent(self, eventDoc):
+    def removeEvent(self, eventDoc, analystDoc):
         query = {"_id": eventDoc["_id"]}
         self.__eventCollection.delete_one(query)
+        self.__logAction(LogEntry("Deleted event: " + eventDoc["name"], analystDoc["initial"]).toDocument())
         return
 
     def removeAnalyst(self, analystDoc):
         query = {"_id": analystDoc["_id"]}
         self.__analystCollection.delete_one(query)
         return
+
+    def removeSystem(self, systemDoc, analystDoc):
+        query = {"_id": systemDoc["_id"]}
+        self.__systemCollection.delete_one(query)
+        self.__logAction(LogEntry("Deleted system: " + systemDoc["name"], analystDoc["initial"]).toDocument())
+        return
+
+
