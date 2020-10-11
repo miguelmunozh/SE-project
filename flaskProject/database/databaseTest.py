@@ -2,11 +2,31 @@ from flaskProject.database.databaseHandler import DatabaseHandler
 from flaskProject.database.event import Event, EventType, EventClassification
 from flaskProject.database.analyst import Analyst, Role
 from flaskProject.database.system import System
+from flaskProject.database.log import LogEntry
 from datetime import date
 from datetime import datetime
 
 dbHandler = DatabaseHandler()
-# lists = dbHandler.getAllAnalyst()
+list = dbHandler.getAllSystems()
+list2 = dbHandler.getAllLogs()
+system = list[0]
+log = list2[0]
+log2 = dbHandler.getLogEntry(log)
+system2 = dbHandler.getSystem(system)
+print(log2.getId())
+print(log2.getTime().strftime("%m/%d/%Y, %H:%M:%S"))
+print(log2.getAction())
+print(log2.getAnalystInitials())
+print("**************************")
+print(system2.getId())
+print(system2.getName())
+print(system2.getLocation())
+print(system2.getRouter())
+print(system2.getSwitch())
+print(system2.getRoom())
+print(system2.getTestPlan())
+print(system2.getArchiveStatus())
+
 # initials = []
 # for analyst in lists:
 #     initials.append(analyst.getInitial())
@@ -38,16 +58,16 @@ dbHandler = DatabaseHandler()
 #     print(log.getAction())
 #     print(log.getAnalystInitials())
 
-systemList = dbHandler.getAllSystems()
-for system in systemList:
-    print(system.getId())
-    print(system.getName())
-    print(system.getLocation())
-    print(system.getRouter())
-    print(system.getSwitch())
-    print(system.getRoom())
-    print(system.getTestPlan())
-    print(system.getArchiveStatus())
+# systemList = dbHandler.getAllSystems()
+# for system in systemList:
+#     print(system2.getId())
+#     print(system2.getName())
+#     print(system2.getLocation())
+#     print(system2.getRouter())
+#     print(system2.getSwitch())
+#     print(system2.getRoom())
+#     print(system2.getTestPlan())
+#     print(system2.getArchiveStatus())
 
 
 
