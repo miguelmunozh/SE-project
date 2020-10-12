@@ -199,6 +199,131 @@
     <h1>Configuration content Overview </h1>
     <!-- content goes here -->
 
+    <h3>Privileges by Access level</h3>
+    <table class="table table-bordered" id="privileges">
+        <thead class="thread-dark">
+            <tr>
+                <th scope="col">Privileges\Class of Users</th>
+                <th scope="col">Lead Analyst</th>
+                <th scope="col">Analyst</th>
+            </tr>
+            <tr>
+                <td scope="row">Create event</td>
+                <td scope="row">Yes.</td>
+                <td scope="row">No.</td>
+            </tr>
+            <tr>
+                <td scope="row">Create system</td>
+                <td scope="row">Yes.</td>
+                <td scope="row">No.</td>
+            </tr>
+            <tr>
+                <td scope="row">Generate report</td>
+                <td scope="row">Yes.</td>
+                <td scope="row">Yes.</td>
+            </tr>
+            <tr>
+                <td scope="row">Create task</td>
+                <td scope="row">Yes.</td>
+                <td scope="row">No.</td>
+            </tr>
+            <tr>
+                <td scope="row">Create subtask</td>
+                <td scope="row">Yes.</td>
+                <td scope="row">Analyst shall have the ability to
+                                create subtask(s) under a task that
+                                has been assigned to the analyst.</td>
+            </tr>
+            <tr>
+                <td scope="row">Assign task</td>
+                <td scope="row">Yes.</td>
+                <td scope="row">No.</td>
+            </tr>
+            <tr>
+                <td scope="row">Assign subtask</td>
+                <td scope="row">Yes.</td>
+                <td scope="row">No.</td>
+            </tr>
+            <tr>
+                <td scope="row">Sign up for task</td>
+                <td scope="row">N/A</td>
+                <td scope="row">Analyst shall have the ability to sign
+                                up for task only if the lead has
+                                allowed analyst to sign up for task.</td>
+            </tr>
+            <tr>
+                <td scope="row">Add collaborator to a task</td>
+                <td scope="row">Yes.</td>
+                <td scope="row">Analyst shall have the ability to add
+                                collaborator to a task only if the
+                                lead has allowed analyst to sign up
+                                for task and the task has been
+                                assigned to the analyst. If the lead
+                                has opted to assign tasks, then only
+                                the lead shall have the ability to add
+                                collaborators.</td>
+            </tr>
+            <tr>
+                <td scope="row">Add collaborator to a finding</td>
+                <td scope="row">Yes. The collaborator’s initial
+                                shall be propagated up to the
+                                parent subtask and task.</td>
+                <td scope="row">Analyst shall have the ability to add
+                                collaborator to a finding only if the
+                                analyst has write-access to the
+                                finding. The collaborator’s initial
+                                shall be propagated up to the parent
+                                subtask and task.</td>
+            </tr>
+            <tr>
+                <td scope="row">Associate finding (original
+                                finding) to another finding
+                                (associated finding)</td>
+                <td scope="row">Yes. Lead shall have the ability
+                                to establish association between
+                                any findings. If the associated
+                                finding has a different initial
+                                compared to the original finding,
+                                then the collaborator’s initial
+                                shall be propagated up to the
+                                parent subtask and task of the
+                                original finding.</td>
+                <td scope="row">Analyst shall have the ability to
+                                associate finding to another finding
+                                only if the analyst has write-access
+                                or append-access to the finding. If
+                                the associated finding has a
+                                different initial compared to the
+                                original finding, then the
+                                collaborator’s initial shall be
+                                propagated up to the parent subtask
+                                and task of the original finding.</td>
+            </tr>
+             <tr>
+                <td scope="row">Associate task to another task</td>
+                <td scope="row">Yes.</td>
+                <td scope="row">Analyst shall have the ability to
+                                associate task to another task only if
+                                the analyst is assigned to both tasks.</td>
+            </tr>
+             <tr>
+                <td scope="row">Associate subtask to another task</td>
+                <td scope="row">Yes.</td>
+                <td scope="row">Analyst shall have the ability to
+                                associate subtask to another task
+                                only to task that the analyst is
+                                assigned to.</td>
+            </tr>
+             <tr>
+                <td scope="row">Associate subtask to another subtask</td>
+                <td scope="row">Yes.</td>
+                <td scope="row">Analyst shall have the ability to
+                                associate subtask to another task
+                                only if the analyst has write-access
+                                to the subtask.</td>
+            </tr>
+        </thead>
+    </table>
     <h3>Finding type table</h3>
         <div class="well clearfix">
             <a id="updateButton" class="btn btn-primary pull-right add-record mr-1" href="{{ url_for('ConfigurationFindingType')}}" ><i class="glyphicon glyphicon-plus" onclick="findingType()"></i> Add Row</a>
@@ -226,8 +351,8 @@
             <tr id="rec-2">
                 <th><span class="sn">2</span>.</th>
                 <td>Enumeration</td>
-            <td>Manufacturer Default Creds</td>
-            <td>Type of vulnerability/potential issue</td>
+                <td>Manufacturer Default Creds</td>
+                <td>Type of vulnerability/potential issue</td>
                 <td><a class="btn btn-xs delete-record" data-id="2"><i class="glyphicon glyphicon-trash"></i></a>
                     <a class="btn btn-primary pull-right edit-record mr-1" data-added="2"><i class="glyphicon glyphicon-edit"></i> Edit Row</a></td>
 
