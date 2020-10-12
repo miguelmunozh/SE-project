@@ -40,8 +40,8 @@ class CreateEventForm(FlaskForm):
                                                ('CLASSIFIED', 'Classified'),
                                                ('UNCLASSIFIED', 'Unclassified')], validators=[DataRequired()])
     # For event team in event class
-    EventLeadAnalysts = StringField('Event Lead Analysts')
-    EventAnalysts = StringField('Event Analysts')
+    EventLeadAnalysts = StringField('Event Lead Analysts', validators=[DataRequired()])
+    EventAnalysts = StringField('Event Analysts', validators=[DataRequired()])
 
     EventClassifiedBy = StringField('Classified by', validators=[DataRequired()])
     EventDerivedFrom = StringField('Derived from', validators=[DataRequired()])

@@ -20,31 +20,37 @@ db = DatabaseHandler()
 # analyst to pass as parameter to the updateEvent function,(will be deleted when we can know which analyst entered
 # the system)
 analyst = Analyst("jonathan", "roman", "jr", ["jr", "sr"], Role.LEAD.value)
+# event = None
 
 
 @app.route('/', methods=['GET', 'POST'])
 def SetupContentView():
+    # global event
+    # events = db.getAllEvents()
+
     form = SetupContentViewForm()
     # checks if the submit btn in SetupContentView page has been pressed
     if 'LogCreateEvent' in request.form:
         # check if there is an event that is not archived, if so we use that event through the entire app
-        # events = db.getAllEvents()
-        # for e in events:
-        #     # get the actual event (archived = false)
-        #     if not e.getArchiveStatus():
-        #         event = e
-        #     else:
-        #         if event is not None:
-        #             event.setArchiveStatus(True)
-        #             db.updateEvent(analyst, event)
-        #         error = "There is no existing event in your local system"
-        #         return render_template('SetupContentView.html', form=form, error=error)
-
         # redirect to the right page depending on the user selection
         if form.SUCVSelection.data == 'create':
+            # for e in events:
+            #     if not e.getArchiveStatus():
+            #         e.setArchiveStatus(True)
+            #         db.updateEvent(analyst, e)
+            # archive the event then create one
             return redirect(url_for("CreateEvent"))
 
         elif form.SUCVSelection.data == 'sync':
+            # for e in events:
+            #     # if there is an none archived event, set the actual event to that event
+            #     if not e.getArchiveStatus():
+            #         event = e
+            #
+            # if event.getArchiveStatus() == True: # or if event is None?
+            #     error = "There is no existing event in your local system"
+            #     return render_template('SetupContentView.html', form=form, error=error)
+
             if is_valid_ipv4_address(form.SUCVIpAddress.data) or is_valid_ipv6_address(form.SUCVIpAddress.data):
                 return redirect(url_for("EventView"))
             else:
@@ -200,7 +206,7 @@ def CreateSystem():
 
     # check if the create event button has been pressed, if so create an event obj
     if 'createSystem' in request.form:
-        # incomplete
+        # incomplete, need to store the lists as lists in the object
         system = System(form.systemName.data,
                         form.systemDescription.data,
                         form.systemLocation.data,
@@ -213,7 +219,7 @@ def CreateSystem():
                         form.systemIntegrity.data,
                         form.systemAvailability.data)
 
-        db.updateSystem(system)
+        db.updateSystem(analyst, system)
 
     # HOW TO RELATE THE SYSTEM TO KNOW FROM WHICH EVENT IT'S COMMING FROM
     return render_template('CreateSystem.html')
