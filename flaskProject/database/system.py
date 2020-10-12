@@ -1,8 +1,49 @@
+from enum import Enum
+class Confidentiality(Enum):
+    LOW = "Low"
+    MEDIUM = "Medium"
+    HIGH = "High"
+    INFO = "Information"
 
+    @staticmethod
+    def getMember(value: str):
+        for member in Confidentiality:
+            if member.value == value:
+                return member
+
+class Integrity(Enum):
+    LOW = 'Low'
+    MEDIUM = 'Medium'
+    HIGH = 'High'
+    INFO = 'Information'
+
+    @staticmethod
+    def getMember(value: str):
+        for member in Integrity:
+            if member.value == value:
+                return member
+
+
+class Availability(Enum):
+    LOW = 'Low'
+    MEDIUM = 'Medium'
+    HIGH = 'High'
+    INFO = 'Information'
+
+    @staticmethod
+    def getMember(value: str):
+        for member in Availability:
+            if member.value == value:
+                return member
 
 class System:
 
-    def __init__(self, name: str = "", description: str = "", location: list = [], router: list = [], switch: list = [], room: list = [], testPlan: str = "", archiveStatus: bool = False ):
+    def __init__(self, name: str = "", description: str = "", location: list = [],
+                 router: list = [], switch: list = [], room: list = [],
+                 testPlan: str = "", archiveStatus: bool = False,
+                 confidentiality = None,
+                 integrity = None,
+                 availability = None):
         self.__id = -1
         self.__name = name
         self.__description = description
@@ -12,6 +53,9 @@ class System:
         self.__room = room
         self.__testPlan = testPlan
         self.__archiveStatus = archiveStatus
+        self.__confidentiality = confidentiality
+        self.__integrity = integrity
+        self.__availability = availability
 
 
     def getId(self):
@@ -41,6 +85,15 @@ class System:
     def getArchiveStatus(self):
         return self.__archiveStatus
 
+    def getConfidentiality(self):
+        return self.__confidentiality
+
+    def getIntegrity(self):
+        return self.__integrity
+
+    def getAvailability(self):
+        return self.__availability
+
 
     def setId(self, id):
         self.__id = id
@@ -68,3 +121,12 @@ class System:
 
     def setArchiveStatus(self, archiveStatus: bool):
         self.__archiveStatus = archiveStatus
+
+    def setConfidentiality(self, confidentiality):
+        self.__confidentiality = confidentiality
+
+    def setIntegrity(self, integrity):
+        self.__integrity = integrity
+
+    def setAvailability(self, availability):
+        self.__availability = availability
