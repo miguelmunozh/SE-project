@@ -20,23 +20,25 @@ db = DatabaseHandler()
 # analyst to pass as parameter to the updateEvent function,(will be deleted when we can know which analyst entered
 # the system)
 analyst = Analyst("jonathan", "roman", "jr", ["jr", "sr"], Role.LEAD.value)
-event = None
 
 
 @app.route('/', methods=['GET', 'POST'])
 def SetupContentView():
-    global event
     form = SetupContentViewForm()
     # checks if the submit btn in SetupContentView page has been pressed
     if 'LogCreateEvent' in request.form:
         # check if there is an event that is not archived, if so we use that event through the entire app
-        events = db.getAllEvents()
-        for e in events:
-            if not e.getArchiveStatus():
-                event = e
-            else:
-                error = "There is no existing event in your local system"
-                return render_template('SetupContentView.html', form=form, error=error)
+        # events = db.getAllEvents()
+        # for e in events:
+        #     # get the actual event (archived = false)
+        #     if not e.getArchiveStatus():
+        #         event = e
+        #     else:
+        #         if event is not None:
+        #             event.setArchiveStatus(True)
+        #             db.updateEvent(analyst, event)
+        #         error = "There is no existing event in your local system"
+        #         return render_template('SetupContentView.html', form=form, error=error)
 
         # redirect to the right page depending on the user selection
         if form.SUCVSelection.data == 'create':
@@ -55,6 +57,9 @@ def SetupContentView():
 
 @app.route('/CreateAnalyst', methods=['GET', 'POST'])
 def CreateAnalyst():
+    events = db.getAllEvents()
+    events.reverse()
+    event = events[0]
     form = CreateAnalystForm()
     if 'createAnalyst' in request.form:
         a = Analyst(form.CreateAnalystFName.data, form.CreateAnalystLName.data,
@@ -73,7 +78,9 @@ def CreateAnalyst():
 @app.route('/EventView/<string:initial>', methods=['GET', 'POST'])
 def deleteAnalyst(initial):
     global analyst
-
+    events = db.getAllEvents()
+    events.reverse()
+    event = events[0]
     # get the event list of analyst initials and remove the selected one (will change when we store a list of
     # analysts instead of a list of initials)
     event.getEventTeam().remove(initial)
@@ -87,6 +94,9 @@ def deleteAnalyst(initial):
 
 @app.route('/EventView', methods=['GET', 'POST'])
 def EventView():
+    events = db.getAllEvents()
+    events.reverse()
+    event = events[0]
     # check if archive event button has been pressed, if so, set it to be archived and redirect to main page
     if 'ArchiveEvent' in request.form:
         event.setArchiveStatus(True)
@@ -99,6 +109,9 @@ def EventView():
 
 @app.route('/EditEvent', methods=['GET', 'POST'])
 def EditEvent():
+    events = db.getAllEvents()
+    events.reverse()
+    event = events[0]
     form = EditEventForm()
     # populate the form with the data of the actual event
     if request.method == 'GET':
