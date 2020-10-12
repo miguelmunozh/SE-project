@@ -111,7 +111,10 @@ class DatabaseHandler:
                 "switch": system.getSwitch(),
                 "room": system.getRoom(),
                 "testPlan": system.getTestPlan(),
-                "archiveStatus": system.getArchiveStatus()}
+                "archiveStatus": system.getArchiveStatus(),
+                "confidentiality": system.getConfidentiality(),
+                "integrity": system.getIntegrity(),
+                "availability": system.getAvailability()}
             return systemDoc
         else:
             systemDoc = {
@@ -123,7 +126,11 @@ class DatabaseHandler:
                 "switch": system.getSwitch(),
                 "room": system.getRoom(),
                 "testPlan": system.getTestPlan(),
-                "archiveStatus": system.getArchiveStatus()}
+                "archiveStatus": system.getArchiveStatus(),
+                "confidentiality": system.getConfidentiality(),
+                "integrity": system.getIntegrity(),
+                "availability": system.getAvailability()
+            }
             return systemDoc
 
     def __fromDocumentToSystem(self, document):
@@ -138,6 +145,9 @@ class DatabaseHandler:
         system.setLocation(document["location"])
         system.setTestplan(document["testPlan"])
         system.setArchiveStatus(document["archiveStatus"])
+        system.setConfidentiality(document["confidentiality"])
+        system.setIntegrity(document["integrity"])
+        system.setAvailability(document["availability"])
 
         return system
 
