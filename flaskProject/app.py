@@ -17,47 +17,55 @@ app.config['SECRET_KEY'] = 'encrypted'
 # get instance of db
 db = DatabaseHandler()
 
-# analyst to pass as parameter to the updateEvent function, used in order to compile
+# analyst to pass as parameter to the updateEvent function,(will be deleted when we can know which analyst entered
+# the system)
 analyst = Analyst("jonathan", "roman", "jr", ["jr", "sr"], Role.LEAD.value)
+event = None
 
 
 @app.route('/', methods=['GET', 'POST'])
 def SetupContentView():
+    global event
     form = SetupContentViewForm()
     # checks if the submit btn in SetupContentView page has been pressed
     if 'LogCreateEvent' in request.form:
+        # check if there is an event that is not archived, if so we use that event through the entire app
+        events = db.getAllEvents()
+        for e in events:
+            if not e.getArchiveStatus():
+                event = e
+            else:
+                error = "There is no existing event in your local system"
+                return render_template('SetupContentView.html', form=form, error=error)
+
         # redirect to the right page depending on the user selection
         if form.SUCVSelection.data == 'create':
-            # print(form.SUCVInitials.data)
             return redirect(url_for("CreateEvent"))
 
         elif form.SUCVSelection.data == 'sync':
             if is_valid_ipv4_address(form.SUCVIpAddress.data) or is_valid_ipv6_address(form.SUCVIpAddress.data):
                 return redirect(url_for("EventView"))
             else:
-                # flash an error message
-                flash("The Ip Address is not valid")
+                # show an error message for invalid ip address
+                ipError = "The Ip Address is not valid"
+                return render_template('SetupContentView.html', form=form, ipError=ipError)
 
     return render_template('SetupContentView.html', form=form)
 
 
 @app.route('/CreateAnalyst', methods=['GET', 'POST'])
 def CreateAnalyst():
-    events = db.getAllEvents()
-    events.reverse()
-    event = events[0]
-
     form = CreateAnalystForm()
     if 'createAnalyst' in request.form:
         a = Analyst(form.CreateAnalystFName.data, form.CreateAnalystLName.data,
                     form.CreateAnalystInitials.data, "title",
                     form.CreateAnalystRole.data)
         db.updateAnalyst(a)
-        # get event, add this analyst to the event team
+        # add this analyst to the event team of actual event
         event.getEventTeam().append(a.getInitial())
         db.updateEvent(analyst, event)
-
         return redirect(url_for("EventView"))
+
     return render_template('CreateAnalyst.html', form=form)
 
 
@@ -65,11 +73,9 @@ def CreateAnalyst():
 @app.route('/EventView/<string:initial>', methods=['GET', 'POST'])
 def deleteAnalyst(initial):
     global analyst
-    events = db.getAllEvents()
-    events.reverse()
-    event = events[0]
 
-    # get the event list of analyst initials and remove the selected one
+    # get the event list of analyst initials and remove the selected one (will change when we store a list of
+    # analysts instead of a list of initials)
     event.getEventTeam().remove(initial)
     db.updateEvent(analyst, event)
     # delete analyst object from the db as well?
@@ -81,9 +87,6 @@ def deleteAnalyst(initial):
 
 @app.route('/EventView', methods=['GET', 'POST'])
 def EventView():
-    events = db.getAllEvents()
-    events.reverse()
-    event = events[0]
     # check if archive event button has been pressed, if so, set it to be archived and redirect to main page
     if 'ArchiveEvent' in request.form:
         event.setArchiveStatus(True)
@@ -96,10 +99,6 @@ def EventView():
 
 @app.route('/EditEvent', methods=['GET', 'POST'])
 def EditEvent():
-    events = db.getAllEvents()
-    events.reverse()
-    event = events[0]
-
     form = EditEventForm()
     # populate the form with the data of the actual event
     if request.method == 'GET':
@@ -115,7 +114,6 @@ def EditEvent():
         form.EditEventDeclassificationDate.data = datetime.strptime(event.getDeclassificationDate(), '%m/%d/%Y')
         form.EditEventSCTG.data = event.getSecurityClassificationTitleGuide()
         form.EditEventClassification.data = event.getEventClassification()
-        form.EditEventArchiveStatus.data = event.getArchiveStatus()
 
     if 'editEvent' in request.form:
         event.setName(form.EditEventName.data)
@@ -145,7 +143,7 @@ def CreateEvent():
 
     # check if the create event button has been pressed, if so create an event obj
     if 'createEvent' in request.form:
-        # get analysts lists together
+        # get analysts lists together, (will change when we store a list of analysts instead of a list of initials)
         lead = form.EventLeadAnalysts.data
         list1 = list(lead.split("-"))
         nonLead = form.EventAnalysts.data
@@ -190,8 +188,22 @@ def CreateSystem():
     # check if the create event button has been pressed, if so create an event obj
     if 'createSystem' in request.form:
         # incomplete
-         system = System()
-    return render_template('CreateSystem.html', system=system)
+        system = System(form.systemName.data,
+                        form.systemDescription.data,
+                        form.systemLocation.data,
+                        form.systemRouter.data,
+                        form.systemSwitch.data,
+                        form.systemRoom.data,
+                        form.systemTestPlan.data,
+                        False,
+                        form.systemConfidentiality.data,
+                        form.systemIntegrity.data,
+                        form.systemAvailability.data)
+
+        db.updateSystem(system)
+
+    # HOW TO RELATE THE SYSTEM TO KNOW FROM WHICH EVENT IT'S COMMING FROM
+    return render_template('CreateSystem.html')
 
 
 @app.route('/EditSystem')
