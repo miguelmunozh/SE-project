@@ -3,94 +3,38 @@
 
 <!-- html code for the body of the page-->
 {% block content %}
-    <h1>list of all Systems in event</h1>
+    <h3>Systems Overview</h3>
+    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateSystem') }}">Add system</a></button>
+    <hr>
     <div class="list-group">
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <br>
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('SystemView') }}">
-                    <h5 class="mb-1">System 1</h5>
-                </a>
-                <small>No. of Tasks: 4 </small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-            </div>
-            <p class="mb-1">Description of what the System is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
+        {% for system in systemList %}
+            <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+                <br>
+                <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                    <a type="submit" href="{{ url_for('SystemView', system=system.getId()) }}">
+                        <h5 class="mb-1">{{ system.getName() }}</h5>
+                    </a>
+                    <small>No. of Tasks: 4 </small>
+                    <b>|</b>
+                    <small>No. of Findings: 2</small>
                 </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-4">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <br>
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('SystemView') }}">
-                    <h5 class="mb-1">System 2</h5>
-                </a>
-                <small>No. of Tasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-            </div>
-            <p class="mb-1">Description of what the System is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
+                <p class="mb-1">{{ system.getDescription() }}</p>
+                <h5>Progress:</h5>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                         aria-valuemin="0"
+                         aria-valuemax="100">25%
+                    </div>
                 </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-4">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <br>
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('SystemView') }}">
-                    <h5 class="mb-1">System 3</h5>
-                </a>
-                <small>No. of Tasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-            </div>
-            <p class="mb-1">Description of what the System is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-4">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <br>
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('SystemView') }}">
-                    <h5 class="mb-1">System 4</h5>
-                </a>
-                <small>No. of Tasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-            </div>
-            <p class="mb-1">Description of what the System is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-4">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
-            </div>
-        </div>
-    </div>
+                <div class="custom-control custom-checkbox mb-4">
+                    <form action="{{ url_for('ArchiveSystem', system=system.getId()) }}" method=post>
 
+                        <button type="submit" class="btn btn-secondary">Archive System</a></button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock content %}
 
 {% block sidebar %}
@@ -100,8 +44,9 @@
         <p class='text-muted'>You can put any information here you'd like.
         <ul class="list-group">
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
-                        <li class="list-group-item list-group-item-light"><a href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
-<li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
+            <li class="list-group-item list-group-item-light"><a
+                    href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>

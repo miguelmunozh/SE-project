@@ -4,9 +4,12 @@
 <!-- html code for the body of the page-->
 {% block content %}
     <h1>System detailed view </h1>
-    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditSystem', system=system.getId()) }}">Edit
-        System</a></button>
-    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('Help') }}">Help</a></button>
+    <form method=post>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditSystem', system=system.getId()) }}">Edit
+            System</a></button>
+        <button type="submit" value="submit" name="ArchiveSystem" class="btn btn-secondary">Archive System</button>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('Help') }}">Help</a></button>
+    </form>
     <h3>System Information</h3>
     <h5>Progress:</h5>
     <div class="progress">

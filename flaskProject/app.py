@@ -108,7 +108,10 @@ def EventView():
     events.reverse()
     event = events[0]
     # get list of systems for this event and pass them as parameter (currently returning all systems in db)
-    systemList = db.getAllSystems()
+    systemList = []
+    for system in db.getAllSystems():
+        if system.getArchiveStatus() == False:
+            systemList.append(system)
 
     # check if archive event button has been pressed, if so, set it to be archived and redirect to main page
     if 'ArchiveEvent' in request.form:
@@ -242,7 +245,7 @@ def CreateSystem():
                         form.systemAvailability.data)
 
         db.updateSystem(analyst, system)
-        return redirect(url_for("EventView"))
+        return redirect(url_for("Systems"))
 
     # HOW TO RELATE THE SYSTEM TO KNOW FROM WHICH EVENT IT'S COMMING FROM
     return render_template('CreateSystem.html', form=form)
@@ -253,6 +256,12 @@ def SystemView(system):
     for s in db.getAllSystems():
         if s.getId() == ObjectId(system):
             sys = db.getSystem(s)
+
+    # check if archive event button has been pressed, if so, set it to be archived and redirect to main page
+    if 'ArchiveSystem' in request.form:
+        sys.setArchiveStatus(True)
+        db.updateSystem(analyst, sys)
+        return redirect(url_for('EventView'))
 
     return render_template('SystemView.html', system=sys)
 
@@ -474,7 +483,24 @@ def AnalystProgressSummaryContentView():
 
 @app.route('/Systems')
 def Systems():
-    return render_template('Systems.html')
+    # get list of systems for this event and pass them as parameter (currently returning all systems in db)
+    systemList = []
+    for system in db.getAllSystems():
+        if system.getArchiveStatus() == False:
+            systemList.append(system)
+
+    return render_template('Systems.html', systemList=systemList)
+
+
+# function to delete analyst initials from event and db
+@app.route('/Systems/<system>', methods=['GET', 'POST'])
+def ArchiveSystem(system):
+    for s in db.getAllSystems():
+        if s.getId() == ObjectId(system):
+            s.setArchiveStatus(True)
+            db.updateSystem(analyst, s)
+            return redirect(url_for('Systems'))
+    return redirect(url_for('Systems'))
 
 
 if __name__ == '__main__':
