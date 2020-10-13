@@ -79,90 +79,30 @@
     <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateSystem') }}">Add system</a></button>
     <hr>
     <div class="list-group">
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <br>
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('SystemView') }}">
-                    <h5 class="mb-1">System 1</h5>
-                </a>
-                <small>No. of Tasks: 4 </small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-            </div>
-            <p class="mb-1">Description of what the System is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
+        {% for system in systemList %}
+            <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+                <br>
+                <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                    <a type="submit" href="{{ url_for('SystemView', system=system.getId()) }}">
+                        <h5 class="mb-1">{{ system.getName() }}</h5>
+                    </a>
+                    <small>No. of Tasks: 4 </small>
+                    <b>|</b>
+                    <small>No. of Findings: 2</small>
+                </div>
+                <p class="mb-1">{{ system.getDescription() }}</p>
+                <h5>Progress:</h5>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                         aria-valuemin="0"
+                         aria-valuemax="100">25%
+                    </div>
+                </div>
+                <div class="custom-control custom-checkbox mb-4">
+                    <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
                 </div>
             </div>
-            <div class="custom-control custom-checkbox mb-4">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <br>
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('SystemView') }}">
-                    <h5 class="mb-1">System 2</h5>
-                </a>
-                <small>No. of Tasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-            </div>
-            <p class="mb-1">Description of what the System is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-4">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <br>
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('SystemView') }}">
-                    <h5 class="mb-1">System 3</h5>
-                </a>
-                <small>No. of Tasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-            </div>
-            <p class="mb-1">Description of what the System is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-4">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <br>
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('SystemView') }}">
-                    <h5 class="mb-1">System 4</h5>
-                </a>
-                <small>No. of Tasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-            </div>
-            <p class="mb-1">Description of what the System is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-4">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive System</a></button>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 {% endblock content %}
 

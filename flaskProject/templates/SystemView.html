@@ -4,9 +4,9 @@
 <!-- html code for the body of the page-->
 {% block content %}
     <h1>System detailed view </h1>
-    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditSystem') }}">Edit System</a></button>
-    <button type="submit" class="btn btn-secondary"><a>Archive System</a></button>
-    <button type="submit" class="btn btn-secondary"><a>Help</a></button>
+    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditSystem', system=system.getId()) }}">Edit
+        System</a></button>
+    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('Help') }}">Help</a></button>
     <h3>System Information</h3>
     <h5>Progress:</h5>
     <div class="progress">
@@ -21,16 +21,40 @@
     <p>{{ system.getDescription() }} </p>
     <hr>
     <h4>System Location</h4>
-    <p>{{ system.getLocation() }}</p>
+    {% for loc in system.getLocation() %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ loc }}
+            </li>
+        </ul>
+    {% endfor %}
     <hr>
     <h4>System Router</h4>
-    <p>{{ system.getRouter() }}</p>
+    {% for router in system.getRouter() %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ router }}
+            </li>
+        </ul>
+    {% endfor %}
     <hr>
     <h4>System Switch</h4>
-    <p>{{ system.getSwitch() }}</p>
+    {% for switch in system.getSwitch() %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ switch }}
+            </li>
+        </ul>
+    {% endfor %}
     <hr>
     <h4>System Room</h4>
-    <p>{{ system.getRoom() }}</p>
+    {% for room in system.getRoom() %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ room }}
+            </li>
+        </ul>
+    {% endfor %}
     <hr>
     <h4>System Test Plan</h4>
     <p>{{ system.getTestPlan() }}</p>
@@ -162,12 +186,14 @@
         <p class='text-muted'>You can put any information here you'd like.
         <ul class="list-group">
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
-                        <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
-<li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
+            <li class="list-group-item list-group-item-light"><a
+                    href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived Contents</a>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived
+                Contents</a>
             </li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
                 Configuration</a></li>

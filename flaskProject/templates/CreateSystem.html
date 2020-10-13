@@ -4,48 +4,58 @@
 <!-- html code for the body of the page-->
 {% block content %}
     <h1>Create System</h1>
-    <form>
+    <form method="POST">
         <div class="form-group">
-            <label>Name</label>
-            <input type="text" class="form-control">
+            {{ form.systemName.label }}
+            <br>
+            {{ form.systemName(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Location</label>
-            <input type="text" class="form-control">
+            {{ form.systemLocation.label }}
+            <br>
+            {{ form.systemLocation(class_="form-control", placeholder="location 1-location 2") }}
         </div>
         <div class="form-group">
-            <label>Router</label>
-            <input type="text" class="form-control">
+            {{ form.systemRouter.label }}
+            <br>
+            {{ form.systemRouter(class_="form-control", placeholder="router 1-router 2") }}
         </div>
         <div class="form-group">
-            <label>Switch</label>
-            <input type="text" class="form-control">
+            {{ form.systemSwitch.label }}
+            <br>
+            {{ form.systemSwitch(class_="form-control", placeholder="switch 1-switch 2") }}
         </div>
         <div class="form-group">
-            <label>Room</label>
-            <input type="text" class="form-control">
+            {{ form.systemRoom.label }}
+            <br>
+            {{ form.systemRoom(class_="form-control", placeholder="room 1-room 2") }}
         </div>
         <div class="form-group">
-            <label>System Test Plan</label>
-            <input type="text" class="form-control">
+            {{ form.systemTestPlan.label }}
+            <br>
+            {{ form.systemTestPlan(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Confidentiality</label>
-            <input type="text" class="form-control">
+            {{ form.systemConfidentiality.label }}
+            <br>
+            {{ form.systemConfidentiality(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Integrated</label>
-            <input type="text" class="form-control">
+            {{ form.systemIntegrity.label }}
+            <br>
+            {{ form.systemIntegrity(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>System Availability</label>
-            <input type="text" class="form-control">
+            {{ form.systemAvailability.label }}
+            <br>
+            {{ form.systemAvailability(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label for="exampleFormControlTextarea1">Description</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+            {{ form.systemDescription.label }}
+            <br>
+            {{ form.systemDescription(class_="form-control") }}
         </div>
-        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EventView') }}">Create</a></button>
+        <button type="submit" class="btn btn-secondary" name="createSystem">Create</button>
         <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EventView') }}">Cancel</a></button>
     </form>
     <br>

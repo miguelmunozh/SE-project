@@ -1,4 +1,6 @@
 from datetime import datetime, date
+
+from bson import ObjectId
 from flask import Flask, render_template, url_for, request, redirect, flash
 from flask_bootstrap import Bootstrap
 from database.analyst import Analyst, Role
@@ -22,29 +24,37 @@ db = DatabaseHandler()
 analyst = Analyst("jonathan", "roman", "jr", ["jr", "sr"], Role.LEAD.value)
 
 
+# event = None
+
+
 @app.route('/', methods=['GET', 'POST'])
 def SetupContentView():
+    # global event
+    # events = db.getAllEvents()
+
     form = SetupContentViewForm()
     # checks if the submit btn in SetupContentView page has been pressed
     if 'LogCreateEvent' in request.form:
         # check if there is an event that is not archived, if so we use that event through the entire app
-        # events = db.getAllEvents()
-        # for e in events:
-        #     # get the actual event (archived = false)
-        #     if not e.getArchiveStatus():
-        #         event = e
-        #     else:
-        #         if event is not None:
-        #             event.setArchiveStatus(True)
-        #             db.updateEvent(analyst, event)
-        #         error = "There is no existing event in your local system"
-        #         return render_template('SetupContentView.html', form=form, error=error)
-
         # redirect to the right page depending on the user selection
         if form.SUCVSelection.data == 'create':
+            # for e in events:
+            #     if not e.getArchiveStatus():
+            #         e.setArchiveStatus(True)
+            #         db.updateEvent(analyst, e)
+            # archive the event then create one
             return redirect(url_for("CreateEvent"))
 
         elif form.SUCVSelection.data == 'sync':
+            # for e in events:
+            #     # if there is an none archived event, set the actual event to that event
+            #     if not e.getArchiveStatus():
+            #         event = e
+            #
+            # if event.getArchiveStatus() == True: # or if event is None?
+            #     error = "There is no existing event in your local system"
+            #     return render_template('SetupContentView.html', form=form, error=error)
+
             if is_valid_ipv4_address(form.SUCVIpAddress.data) or is_valid_ipv6_address(form.SUCVIpAddress.data):
                 return redirect(url_for("EventView"))
             else:
@@ -97,6 +107,9 @@ def EventView():
     events = db.getAllEvents()
     events.reverse()
     event = events[0]
+    # get list of systems for this event and pass them as parameter (currently returning all systems in db)
+    systemList = db.getAllSystems()
+
     # check if archive event button has been pressed, if so, set it to be archived and redirect to main page
     if 'ArchiveEvent' in request.form:
         event.setArchiveStatus(True)
@@ -104,7 +117,7 @@ def EventView():
         return redirect(url_for('SetupContentView'))
 
     # pass event as parameter to use the event variable in the EventView.html
-    return render_template('EventView.html', event=event, db=db)
+    return render_template('EventView.html', event=event, db=db, systemList=systemList)
 
 
 @app.route('/EditEvent', methods=['GET', 'POST'])
@@ -144,7 +157,7 @@ def EditEvent():
 
         db.updateEvent(analyst, event)
 
-        return redirect(url_for("EventView", event=event))
+        return redirect(url_for("EventView"))
 
     return render_template('EditEvent.html', event=event, form=form)  # pass parameter to populate with placeholders
 
@@ -159,8 +172,10 @@ def CreateEvent():
         # get analysts lists together, (will change when we store a list of analysts instead of a list of initials)
         lead = form.EventLeadAnalysts.data
         list1 = list(lead.split("-"))
+
         nonLead = form.EventAnalysts.data
         list2 = list(nonLead.split("-"))
+        # represents the event team which is a list including lead and non-lead analysts
         initialsList = list1 + list2
 
         # list of analyst objects (to use later, when we change initials for analysts objects)
@@ -193,40 +208,103 @@ def CreateEvent():
     return render_template('CreateEvent.html', form=form)
 
 
-@app.route('/CreateSystem')
+@app.route('/CreateSystem', methods=['GET', 'POST'])
 def CreateSystem():
     # create a form from the forms.py file (need to import the file)
     form = CreateSystemForm()
 
     # check if the create event button has been pressed, if so create an event obj
     if 'createSystem' in request.form:
-        # incomplete
+        # GET THE LIST VALUES (make them real lists to pass as parameters)
+        locations = form.systemLocation.data
+        locationsList = list(locations.split("-"))
+
+        routers = form.systemRouter.data
+        routersList = list(routers.split("-"))
+
+        switches = form.systemSwitch.data
+        switchesList = list(switches.split("-"))
+
+        rooms = form.systemRoom.data
+        roomsList = list(rooms.split("-"))
+
+        # incomplete, need to store the lists as lists in the object
         system = System(form.systemName.data,
                         form.systemDescription.data,
-                        form.systemLocation.data,
-                        form.systemRouter.data,
-                        form.systemSwitch.data,
-                        form.systemRoom.data,
+                        locationsList,
+                        routersList,
+                        switchesList,
+                        roomsList,
                         form.systemTestPlan.data,
                         False,
                         form.systemConfidentiality.data,
                         form.systemIntegrity.data,
                         form.systemAvailability.data)
 
-        db.updateSystem(system)
+        db.updateSystem(analyst, system)
+        return redirect(url_for("EventView"))
 
     # HOW TO RELATE THE SYSTEM TO KNOW FROM WHICH EVENT IT'S COMMING FROM
-    return render_template('CreateSystem.html')
+    return render_template('CreateSystem.html', form=form)
 
 
-@app.route('/EditSystem')
-def EditSystem():
-    return render_template('EditSystem.html')
+@app.route('/SystemView/<system>', methods=['GET', 'POST'])
+def SystemView(system):
+    for s in db.getAllSystems():
+        if s.getId() == ObjectId(system):
+            sys = db.getSystem(s)
+
+    return render_template('SystemView.html', system=sys)
 
 
-@app.route('/SystemView')
-def SystemView():
-    return render_template('SystemView.html')
+@app.route('/EditSystem/<system>', methods=['GET', 'POST'])
+def EditSystem(system):
+    for s in db.getAllSystems():
+        if s.getId() == ObjectId(system):
+            sys = db.getSystem(s)
+
+    form = EditSystemForm()
+    # populate the form with the data of the system to edit
+    if request.method == 'GET':
+        # fix the lists, (NEED SOME WORK)
+        locations = "-".join(sys.getLocation())
+        routers = "-".join(sys.getRouter())
+        switches = "-".join(sys.getSwitch())
+        rooms = "-".join(sys.getRoom())
+        form.EditSystemName.data = sys.getName()
+        form.EditSystemDescription.data = sys.getDescription()
+        form.EditSystemLocation.data = locations
+        form.EditSystemRouter.data = routers
+        form.EditSystemSwitch.data = switches
+        form.EditSystemRoom.data = rooms
+        form.EditSystemTestPlan.data = sys.getTestPlan()
+
+    if 'editSystem' in request.form:
+        # GET THE LIST VALUES (make them real lists to pass as parameters)
+        locations = form.EditSystemLocation.data
+        locationsList = list(locations.split("-"))
+
+        routers = form.EditSystemRouter.data
+        routersList = list(routers.split("-"))
+
+        switches = form.EditSystemSwitch.data
+        switchesList = list(switches.split("-"))
+
+        rooms = form.EditSystemRoom.data
+        roomsList = list(rooms.split("-"))
+
+        sys.setName(form.EditSystemName.data)
+        sys.setDescription(form.EditSystemDescription.data)
+        sys.setLocation(locationsList)
+        sys.setRouter(routersList)
+        sys.setSwitch(switchesList)
+        sys.setRoom(roomsList)
+        sys.setTestplan(form.EditSystemTestPlan.data)
+
+        db.updateSystem(analyst, sys)
+        return redirect(url_for("SystemView", system=sys.getId()))
+
+    return render_template('EditSystem.html', form=form, system=sys)
 
 
 @app.route('/CreateTask')
