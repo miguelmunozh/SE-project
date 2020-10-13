@@ -42,7 +42,7 @@
             {{ form.EditSystemDescription(class_="form-control") }}
         </div>
         <button type="submit" class="btn btn-secondary" name="editSystem">Edit</button>
-        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('SystemView', system=system) }}">Cancel</a>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('SystemView', system=system.getId()) }}">Cancel</a>
         </button>
     </form>
     <br>
