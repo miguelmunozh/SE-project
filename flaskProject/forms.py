@@ -6,6 +6,8 @@ from wtforms.fields.html5 import DateField
 
 # These forms are created using flask-wdt (need pip installation)
 # each form creates the fields we need for the form, we still need the html file and each form is represented as a class
+# TO-DO: change selection strings for enumeration types
+
 
 class SetupContentViewForm(FlaskForm):
     # field to input a string with the label of 'Event Name'
@@ -109,10 +111,10 @@ class CreateSystemForm(FlaskForm):
 
 
 class EditSystemForm(FlaskForm):
-    systemName = StringField("System Name")
-    systemDescription = StringField("system Description")
-    systemLocation = StringField("System Location")
-    systemRouter = StringField("System Router")
-    systemSwitch = StringField("System Switch")
-    systemRoom = StringField("System Room")
-    systemTestPlan = StringField("System Test Plan")
+    EditSystemName = StringField("System Name")
+    EditSystemDescription = StringField("system Description")
+    EditSystemLocation = StringField("System Location")
+    EditSystemRouter = StringField("System Router")
+    EditSystemSwitch = StringField("System Switch")
+    EditSystemRoom = StringField("System Room")
+    EditSystemTestPlan = StringField("System Test Plan")
