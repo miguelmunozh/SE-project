@@ -280,12 +280,13 @@ def EditSystem(system):
         routers = "-".join(sys.getRouter())
         switches = "-".join(sys.getSwitch())
         rooms = "-".join(sys.getRoom())
+
         form.EditSystemName.data = sys.getName()
         form.EditSystemDescription.data = sys.getDescription()
-        form.EditSystemLocation.data = locations
-        form.EditSystemRouter.data = routers
-        form.EditSystemSwitch.data = switches
-        form.EditSystemRoom.data = rooms
+        form.EditSystemLocation.data = str(locations)
+        form.EditSystemRouter.data = str(routers)
+        form.EditSystemSwitch.data = str(switches)
+        form.EditSystemRoom.data = str(rooms)
         form.EditSystemTestPlan.data = sys.getTestPlan()
 
     if 'editSystem' in request.form:
