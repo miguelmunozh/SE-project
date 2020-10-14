@@ -75,111 +75,36 @@
     <p>{{ system.getAvailability() }}</p>
     <hr>
 
-    <h3>list of tasks</h3>
-    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateTask') }}">Add Task</a></button>
-    <hr>
-    <div class="list-group">
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 1</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>System: system 1</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>
-                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 2</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>System: system 1</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>
-                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 3</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>System: system 1</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>
-                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 4</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>System: system 1</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>
-                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>
-            </div>
-        </div>
-    </div>
+{#    <h3>list of tasks</h3>#}
+{#    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateTask') }}">Add Task</a></button>#}
+{#    <hr>#}
+{#    <div class="list-group">#}
+{#        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">#}
+{#            <div class="d-flex w-100 p-3 flex-fill justify-content-between">#}
+{#                <a href="{{ url_for('TaskView') }}">#}
+{#                    <h4 class="mb-1">task 1</h4>#}
+{#                </a>#}
+{#                <small>No. of Subtasks: 4</small>#}
+{#                <b>|</b>#}
+{#                <small>No. of Findings: 2</small>#}
+{#                <small>Priority: low</small>#}
+{#                <h5>Aanalyst: Jonathan Roman</h5>#}
+{#                <h5>System: system 1</h5>#}
+{#                <h5>Due date: 04/08/2020</h5>#}
+{#            </div>#}
+{#            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>#}
+{#            <h5>Progress:</h5>#}
+{#            <div class="progress">#}
+{#                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"#}
+{#                     aria-valuemax="100">25%#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="custom-control custom-checkbox mb-3">#}
+{#                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>#}
+{#                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 {% endblock content %}
 
 {% block sidebar %}
