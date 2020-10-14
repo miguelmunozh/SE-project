@@ -24,18 +24,19 @@ db = DatabaseHandler()
 analyst = Analyst("jonathan", "roman", "jr", ["jr", "sr"], Role.LEAD.value)
 notEvent = False
 events = db.getAllEvents()
+# print(events)
 # check if there is an event
 if len(events) == 0:
     notEvent = True
-# check if there is an event which is not archived, is so set it as current event
+# check if there is a non archived event, is so set it as current event
 for e in events:
-    if e.getArchiveStatus() == False:
+    if not e.getArchiveStatus():
         event = e
-    else:
-        event = None
-        notEvent = True
 
-
+# check if all of the events are set to true
+if all(e.getArchiveStatus() is True for e in events):
+    event = None
+    notEvent = True
 # print(notEvent)
 
 
@@ -92,7 +93,7 @@ def CreateAnalyst():
 @app.route('/EventView/<string:initial>', methods=['GET', 'POST'])
 def deleteAnalyst(initial):
     global analyst
-    global event     #TRY TO CHANGE THIS ONE
+    global event  # TRY TO CHANGE THIS ONE
     for e in events:
         if e.getArchiveStatus() == False:
             event = e
