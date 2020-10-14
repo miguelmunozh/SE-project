@@ -317,6 +317,39 @@ def EditSystem(system):
     return render_template('EditSystem.html', form=form, system=sys)
 
 
+@app.route('/Systems')
+def Systems():
+    # get list of systems for this event and pass them as parameter (currently returning all systems in db)
+    systemList = []
+    for system in db.getAllSystems():
+        if system.getArchiveStatus() == False:
+            systemList.append(system)
+
+    return render_template('Systems.html', systemList=systemList)
+
+
+# function to archive a system from event and db
+@app.route('/Systems/<system>', methods=['GET', 'POST'])
+def ArchiveSystem(system):
+    for s in db.getAllSystems():
+        if s.getId() == ObjectId(system):
+            s.setArchiveStatus(True)
+            db.updateSystem(analyst, s)
+            return redirect(url_for('Systems'))
+    return redirect(url_for('Systems'))
+
+
+# function to restore a system from event and db
+@app.route('/ArchiveContentView/<system>', methods=['GET', 'POST'])
+def RestoreSystem(system):
+    for s in db.getAllSystems():
+        if s.getId() == ObjectId(system):
+            s.setArchiveStatus(False)
+            db.updateSystem(analyst, s)
+            return redirect(url_for('ArchiveContentView'))
+    return redirect(url_for('ArchiveContentView'))
+
+
 @app.route('/CreateTask')
 def CreateTask():
     return render_template('CreateTask.html')
@@ -374,7 +407,11 @@ def GenerateReport():
 
 @app.route('/ArchiveContentView')
 def ArchiveContentView():
-    return render_template('ArchiveContentView.html')
+    archivedSystemList = []
+    for archivedsystem in db.getAllSystems():
+        if archivedsystem.getArchiveStatus() == True:
+            archivedSystemList.append(archivedsystem)
+    return render_template('ArchiveContentView.html', archivedSystemList=archivedSystemList)
 
 
 @app.route('/ConfigurationContentView')
@@ -480,28 +517,6 @@ def EventTree():
 @app.route('/AnalystProgressSummaryContentView')
 def AnalystProgressSummaryContentView():
     return render_template('AnalystProgressSummaryContentView.html')
-
-
-@app.route('/Systems')
-def Systems():
-    # get list of systems for this event and pass them as parameter (currently returning all systems in db)
-    systemList = []
-    for system in db.getAllSystems():
-        if system.getArchiveStatus() == False:
-            systemList.append(system)
-
-    return render_template('Systems.html', systemList=systemList)
-
-
-# function to delete analyst initials from event and db
-@app.route('/Systems/<system>', methods=['GET', 'POST'])
-def ArchiveSystem(system):
-    for s in db.getAllSystems():
-        if s.getId() == ObjectId(system):
-            s.setArchiveStatus(True)
-            db.updateSystem(analyst, s)
-            return redirect(url_for('Systems'))
-    return redirect(url_for('Systems'))
 
 
 if __name__ == '__main__':
