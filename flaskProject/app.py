@@ -22,15 +22,26 @@ db = DatabaseHandler()
 # analyst to pass as parameter to the updateEvent function,(will be deleted when we can know which analyst entered
 # the system)
 analyst = Analyst("jonathan", "roman", "jr", ["jr", "sr"], Role.LEAD.value)
+notEvent = False
+events = db.getAllEvents()
+# check if there is an event
+if len(events) == 0:
+    notEvent = True
+# check if there is an event which is not archived, is so set it as current event
+for e in events:
+    if e.getArchiveStatus() == False:
+        event = e
+    else:
+        event = None
+        notEvent = True
 
 
-# event = None
+# print(notEvent)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def SetupContentView():
     # global event
-    # events = db.getAllEvents()
 
     form = SetupContentViewForm()
     # checks if the submit btn in SetupContentView page has been pressed
@@ -38,25 +49,17 @@ def SetupContentView():
         # check if there is an event that is not archived, if so we use that event through the entire app
         # redirect to the right page depending on the user selection
         if form.SUCVSelection.data == 'create':
-            # for e in events:
-            #     if not e.getArchiveStatus():
-            #         e.setArchiveStatus(True)
-            #         db.updateEvent(analyst, e)
-            # archive the event then create one
             return redirect(url_for("CreateEvent"))
 
         elif form.SUCVSelection.data == 'sync':
-            # for e in events:
-            #     # if there is an none archived event, set the actual event to that event
-            #     if not e.getArchiveStatus():
-            #         event = e
-            #
-            # if event.getArchiveStatus() == True: # or if event is None?
-            #     error = "There is no existing event in your local system"
-            #     return render_template('SetupContentView.html', form=form, error=error)
+            # if you try to sync, and there is not an event, then you get a error message
+            if notEvent:
+                notEventError = "There is not an event in your local system"
+                return render_template('SetupContentView.html', form=form, notEventError=notEventError)
 
             if is_valid_ipv4_address(form.SUCVIpAddress.data) or is_valid_ipv6_address(form.SUCVIpAddress.data):
                 return redirect(url_for("EventView"))
+
             else:
                 # show an error message for invalid ip address
                 ipError = "The Ip Address is not valid"
@@ -67,9 +70,10 @@ def SetupContentView():
 
 @app.route('/CreateAnalyst', methods=['GET', 'POST'])
 def CreateAnalyst():
-    events = db.getAllEvents()
-    events.reverse()
-    event = events[0]
+    global event
+    # events = db.getAllEvents()
+    # events.reverse()
+    # event = events[0]
     form = CreateAnalystForm()
     if 'createAnalyst' in request.form:
         a = Analyst(form.CreateAnalystFName.data, form.CreateAnalystLName.data,
@@ -88,9 +92,10 @@ def CreateAnalyst():
 @app.route('/EventView/<string:initial>', methods=['GET', 'POST'])
 def deleteAnalyst(initial):
     global analyst
-    events = db.getAllEvents()
-    events.reverse()
-    event = events[0]
+    global event     #TRY TO CHANGE THIS ONE
+    for e in events:
+        if e.getArchiveStatus() == False:
+            event = e
     # get the event list of analyst initials and remove the selected one (will change when we store a list of
     # analysts instead of a list of initials)
     event.getEventTeam().remove(initial)
@@ -104,9 +109,15 @@ def deleteAnalyst(initial):
 
 @app.route('/EventView', methods=['GET', 'POST'])
 def EventView():
+    # TRY TO JUST ADD GLOBAL EVENT HERE AS WELL
     events = db.getAllEvents()
-    events.reverse()
-    event = events[0]
+    for e in events:
+        if e.getArchiveStatus() == False:
+            event = e
+    # events = db.getAllEvents()
+    # events.reverse()
+    # if not events:
+    #     event = events[0]
     # get list of systems for this event and pass them as parameter (currently returning all systems in db)
     systemList = []
     for system in db.getAllSystems():
@@ -125,9 +136,10 @@ def EventView():
 
 @app.route('/EditEvent', methods=['GET', 'POST'])
 def EditEvent():
-    events = db.getAllEvents()
-    events.reverse()
-    event = events[0]
+    global event
+    # events = db.getAllEvents()
+    # events.reverse()
+    # event = events[0]
     form = EditEventForm()
     # populate the form with the data of the actual event
     if request.method == 'GET':
@@ -167,11 +179,18 @@ def EditEvent():
 
 @app.route('/CreateEvent', methods=['GET', 'POST'])
 def CreateEvent():
+    global event
+    global analyst
     # create a form from the forms.py file (need to import the file)
     form = CreateEventForm()
 
     # check if the create event button has been pressed, if so create an event obj
     if 'createEvent' in request.form:
+        # if we create an event, we archive the current event
+        if not notEvent:
+            if not event.getArchiveStatus():
+                event.setArchiveStatus(True)
+                db.updateEvent(analyst, event)
         # get analysts lists together, (will change when we store a list of analysts instead of a list of initials)
         lead = form.EventLeadAnalysts.data
         list1 = list(lead.split("-"))
