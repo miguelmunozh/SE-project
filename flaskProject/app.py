@@ -72,9 +72,10 @@ def SetupContentView():
 @app.route('/CreateAnalyst', methods=['GET', 'POST'])
 def CreateAnalyst():
     global event
-    # events = db.getAllEvents()
-    # events.reverse()
-    # event = events[0]
+    events = db.getAllEvents()
+    for e in events:
+        if e.getArchiveStatus() == False:
+            event = e
     form = CreateAnalystForm()
     if 'createAnalyst' in request.form:
         a = Analyst(form.CreateAnalystFName.data, form.CreateAnalystLName.data,
@@ -94,6 +95,7 @@ def CreateAnalyst():
 def deleteAnalyst(initial):
     global analyst
     global event  # TRY TO CHANGE THIS ONE
+    events = db.getAllEvents()
     for e in events:
         if e.getArchiveStatus() == False:
             event = e
@@ -137,10 +139,11 @@ def EventView():
 
 @app.route('/EditEvent', methods=['GET', 'POST'])
 def EditEvent():
-    global event
-    # events = db.getAllEvents()
-    # events.reverse()
-    # event = events[0]
+    # global event
+    events = db.getAllEvents()
+    for e in events:
+        if e.getArchiveStatus() == False:
+            event = e
     form = EditEventForm()
     # populate the form with the data of the actual event
     if request.method == 'GET':
