@@ -185,10 +185,12 @@ def EditEvent():
 def CreateEvent():
     global event
     global analyst
+    global notEvent
     events = db.getAllEvents()
     for e in events:
         if e.getArchiveStatus() == False:
             event = e
+            notEvent = False
     # create a form from the forms.py file (need to import the file)
     form = CreateEventForm()
 
