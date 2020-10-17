@@ -5,12 +5,10 @@
 {% block content %}
     <h1>Edit Event</h1>
     <form action="" method="POST">
-        <div class="form-row">
-            <div class="form-group">
-                {{ form.EditEventName.label }}
-                <br>
-                {{ form.EditEventName(class_="form-control") }}
-            </div>
+        <div class="form-group">
+            {{ form.EditEventName.label }}
+            <br>
+            {{ form.EditEventName(class_="form-control") }}
         </div>
         <div class="form-group">
             {{ form.EditEventType.label }}
@@ -21,11 +19,6 @@
             {{ form.EditEventVersion.label }}
             <br>
             {{ form.EditEventVersion(class_="form-control") }}
-        </div>
-        <div class="form-group">
-            {{ form.EditEventArchiveStatus.label }}
-            <br>
-            {{ form.EditEventArchiveStatus(class_="form-control") }}
         </div>
         <div class="form-group">
             {{ form.EditEventCustomerName.label }}

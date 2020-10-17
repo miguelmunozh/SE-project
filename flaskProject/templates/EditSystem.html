@@ -4,49 +4,46 @@
 <!-- html code for the body of the page-->
 {% block content %}
     <h1>Edit System</h1>
-    <form>
+    <form action="" method="POST">
         <div class="form-group">
-            <label>Name</label>
-            <input type="text" class="form-control">
+            {{ form.EditSystemName.label }}
+            <br>
+            {{ form.EditSystemName(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Location</label>
-            <input type="text" class="form-control">
+            {{ form.EditSystemLocation.label }}
+            <br>
+            {{ form.EditSystemLocation(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Router</label>
-            <input type="text" class="form-control">
+            {{ form.EditSystemRouter.label }}
+            <br>
+            {{ form.EditSystemRouter(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Switch</label>
-            <input type="text" class="form-control">
+            {{ form.EditSystemSwitch.label }}
+            <br>
+            {{ form.EditSystemSwitch(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Room</label>
-            <input type="text" class="form-control">
+            {{ form.EditSystemRoom.label }}
+            <br>
+            {{ form.EditSystemRoom(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>System Test Plan</label>
-            <input type="text" class="form-control">
+            {{ form.EditSystemTestPlan.label }}
+            <br>
+            {{ form.EditSystemTestPlan(class_="form-control") }}
         </div>
+
         <div class="form-group">
-            <label>Confidentiality</label>
-            <input type="text" class="form-control">
+            {{ form.EditSystemDescription.label }}
+            <br>
+            {{ form.EditSystemDescription(class_="form-control") }}
         </div>
-        <div class="form-group">
-            <label>Integrated</label>
-            <input type="text" class="form-control">
-        </div>
-        <div class="form-group">
-            <label>System Availability</label>
-            <input type="text" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="exampleFormControlTextarea1">Description</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
-        </div>
-        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('SystemView') }}">Edit</a></button>
-        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('SystemView') }}">Cancel</a></button>
+        <button type="submit" class="btn btn-secondary" name="editSystem">Edit</button>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('SystemView', system=system.getId()) }}">Cancel</a>
+        </button>
     </form>
     <br>
 {% endblock content %}

@@ -7,7 +7,9 @@
         <form id="form" action="" method="post">
             <div>
                 <h1>Finding and Reporting Information Console (FRIC)</h1>
-                <h4>There is no existing event in your local system</h4>
+                {% if notEventError %}
+                    <p class="alert-danger form-control"> {{ notEventError }}</p>
+                {% endif %}
             </div>
             <fieldset>
                 {{ form.SUCVInitials.label }}
@@ -26,16 +28,10 @@
                 <br>
                 {{ form.SUCVIpAddress(class_="form-control") }}
             </fieldset>
-            {#        Code to show an alert message under the ip address if it is not valid#}
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert-danger form-control">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+            {# Code to show an alert message under the ip address if it is not valid #}
+            {% if ipError %}
+                <p class="alert-danger form-control"> {{ ipError }}</p>
+            {% endif %}
             <hr>
             <button type="submit" value="submit" name="LogCreateEvent" class="btn btn-secondary">Submit</button>
         </form>
