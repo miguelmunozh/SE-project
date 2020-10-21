@@ -7,3 +7,9 @@ class Progress(str, Enum):
     INPROGRESS: str = "In Progress"
     COMPLETE: str = "Complete"
     NOTAPPLICABLE: str = "Not Applicable"
+
+    @staticmethod
+    def getMember(value: str):
+        for member in Progress:
+            if member.value == value:
+                return member
