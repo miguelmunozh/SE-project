@@ -38,12 +38,18 @@ class Availability(Enum):
 
 class System:
 
-    def __init__(self, name: str = "", description: str = "", location: list = [],
-                 router: list = [], switch: list = [], room: list = [],
-                 testPlan: str = "", archiveStatus: bool = False,
+    def __init__(self, name: str = "",
+                 description: str = "",
+                 location: list = [],
+                 router: list = [],
+                 switch: list = [],
+                 room: list = [],
+                 testPlan: str = "",
+                 archiveStatus: bool = False,
                  confidentiality = None,
                  integrity = None,
                  availability = None):
+
         self.__id = -1
         self.__name = name
         self.__description = description
