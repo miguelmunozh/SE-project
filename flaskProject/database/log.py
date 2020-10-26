@@ -38,3 +38,10 @@ class LogEntry:
                 "logTime": self.getTime().strftime("%m/%d/%Y, %H:%M:%S")
             }
         return logDoc
+
+    @staticmethod
+    def convertDocument(self, document):
+        log = LogEntry(document["actionPerformed"]
+                       , document["analystInitials"]
+                       , datetime.datetime.strptime(document["logTime"], "%m/%d/%Y, %H:%M:%S"), document["_id"])
+        return log

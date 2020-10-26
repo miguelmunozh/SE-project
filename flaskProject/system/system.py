@@ -1,40 +1,8 @@
 from enum import Enum
-class Confidentiality(Enum):
-    LOW = "Low"
-    MEDIUM = "Medium"
-    HIGH = "High"
-    INFO = "Information"
+from flaskProject.security_objectives.integrity import Integrity
+from flaskProject.security_objectives.availability import Availability
+from flaskProject.security_objectives.confidentiality import Confidentiality
 
-    @staticmethod
-    def getMember(value: str):
-        for member in Confidentiality:
-            if member.value == value:
-                return member
-
-class Integrity(Enum):
-    LOW = 'Low'
-    MEDIUM = 'Medium'
-    HIGH = 'High'
-    INFO = 'Information'
-
-    @staticmethod
-    def getMember(value: str):
-        for member in Integrity:
-            if member.value == value:
-                return member
-
-
-class Availability(Enum):
-    LOW = 'Low'
-    MEDIUM = 'Medium'
-    HIGH = 'High'
-    INFO = 'Information'
-
-    @staticmethod
-    def getMember(value: str):
-        for member in Availability:
-            if member.value == value:
-                return member
 
 class System:
 
@@ -46,9 +14,9 @@ class System:
                  room: list = [],
                  testPlan: str = "",
                  archiveStatus: bool = False,
-                 confidentiality = None,
-                 integrity = None,
-                 availability = None):
+                 confidentiality: Confidentiality = Confidentiality.INFO,
+                 integrity: Integrity = Integrity.INFO,
+                 availability: Availability = Availability.INFO):
 
         self.__id = -1
         self.__name = name
@@ -136,3 +104,55 @@ class System:
 
     def setAvailability(self, availability):
         self.__availability = availability
+
+    @staticmethod
+    def convertDocument(document):
+
+        system = System()
+        system.setId(document["_id"])
+        system.setName(document["name"])
+        system.setDescription(document["description"])
+        system.setRoom(document["room"])
+        system.setRouter(document["router"])
+        system.setSwitch(document["switch"])
+        system.setLocation(document["location"])
+        system.setTestplan(document["testPlan"])
+        system.setArchiveStatus(document["archiveStatus"])
+        system.setConfidentiality(Confidentiality.getMember(document["confidentiality"]))
+        system.setIntegrity(Integrity.getMember(document["integrity"]))
+        system.setAvailability(Availability.getMember((document["availability"])))
+
+        return system
+
+
+    def toDocument(self):
+        if self.getId() == -1:
+            systemDoc = {
+                "name": self.getName(),
+                "description": self.getDescription(),
+                "location": self.getLocation(),
+                "router": self.getRouter(),
+                "switch": self.getSwitch(),
+                "room": self.getRoom(),
+                "testPlan": self.getTestPlan(),
+                "archiveStatus": self.getArchiveStatus(),
+                "confidentiality": self.getConfidentiality(),
+                "integrity": self.getIntegrity(),
+                "availability": self.getAvailability()}
+            return systemDoc
+        else:
+            systemDoc = {
+                "_id": self.getId(),
+                "name": self.getName(),
+                "description": self.getDescription(),
+                "location": self.getLocation(),
+                "router": self.getRouter(),
+                "switch": self.getSwitch(),
+                "room": self.getRoom(),
+                "testPlan": self.getTestPlan(),
+                "archiveStatus": self.getArchiveStatus(),
+                "confidentiality": self.getConfidentiality(),
+                "integrity": self.getIntegrity(),
+                "availability": self.getAvailability()
+            }
+            return systemDoc

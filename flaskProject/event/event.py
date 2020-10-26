@@ -1,22 +1,9 @@
 from enum import Enum
-
-
-class EventType(Enum):
-    COOPERATIVE_VULNERABILITY_PENETRATION_ASSESSMENT = 'Cooperative Vulnerability Penetration Assessment(CVPA)'
-    COOPERATIVE_VULNERABILITY_INVESTIGATION = 'Cooperative Vulnerability Investigation (CVI)'
-    VERIFICATION_OF_FIXES = 'Verification of Fixes (VOF)'
-
-
-class EventClassification(Enum):
-    TOP_SECRET = 'Top secret'
-    SECRET = 'Secret'
-    CONFIDENTIAL = 'Confidential'
-    CLASSIFIED = 'Classified'
-    UNCLASSIFIED = 'Unclassified'
+from flaskProject.event.eventClassification import EventClassification
+from flaskProject.event.eventType import EventType
 
 
 class Event:
-
     def __init__(self, name=None, description=None, type=None, version=None, date=None,
                  organizationName=None, securityClassificationTitleGuide=None,
                  eventClassification=None, classifiedBy=None, derivedFrom=None,
@@ -130,3 +117,63 @@ class Event:
 
     def getEventTeam(self):
         return self.__eventTeam
+
+    def toDocument(self):
+        if self.getId() == -1:
+            eventData = {
+                "name": self.__name,
+                "description": self.__description,
+                "type": self.__type,
+                "version": self.__version,
+                "date": self.__date,
+                "organizationName": self.__organizationName,
+                "securityClassificationTitleGuide": self.__securityClassificationTitleGuide,
+                "eventClassification": self.__eventClassification,
+                "classifiedBy": self.__classifiedBy,
+                "derivedFrom": self.__derivedFrom,
+                "declassificationDate": self.__declassificationDate,
+                "customerName": self.__customerName,
+                "archiveStatus": self.__archiveStatus,
+                "eventTeam": self.__eventTeam
+            }
+            return eventData
+
+        else:
+            eventData = {
+                "_id": self.__id,
+                "name": self.__name,
+                "description": self.__description,
+                "type": self.__type,
+                "version": self.__version,
+                "date": self.__version,
+                "organizationName": self.__organizationName,
+                "securityClassificationTitleGuide": self.__securityClassificationTitleGuide,
+                "eventClassification": self.__eventClassification,
+                "classifiedBy": self.__classifiedBy,
+                "derivedFrom": self.__derivedFrom,
+                "declassificationDate": self.__declassificationDate,
+                "customerName": self.__customerName,
+                "archiveStatus": self.__archiveStatus,
+                "eventTeam": self.__eventTeam
+            }
+            return eventData
+
+    @staticmethod
+    def convertDocument(document):
+        event = Event()
+        event.setId(document["_id"])
+        event.setName(document["name"])
+        event.setDescription(document["description"])
+        event.setType(EventType.getMember(document["type"]))
+        event.setVersion(document["version"])
+        event.setDate(document["date"])
+        event.setOrganizationName(document["organizationName"])
+        event.setClassifiedBy(document["classifiedBy"])
+        event.setDerivedFrom(document["derivedFrom"])
+        event.setSecurityClassificationTitleGuide(document["securityClassificationTitleGuide"])
+        event.setEventClassification(EventClassification.getMember(document["eventClassification"]))
+        event.setDeclassificationDate(document["declassificationDate"])
+        event.setCustomerName(document["customerName"])
+        event.setArchiveStatus(document["archiveStatus"])
+        event.setEventTeam(document["eventTeam"])
+        return event

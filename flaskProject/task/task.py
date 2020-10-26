@@ -1,5 +1,5 @@
-from flaskProject.enumeration.progress import Progress
-from flaskProject.enumeration.priority import Priority
+from flaskProject.task.progress import Progress
+from flaskProject.task.priority import Priority
 from datetime import datetime
 
 class Task:
@@ -68,34 +68,34 @@ class Task:
     def getId(self):
         return self.__id
 
-    def getTitle(self, title: str):
+    def getTitle(self):
         return self.__title
 
-    def getDescription(self, description: str):
+    def getDescription(self):
         return self.__description
 
-    def getPriority(self, priority: Priority):
+    def getPriority(self):
         return self.__priority
 
-    def getProgress(self, progress: Progress):
+    def getProgress(self):
         return self.__progress
 
-    def getDueDate(self, dueDate: datetime):
+    def getDueDate(self):
         return self.__dueDate
 
-    def getAttachment(self, attachment):
+    def getAttachment(self):
         return self.__attachment
 
-    def getAssociationToTask(self, associationToTask: list):
+    def getAssociationToTask(self):
         return self.__associationToTask
 
-    def getAnalystAssigment(self, analysts: list):
+    def getAnalystAssigment(self):
         return self.__analystAssignment
 
-    def getCollaboratorAssignment(self, collaborators: list):
+    def getCollaboratorAssignment(self):
         return self.__collaboratorAssignment
 
-    def getArchiveStatus(self, status: bool):
+    def getArchiveStatus(self):
         return self.__archiveStatus
 
 
@@ -131,7 +131,7 @@ class Task:
             return taskDoc
 
     @staticmethod
-    def fromDocument(document):
+    def convertDocument(document):
         return Task(document["title"],
                     document["description"],
                     Priority.getMember(document["priority"]),
