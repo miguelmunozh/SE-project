@@ -66,45 +66,15 @@
     <h3>System Categorization</h3>
     <br>
     <h4>Confidentiality</h4>
-    <p>{{ system.getConfidentiality() }}</p>
+    <p>{{ system.getConfidentiality().value }}</p>
     <hr>
     <h4>System Integrity</h4>
-    <p>{{ system.getIntegrity() }}</p>
+    <p>{{ system.getIntegrity().value }}</p>
     <hr>
     <h4>System Availability</h4>
-    <p>{{ system.getAvailability() }}</p>
+    <p>{{ system.getAvailability().value }}</p>
     <hr>
 
-{#    <h3>list of tasks</h3>#}
-{#    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateTask') }}">Add Task</a></button>#}
-{#    <hr>#}
-{#    <div class="list-group">#}
-{#        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">#}
-{#            <div class="d-flex w-100 p-3 flex-fill justify-content-between">#}
-{#                <a href="{{ url_for('TaskView') }}">#}
-{#                    <h4 class="mb-1">task 1</h4>#}
-{#                </a>#}
-{#                <small>No. of Subtasks: 4</small>#}
-{#                <b>|</b>#}
-{#                <small>No. of Findings: 2</small>#}
-{#                <small>Priority: low</small>#}
-{#                <h5>Aanalyst: Jonathan Roman</h5>#}
-{#                <h5>System: system 1</h5>#}
-{#                <h5>Due date: 04/08/2020</h5>#}
-{#            </div>#}
-{#            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>#}
-{#            <h5>Progress:</h5>#}
-{#            <div class="progress">#}
-{#                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"#}
-{#                     aria-valuemax="100">25%#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="custom-control custom-checkbox mb-3">#}
-{#                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>#}
-{#                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
 {% endblock content %}
 
 {% block sidebar %}
@@ -128,7 +98,7 @@
                 Configuration</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
             </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help',_anchor='systems') }}"> Help</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
         </ul>
         </p>

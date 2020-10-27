@@ -3,209 +3,51 @@
 
 <!-- html code for the body of the page-->
 {% block content %}
-    <h1>list of all tasks in event</h1>
+    <h1>Tasks Overview</h1>
+    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateTask') }}">Add Task</a></button>
+    <hr>
 
     <div class="list-group">
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 1</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>System: system 1</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
+        {% for task in tasksList %}
+
+            <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+                <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                    <a type="submit" href="{{ url_for('TaskView', task=task.getId()) }}">
+                        <h4 class="mb-1">{{ task.getTitle() }}</h4>
+                    </a>
+                    <small>No. of Subtasks: 4</small>
+                    <b>|</b>
+                    <small>No. of Findings: 2</small>
+                    <small>Priority: {{ task.getPriority().value }}</small>
+                    <h5>Aanalyst:</h5>
+                    {% for analyst in task.getAnalystAssigment() %}
+                        <ul>
+                            <li style="list-style-type: circle">
+                                {{ analyst }}
+                            </li>
+                        </ul>
+                    {% endfor %}
+                    <h5>System: system 1</h5>
+                    <h5>Due date: {{ task.getDueDate() }}</h5>
                 </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>
-                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 2</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>System: system 2</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
+                <p class="mb-1">{{ task.getDescription() }}</p>
+                <h5>Progress:</h5>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                         aria-valuemin="0"
+                         aria-valuemax="100">25%
+                    </div>
                 </div>
+                <form method=post>
+                    {# <button type="submit" class="btn btn-secondary">Archive System</button>#}
+                    <button type="submit" class="btn btn-secondary"><a
+                            href="{{ url_for('ArchiveTask', task=task.getId()) }}">Archive
+                        Task</a></button>
+                    <button type="submit" class="btn btn-secondary"><a
+                            href="{{ url_for('DemoteTask', task=task.getId()) }}">Demote task</a></button>
+                </form>
             </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>
-                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 3</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>System: system 2</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>
-                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 1</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>System: system 3</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>
-                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 2</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>System: system 14</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>
-                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 4</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>System: system 2</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>
-                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 1</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>System: system 1</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>
-                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 2</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>System: system 1</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
-                </div>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Archive task</a></button>
-                <button type="submit" class="btn btn-secondary"><a href="">Demote task</a></button>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 {% endblock content %}
 
@@ -218,7 +60,8 @@
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
             <li class="list-group-item list-group-item-light"><a
                     href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a>
+            </li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
@@ -230,7 +73,8 @@
                 Configuration</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
             </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help',_anchor='tasks') }}"> Help</a>
+            </li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
         </ul>
         </p>

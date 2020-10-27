@@ -4,45 +4,48 @@
 <!-- html code for the body of the page-->
 {% block content %}
     <h1>Finding Overview</h1>
-    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditFinding') }}">Edit Finding</a></button>
+        <form method=post>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditFinding', system=system.getId()) }}">Edit
+            Finding</a></button>
+        <button type="submit" value="submit" name="ArchiveSystem" class="btn btn-secondary">Archive Finding</button>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('Help') }}">Help</a></button>
+    </form>
     <hr>
     <h3>Finding information</h3>
     <hr>
     <h4>Title</h4>
-    <p>Wells Fargo</p>
+    <p>{{ finding.getName() }}</p>
     <hr>
     <h4>ID</h4>
-    <p>123456789</p>
+    <p>{{ finding.getName() }}</p>
     <hr>
     <h4>Host Name</h4>
-    <p>Zeus</p>
+    <p>{{ finding.getName() }}</p>
     <hr>
     <h4>IP:Port</h4>
-    <p>1.1.1.1</p>
+    <p>{{ finding.getName() }}</p>
     <hr>
     <h4>Description</h4>
-    <p>Blind SQL injection</p>
+    <p>{{ finding.getName() }}</p>
     <hr>
     <h4>Long Description</h4>
-    <p>Blind SQL injection</p>
+    <p>{{ finding.getName() }}</p>
     <hr>
     <h4>Status</h4>
-    <p>Open</p>
+    <p>{{ finding.getName() }}</p>
     <hr>
     <h4>Type</h4>
-    <p>Lack of authentication</p>
+    <p>{{ finding.getName() }}</p>
     <hr>
     <h4>Classification</h4>
-    <p>This is some other text.</p>
+    <p>{{ finding.getName() }}</p>
     <hr>
     <h4>Evidence</h4>
-    <p>This is some other text.</p>
+    <p>{{ finding.getName() }}</p>
     <hr>
-    <h4>System, Task or Subtask</h4>
-    <p>This is some other text.</p>
-    <hr>
+
     <h4>Related Findings</h4>
-    <p>Wells Fargo</p>
+    <p>{{ finding.getName() }}</p>
     <hr>
 
     <h3>Finding Impact</h3>
@@ -170,7 +173,7 @@
                 Configuration</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
             </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help',_anchor='detailedFinding') }}"> Help</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
         </ul>
         </p>

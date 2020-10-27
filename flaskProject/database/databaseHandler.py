@@ -1,11 +1,12 @@
-from flaskProject.analyst.analyst import Analyst, Role
-from flaskProject.event.event import Event, EventType, EventClassification
-from flaskProject.system.system import System
-from flaskProject.database.log import LogEntry
-from flaskProject.database.db import Db
-from flaskProject.task.task import Task
-from flaskProject.task.subtask import Subtask
-from flaskProject.finding.Finding import Finding
+from analyst.analyst import Analyst
+from analyst.role import Role
+from event.event import Event, EventType, EventClassification
+from system.system import System
+from database.log import LogEntry
+from database.db import Db
+from task.task import Task
+from task.subtask import Subtask
+from finding.Finding import Finding
 import datetime
 
 
@@ -107,17 +108,17 @@ class DatabaseHandler:
 
     def getTask(self, task):
         taskDoc = task.toDocument()
-        return Task.fromDocument(self.__db.findTask(taskDoc))
+        return Task.convertDocument(self.__db.findTask(taskDoc))
 
 
     def getSubtask(self, subtask):
         subtaskDoc = subtask.toDocument()
-        return Subtask.fromDocument(self.__db.findSubtask(subtaskDoc))
+        return Subtask.convertDocument(self.__db.findSubtask(subtaskDoc))
 
 
     def getFinding(self, finding):
         findingDoc = finding.toDocument()
-        return Finding.fromDocument(self.__db.findFinding(findingDoc))
+        return Finding.convertDocument(self.__db.findFinding(findingDoc))
         pass
 
 

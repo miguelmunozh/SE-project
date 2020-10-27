@@ -1,7 +1,7 @@
 import pymongo
 from pymongo import MongoClient
 from datetime import date
-from flaskProject.database.log import LogEntry
+from database.log import LogEntry
 import datetime
 
 
@@ -54,34 +54,34 @@ class Db:
 
 
     def findTask(self, taskDoc):
-        query = {"_id": taskDoc}
+        query = {"_id": taskDoc["_id"]}
         return self.__taskCollection.find_one(query)
 
 
     def findSubtask(self, subtaskDoc):
-        query = {"_id": subtaskDoc}
+        query = {"_id": subtaskDoc["_id"]}
         return self.__subtaskCollection.find_one(query)
 
 
     def findFinding(self, findingDoc):
-        query = {"_id": findingDoc}
+        query = {"_id": findingDoc["_id"]}
         return self.__findingCollection.find_one(query)
 
 
     def __updateTask(self, taskDoc):
-        query = {"_id": taskDoc}
+        query = {"_id": taskDoc["_id"]}
         self.__taskCollection.find_one_and_replace(query, taskDoc)
         return
 
 
     def __updateSubtask(self, subtaskDoc):
-        query = {"_id": subtaskDoc}
+        query = {"_id": subtaskDoc["_id"]}
         self.__subtaskCollection.find_one_and_replace(query, subtaskDoc)
         return
 
 
     def __updateFinding(self, findingDoc):
-        query = {"_id": findingDoc}
+        query = {"_id": findingDoc["_id"]}
         self.__findingCollection.find_one_and_replace(query, findingDoc)
         return
 
@@ -272,14 +272,14 @@ class Db:
     def removeTask(self, taskDoc, analystDoc):
         query = {"_id": taskDoc["_id"]}
         self.__taskCollection.delete_one(query)
-        self.__logAction(LogEntry("Deleted task: " + taskDoc["name"], analystDoc["initial"]).toDocument())
+        self.__logAction(LogEntry("Deleted task: " + taskDoc["title"], analystDoc["initial"]).toDocument())
         return
 
 
     def removeSubtask(self, subtaskDoc, analystDoc):
         query = {"_id": subtaskDoc["_id"]}
         self.__subtaskCollection.delete_one(query)
-        self.__logAction(LogEntry("Deleted subtask: " + subtaskDoc["name"], analystDoc["initial"]).toDocument())
+        self.__logAction(LogEntry("Deleted subtask: " + subtaskDoc["title"], analystDoc["initial"]).toDocument())
         return
 
 

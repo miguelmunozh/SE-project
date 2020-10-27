@@ -9,7 +9,6 @@
     <div class="list-group">
         {% for system in systemList %}
             <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-                <br>
                 <div class="d-flex w-100 p-3 flex-fill justify-content-between">
                     <a type="submit" href="{{ url_for('SystemView', system=system.getId()) }}">
                         <h4 class="mb-1">{{ system.getName() }}</h4>
@@ -27,8 +26,11 @@
                     </div>
                 </div>
                 <div class="custom-control custom-checkbox mb-4">
-                    <form action="{{ url_for('ArchiveSystem', system=system.getId()) }}" method=post>
-                        <button type="submit" class="btn btn-secondary">Archive System</button>
+                    <form method=post>
+                        {# <button type="submit" class="btn btn-secondary">Archive System</button>#}
+                        <button type="submit" class="btn btn-secondary"><a
+                                href="{{ url_for('ArchiveSystem', system=system.getId()) }}">Archive
+                            System</a></button>
                     </form>
                 </div>
             </div>
@@ -58,7 +60,8 @@
                 Configuration</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
             </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help',_anchor='systems') }}">
+                Help</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
         </ul>
         </p>

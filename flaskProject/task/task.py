@@ -1,5 +1,5 @@
-from flaskProject.task.progress import Progress
-from flaskProject.task.priority import Priority
+from task.progress import Progress
+from task.priority import Priority
 from datetime import datetime
 
 class Task:
@@ -141,4 +141,5 @@ class Task:
                     document["association"],
                     document["analyst_Assignment"],
                     document["collaborator_Assignment"],
-                    document["archive_status"])
+                    document["archive_status"],
+                    document["_id"])

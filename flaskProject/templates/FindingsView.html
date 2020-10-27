@@ -5,51 +5,36 @@
 {% block content %}
     <h1>Findings Overview </h1>
     <div class="btn-group">
-        <a class="btn btn-primary" href="{{ url_for('CreateFinding') }}" role="button">Add Finding</a>
-        <a class="btn btn-primary" href="#" role="button">ERB Report</a>
-        <a class="btn btn-primary" href="#" role="button">Risk Matrix</a>
-        <a class="btn btn-primary" href="#" role="button">Final Report</a>
+        <a class="btn btn-secondary" href="{{ url_for('CreateFinding') }}" role="button">Add Finding</a>
+        <a class="btn btn-secondary" href="#" role="button">ERB Report</a>
+        <a class="btn btn-secondary" href="#" role="button">Risk Matrix</a>
+        <a class="btn btn-secondary" href="#" role="button">Final Report</a>
     </div>
     <hr>
     <div class="list-group">
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('FindingView') }}">
-                    <h4 class="mb-1">Finding 1</h4>
-                </a>
-                <h5 class="mb-1">ID: 132654 </h5>
-                <h5 class="mb-1">System: system 1 </h5>
-                <h5 class="mb-1">Task: Task 1 </h5>
-                <h5 class="mb-1">Subtask: Subtask 1 </h5>
-                <h5 class="mb-1">Analyst: </h5>
-                <h5 class="mb-1">Status: </h5>
-                <h5 class="mb-1">Clasificatioin: </h5>
-                <h5 class="mb-1">Type: </h5>
-                <h5 class="mb-1">Risk: </h5>
+        {% for finding in systemList %}
+
+            <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+                <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                    <a href="{{ url_for('FindingView') }}">
+                        <h4 class="mb-1">{{ finding.getName() }}</h4>
+                    </a>
+                    <h5 class="mb-1">ID: 132654 </h5>
+                    <h5 class="mb-1">System: system 1 </h5>
+                    <h5 class="mb-1">Task: Task 1 </h5>
+                    <h5 class="mb-1">Subtask: Subtask 1 </h5>
+                    <h5 class="mb-1">Analyst: </h5>
+                    <h5 class="mb-1">Status: </h5>
+                    <h5 class="mb-1">Clasificatioin: </h5>
+                    <h5 class="mb-1">Type: </h5>
+                    <h5 class="mb-1">Risk: </h5>
+                </div>
+                <div class="custom-control custom-checkbox mb-3">
+                    <button type="submit" class="btn btn-secondary"><a href="">Delete finding</a></button>
+                </div>
             </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Delete finding</a></button>
-            </div>
-        </div>
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('FindingView') }}">
-                    <h4 class="mb-1">Finding 2</h4>
-                </a>
-                <h5 class="mb-1">ID: 132654 </h5>
-                <h5 class="mb-1">System: system 1 </h5>
-                <h5 class="mb-1">Task: Task 1 </h5>
-                <h5 class="mb-1">Subtask: Subtask 1 </h5>
-                <h5 class="mb-1">Analyst: </h5>
-                <h5 class="mb-1">Status: </h5>
-                <h5 class="mb-1">Clasificatioin: </h5>
-                <h5 class="mb-1">Type: </h5>
-                <h5 class="mb-1">Risk: </h5>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Delete finding</a></button>
-            </div>
-        </div>
+        {% endfor %}
+
     </div>
 {% endblock content %}
 
@@ -73,7 +58,8 @@
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
             <li class="list-group-item list-group-item-light"><a
                     href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a>
+            </li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
@@ -85,7 +71,8 @@
                 Configuration</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
             </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help', _anchor='findings') }}">
+                Help</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
         </ul>
         </p>

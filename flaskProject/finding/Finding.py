@@ -1,6 +1,6 @@
-from flaskProject.finding.findingStatus import FindingStatus
-from flaskProject.finding.findingType import FindingType
-from flaskProject.finding.findingClassification import FindingClassification
+from finding.findingStatus import FindingStatus
+from finding.findingType import FindingType
+from finding.findingClassification import FindingClassification
 
 class Finding:
     def __init__(self,

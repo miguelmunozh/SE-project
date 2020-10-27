@@ -4,7 +4,12 @@
 <!-- html code for the body of the page-->
 {% block content %}
     <h1>Subtask Detailed View </h1>
-    <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditSubTask') }}">Edit Subtask</a></button>
+    <form method=post>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditSubTask', subtask=subtask.getId()) }}">Edit
+            subtask</a></button>
+        <button type="submit" value="submit" name="ArchiveTask" class="btn btn-secondary">Archive subtask</button>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('Help') }}">Help</a></button>
+    </form>
     <h3>Subtask Information</h3>
     <h5>Progress:</h5>
     <div class="progress">
@@ -13,34 +18,45 @@
         </div>
     </div>
     <h4>Subtask name</h4>
-    <p>Wells Fargo ATM physical view</p>
+    <p>{{ subtask.getTitle() }}</p>
     <hr>
     <h4>Subtask description</h4>
-    <p> Attempt to find an exploit on the card reader</p>
+    <p>{{ subtask.getDescription() }}</p>
     <hr>
-    <h4>analyst(s): </h4>
-    <ul>
-        <li>Miguel munoz</li>
-    </ul>
+    <h4>subtask progress</h4>
+    <p>{{ subtask.getProgress().value }}</p>
     <hr>
-    <h4>Collaborator(s): </h4>
-    <ul>
-        <li>Alberto machado</li>
-        <li>Carlos dominguez</li>
-    </ul>
-    <hr>
-    <h4>Task(s): </h4>
-    <ul>
-        <li>Task 2</li>
-    </ul>
-    <hr>
-    <h4>Subtask(s): </h4>
-    <p>task 1</p>
+    <h4>attachment: </h4>
+    <p>{{ subtask.getAttachment() }}</p>
     <hr>
     <h4>Due date: </h4>
-    <p>08/07/20</p>
+    <p>{{ subtask.getDueDate() }}</p>
+    <h4>subtask Association To subtask </h4>
+    {% for t in collaborators %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ t }}
+            </li>
+        </ul>
+    {% endfor %}
     <hr>
-
+    <h4>analyst </h4>
+    {% for analyst in analystAssg %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ analyst }}
+            </li>
+        </ul>
+    {% endfor %}
+    <hr>
+    <h4>Collaborate </h4>
+    {% for collaborator in collaborators %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ collaborator }}
+            </li>
+        </ul>
+    {% endfor %}
 {% endblock content %}
 
 {% block sidebar %}
@@ -50,19 +66,23 @@
         <p class='text-muted'>You can put any information here you'd like.
         <ul class="list-group">
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a></li>
+            <li class="list-group-item list-group-item-light"><a
+                    href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a>
+            </li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived Contents</a>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived
+                Contents</a>
             </li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
                 Configuration</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
             </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help',_anchor='detailedtask') }}">
+                Help</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
         </ul>
         </p>

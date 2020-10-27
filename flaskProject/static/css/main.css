@@ -1,0 +1,4 @@
+/*sets the side bar to be sticked to the screen even when scrolling down*/
+.content-section {
+  position: fixed;
+}

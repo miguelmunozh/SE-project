@@ -4,54 +4,54 @@
 <!-- html code for the body of the page-->
 {% block content %}
     <h1>Create Task</h1>
-    <form>
+    <form method="POST">
         <div class="form-group">
-            <label for="inputTitle">Name</label>
-            <input type="email" class="form-control" id="inputTitle">
-        </div>
-
-        <div class="form-group">
-            <label class="control-label" for="date">Date</label>
-            <input id="datepicker" class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
-        </div>
-        <script>
-            $('#datepicker').datepicker({
-                uiLibrary: 'bootstrap'
-            });
-        </script>
-        <!-- need multiple selections not single sel.-->
-        <div class="form-group">
-            <label>Priority</label>
-            <select class="form-control">
-                <option value="" disabled selected>Choose an option</option>
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
-            </select>
+            {{ form.taskName.label }}
+            <br>
+            {{ form.taskName(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Assigned analysts</label>
-            <select class="form-control">
-                <option value="" disabled selected>Choose an option</option>
-                <option>Miguel Munoz</option>
-                <option>Jonathan Roman</option>
-                <option>Alberto Machado</option>
-            </select>
+            {{ form.taskPriority.label }}
+            <br>
+            {{ form.taskPriority(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label>Related tasks</label>
-            <select class="form-control">
-                <option value="" disabled selected>Choose an option</option>
-                <option>Task 1</option>
-                <option>Task 2</option>
-            </select>
+            {{ form.taskProgress.label }}
+            <br>
+            {{ form.taskProgress(class_="form-control") }}
         </div>
         <div class="form-group">
-            <label for="exampleFormControlTextarea1">Description</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+            {{ form.taskDueDate.label }}
+            <br>
+            {{ form.taskDueDate(class_="form-control") }}
         </div>
-        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('SystemView') }}">Create</a></button>
-        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('SystemView') }}">Cancel</a></button>
+        <div class="form-group">
+            {{ form.taskAttachment.label }}
+            <br>
+            {{ form.taskAttachment(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.associationToTask.label }}
+            <br>
+            {{ form.associationToTask(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.taskAnalystAssignment.label }}
+            <br>
+            {{ form.taskAnalystAssignment(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.taskCollaboratorAssignment.label }}
+            <br>
+            {{ form.taskCollaboratorAssignment(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.taskDescription.label }}
+            <br>
+            {{ form.taskDescription(class_="form-control") }}
+        </div>
+        <button type="submit" class="btn btn-secondary" name="createTask">Create</button>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('Tasks') }}">Cancel</a></button>
     </form>
     <br>
 {% endblock content %}

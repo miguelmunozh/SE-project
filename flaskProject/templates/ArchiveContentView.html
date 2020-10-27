@@ -9,11 +9,8 @@
     <div class="list-group">
         {% for system in archivedSystemList %}
             <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-                <br>
                 <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-{#                    <a type="submit" href="{{ url_for('SystemView', system=system.getId()) }}">#}
-                        <h4 class="mb-1">{{ system.getName() }}</h4>
-{#                    </a>#}
+                    <h4 class="mb-1">{{ system.getName() }}</h4>
                     <small>No. of Tasks: 4 </small>
                     <b>|</b>
                     <small>No. of Findings: 2</small>
@@ -27,6 +24,7 @@
                     </div>
                 </div>
                 <div class="custom-control custom-checkbox mb-4">
+{#                    # I CAN ONLY CALL A FUNCTION IN THIS WAY WITH ONE FORM PER HTML FILE...#}
                     <form action="{{ url_for('RestoreSystem', system=system.getId()) }}" method=post>
                         <button type="submit" class="btn btn-secondary">Restore System</button>
                     </form>
@@ -36,73 +34,76 @@
     </div>
     <h3>Archived Tasks</h3>
     <div class="list-group">
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('TaskView') }}">
-                    <h4 class="mb-1">task 1</h4>
-                </a>
-                <small>No. of Subtasks: 4</small>
-                <b>|</b>
-                <small>No. of Findings: 2</small>
-                <small>Priority: low</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>Due date: 04/08/2020</h5>
-            </div>
-            <p class="mb-1">Description of what the task is about, steps, instructions, etc</p>
-            <h5>Progress:</h5>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-                     aria-valuemax="100">25%
+        {% for task in archivedTasksList %}
+            <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+                <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                    <h4 class="mb-1">{{ task.getTitle() }}</h4>
+                    <small>No. of Subtasks: 4</small>
+                    <b>|</b>
+                    <small>No. of Findings: 2</small>
+                    <small>Priority: {{ task.getPriority() }}</small>
+                    <h5>Aanalyst: {{ task.getAnalystAssigment() }}</h5>
+                    <h5>Due date: {{ task.getDueDate() }}</h5>
+                </div>
+                <p class="mb-1">{{ task.getDescription() }}</p>
+                <h5>Progress:</h5>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                         aria-valuemin="0"
+                         aria-valuemax="100">25%
+                    </div>
+                </div>
+                <div class="custom-control custom-checkbox mb-4">
+                    <form action="{{ url_for('RestoreTask', task=task.getId()) }}" method=post>
+                        <button type="submit" class="btn btn-secondary">Restore Task</button>
+                    </form>
                 </div>
             </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Restore task</a></button>
-            </div>
-        </div>
+        {% endfor %}
     </div>
-    <h3>Archived Subtasks</h3>
-    <div class="list-group">
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('SubTaskView') }}">
-                    <h4 class="mb-1">Subtask 1</h4>
-                </a>
-                <small>No. of Findings: 2</small>
-                <h5>Aanalyst: Jonathan Roman</h5>
-                <h5>Due date:
-                    <medium>08/07/20</medium>
-                </h5>
-            </div>
-            <p class="mb-1">Description of what the sub task is about, steps, instructions, etc</p>
-            <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                <label class="custom-control-label" for="customCheck">Complete</label>
-                <button type="submit" class="btn btn-secondary"><a href="">Restore subtask</a></button>
-            </div>
-        </div>
-    </div>
-    <h3>Archived Findings</h3>
-    <div class="list-group">
-        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-            <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                <a href="{{ url_for('FindingView') }}">
-                    <h4 class="mb-1">Finding 1</h4>
-                </a>
-                <h5 class="mb-1">ID: 132654 </h5>
-                <h5 class="mb-1">System: system 1 </h5>
-                <h5 class="mb-1">Task: Task 1 </h5>
-                <h5 class="mb-1">Subtask: Subtask 1 </h5>
-                <h5 class="mb-1">Analyst: </h5>
-                <h5 class="mb-1">Status: </h5>
-                <h5 class="mb-1">Clasificatioin: </h5>
-                <h5 class="mb-1">Type: </h5>
-                <h5 class="mb-1">Risk: </h5>
-            </div>
-            <div class="custom-control custom-checkbox mb-3">
-                <button type="submit" class="btn btn-secondary"><a href="">Restore finding</a></button>
-            </div>
-        </div>
-    </div>
+    {#    <h3>Archived Subtasks</h3>#}
+    {#    <div class="list-group">#}
+    {#        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">#}
+    {#            <div class="d-flex w-100 p-3 flex-fill justify-content-between">#}
+    {#                <a href="{{ url_for('SubTaskView') }}">#}
+    {#                    <h4 class="mb-1">Subtask 1</h4>#}
+    {#                </a>#}
+    {#                <small>No. of Findings: 2</small>#}
+    {#                <h5>Aanalyst: Jonathan Roman</h5>#}
+    {#                <h5>Due date:#}
+    {#                    <medium>08/07/20</medium>#}
+    {#                </h5>#}
+    {#            </div>#}
+    {#            <p class="mb-1">Description of what the sub task is about, steps, instructions, etc</p>#}
+    {#            <div class="custom-control custom-checkbox mb-3">#}
+    {#                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">#}
+    {#                <label class="custom-control-label" for="customCheck">Complete</label>#}
+    {#                <button type="submit" class="btn btn-secondary"><a href="">Restore subtask</a></button>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+    {#    <h3>Archived Findings</h3>#}
+    {#    <div class="list-group">#}
+    {#        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">#}
+    {#            <div class="d-flex w-100 p-3 flex-fill justify-content-between">#}
+    {#                <a href="{{ url_for('FindingView') }}">#}
+    {#                    <h4 class="mb-1">Finding 1</h4>#}
+    {#                </a>#}
+    {#                <h5 class="mb-1">ID: 132654 </h5>#}
+    {#                <h5 class="mb-1">System: system 1 </h5>#}
+    {#                <h5 class="mb-1">Task: Task 1 </h5>#}
+    {#                <h5 class="mb-1">Subtask: Subtask 1 </h5>#}
+    {#                <h5 class="mb-1">Analyst: </h5>#}
+    {#                <h5 class="mb-1">Status: </h5>#}
+    {#                <h5 class="mb-1">Clasificatioin: </h5>#}
+    {#                <h5 class="mb-1">Type: </h5>#}
+    {#                <h5 class="mb-1">Risk: </h5>#}
+    {#            </div>#}
+    {#            <div class="custom-control custom-checkbox mb-3">#}
+    {#                <button type="submit" class="btn btn-secondary"><a href="">Restore finding</a></button>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
 {% endblock content %}
 
 {% block sidebar %}
@@ -114,7 +115,8 @@
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
             <li class="list-group-item list-group-item-light"><a
                     href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a>
+            </li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
@@ -126,7 +128,8 @@
                 Configuration</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
             </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help',_anchor='archivedContent') }}">
+                Help</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
         </ul>
         </p>
