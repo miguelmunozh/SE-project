@@ -24,7 +24,6 @@
                     </div>
                 </div>
                 <div class="custom-control custom-checkbox mb-4">
-{#                    # I CAN ONLY CALL A FUNCTION IN THIS WAY WITH ONE FORM PER HTML FILE...#}
                     <form action="{{ url_for('RestoreSystem', system=system.getId()) }}" method=post>
                         <button type="submit" class="btn btn-secondary">Restore System</button>
                     </form>
@@ -61,27 +60,29 @@
             </div>
         {% endfor %}
     </div>
-    {#    <h3>Archived Subtasks</h3>#}
-    {#    <div class="list-group">#}
-    {#        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">#}
-    {#            <div class="d-flex w-100 p-3 flex-fill justify-content-between">#}
-    {#                <a href="{{ url_for('SubTaskView') }}">#}
-    {#                    <h4 class="mb-1">Subtask 1</h4>#}
-    {#                </a>#}
-    {#                <small>No. of Findings: 2</small>#}
-    {#                <h5>Aanalyst: Jonathan Roman</h5>#}
-    {#                <h5>Due date:#}
-    {#                    <medium>08/07/20</medium>#}
-    {#                </h5>#}
-    {#            </div>#}
-    {#            <p class="mb-1">Description of what the sub task is about, steps, instructions, etc</p>#}
-    {#            <div class="custom-control custom-checkbox mb-3">#}
-    {#                <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">#}
-    {#                <label class="custom-control-label" for="customCheck">Complete</label>#}
-    {#                <button type="submit" class="btn btn-secondary"><a href="">Restore subtask</a></button>#}
-    {#            </div>#}
-    {#        </div>#}
-    {#    </div>#}
+    <h3>Archived Subtasks</h3>
+    <div class="list-group">
+        {% for subtask in archivedSubtasksList %}
+            <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+                <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+                    <a href="{{ url_for('SubTaskView', subtask=subtask.getId()) }}">
+                        <h4 class="mb-1">{{ subtask.getTitle() }}</h4>
+                    </a>
+                    <small>No. of Findings: 2</small>
+                    <h5>Aanalyst: {{ subtask.getAnalystAssigment() }}</h5>
+                    <h5>Due date:
+                        <medium>{{ subtask.getDueDate() }}</medium>
+                    </h5>
+                </div>
+                <p class="mb-1">{{ subtask.getDescription() }}</p>
+                <div class="custom-control custom-checkbox mb-4">
+                    <form action="{{ url_for('RestoreSubtask', subtask=subtask.getId()) }}" method=post>
+                        <button type="submit" class="btn btn-secondary">Restore Subtask</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
     {#    <h3>Archived Findings</h3>#}
     {#    <div class="list-group">#}
     {#        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">#}

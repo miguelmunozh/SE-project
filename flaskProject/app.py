@@ -430,6 +430,19 @@ def TaskView(task):
         db.updateTask(analyst, task1)
         return redirect(url_for('Tasks'))
 
+    if 'DemoteTask' in request.form:
+        subtask = Subtask(task1.getTitle(),
+                          task1.getDescription(),
+                          task1.getProgress(),
+                          task1.getDueDate(),
+                          task1.getAttachment(),
+                          task1.getAssociationToTask(),
+                          task1.getAnalystAssigment(),
+                          task1.getCollaboratorAssignment(), False)
+        db.updateSubtask(analyst, subtask)
+        db.deleteTask(analyst, task1)
+        return redirect(url_for('Tasks'))
+
     return render_template('TaskView.html', task=task1, taskName=taskName, analystAssg=analystAssg,
                            collaborators=collaborators)
 
@@ -496,33 +509,12 @@ def ArchiveTask(task):
 
 @app.route('/ArchiveContentView/<task>', methods=['GET', 'POST'])
 def RestoreTask(task):
-    if 'restoretask' in request.form:
-        for r in db.getAllTasks():
-            if r.getId() == ObjectId(task):
-                r.setArchiveStatus(False)
-                db.updateTask(analyst, r)
-                return redirect(url_for('ArchiveContentView'))
+    for r in db.getAllTasks():
+        if r.getId() == ObjectId(task):
+            r.setArchiveStatus(False)
+            db.updateTask(analyst, r)
+            return redirect(url_for('ArchiveContentView'))
     return redirect(url_for('ArchiveContentView'))
-
-
-@app.route('/Tasks/<task>', methods=['GET', 'POST'])
-def DemoteTask(task):
-    for y in db.getAllTasks():
-        if y.getId() == ObjectId(task):
-            taskToDemote = y
-            subtask = Subtask(taskToDemote.getTitle(),
-                              taskToDemote.getDescription(),
-                              taskToDemote.getProgress(),
-                              taskToDemote.getDueDate(),
-                              taskToDemote.getAttachment(),
-                              taskToDemote.getAssociationToTask(),
-                              taskToDemote.getAnalystAssigment(),
-                              taskToDemote.getCollaboratorAssignment(), False)
-            db.updateSubtask(analyst, subtask)
-            db.deleteTask(analyst, taskToDemote)
-
-            return redirect(url_for('Tasks'))
-    return redirect(url_for('Tasks'))
 
 
 @app.route('/CreateSubTask', methods=['GET', 'POST'])
@@ -595,13 +587,10 @@ def SubTaskView(subtask):
 
     # array of initials FOR ASSIGNED ANALYSTS
     analystAssg = []
-    print(subT.getAnalystAssigment())
     for task2 in subT.getAnalystAssigment():
         for t in db.getAllAnalyst():
             if ObjectId(task2) == t.getId():
-                print(t.getInitial())
                 analystAssg.append(t.getInitial())
-    print(analystAssg)
 
     # array of initials for collaborators
     collaborators = []
@@ -615,6 +604,20 @@ def SubTaskView(subtask):
         subT.setArchiveStatus(True)
         db.updateSubtask(analyst, subT)
         return redirect(url_for('Subtasks'))
+    if 'PromoteToTask' in request.form:
+        task = Task(subT.getTitle(),
+                    subT.getDescription(),
+                    Priority.MEDIUM.value,
+                    subT.getProgress(),
+                    subT.getDueDate(),
+                    subT.getAttachment(),
+                    subT.getAssociationToTask(),
+                    subT.getAnalystAssigment(),
+                    subT.getCollaboratorAssignment(),
+                    False)
+        db.updateTask(analyst,task)
+        db.deleteSubtask(analyst,subT)
+        return redirect(url_for('Tasks'))
 
     return render_template('SubTaskView.html', subtask=subT, subtaskName=subtaskName, analystAssg=analystAssg,
                            collaborators=collaborators)
@@ -627,6 +630,29 @@ def Subtasks():
         if subtask.getArchiveStatus() == False:
             subTasksList.append(subtask)
     return render_template('Subtasks.html', subTasksList=subTasksList)
+
+
+# function to archive a system from event and db
+@app.route('/Subtasks/<subtask>', methods=['GET', 'POST'])
+def ArchiveSubtask(subtask):
+    for y in db.getAllSubtasks():
+        if y.getId() == ObjectId(subtask):
+            y.setArchiveStatus(True)
+            db.updateSubtask(analyst, y)
+            return redirect(url_for('Subtasks'))
+    return redirect(url_for('Subtasks'))
+
+
+@app.route('/ArchiveContentView/<subtask>', methods=['GET', 'POST'])
+def RestoreSubtask(subtask):
+    print(subtask)
+    for s in db.getAllSubtasks():
+        if s.getId() == ObjectId(subtask):
+            s.setArchiveStatus(False)
+            db.updateSubtask(analyst, s)
+            return redirect(url_for('ArchiveContentView'))
+    return redirect(url_for('ArchiveContentView'))
+
 
 
 # HAVEN'T WORKED ON FINDINGS YET
@@ -732,8 +758,12 @@ def ArchiveContentView():
     for archivedTask in db.getAllTasks():
         if archivedTask.getArchiveStatus() == True:
             archivedTasksList.append(archivedTask)
+    archivedSubtasksList = []
+    for archivedSubtask in db.getAllSubtasks():
+        if archivedSubtask.getArchiveStatus() == True:
+            archivedSubtasksList.append(archivedSubtask)
     return render_template('ArchiveContentView.html', archivedSystemList=archivedSystemList,
-                           archivedTasksList=archivedTasksList)
+                           archivedTasksList=archivedTasksList,archivedSubtasksList=archivedSubtasksList)
 
 
 @app.route('/ConfigurationContentView')

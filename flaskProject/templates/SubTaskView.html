@@ -7,7 +7,8 @@
     <form method=post>
         <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditSubTask', subtask=subtask.getId()) }}">Edit
             subtask</a></button>
-        <button type="submit" value="submit" name="ArchiveTask" class="btn btn-secondary">Archive subtask</button>
+        <button type="submit" value="submit" name="ArchiveSubtask" class="btn btn-secondary">Archive subtask</button>
+        <button type="submit" value="submit" name="PromoteToTask" class="btn btn-secondary">Promote To Task</button>
         <button type="submit" class="btn btn-secondary"><a href="{{ url_for('Help') }}">Help</a></button>
     </form>
     <h3>Subtask Information</h3>
@@ -31,6 +32,7 @@
     <hr>
     <h4>Due date: </h4>
     <p>{{ subtask.getDueDate() }}</p>
+    <hr>
     <h4>subtask Association To subtask </h4>
     {% for t in subtaskName %}
         <ul>
