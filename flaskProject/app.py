@@ -507,7 +507,7 @@ def ArchiveTask(task):
     return redirect(url_for('Tasks'))
 
 
-@app.route('/ArchiveContentView/<task>', methods=['GET', 'POST'])
+@app.route('/RestoreTask/<task>', methods=['GET', 'POST'])
 def RestoreTask(task):
     for r in db.getAllTasks():
         if r.getId() == ObjectId(task):
@@ -643,7 +643,7 @@ def ArchiveSubtask(subtask):
     return redirect(url_for('Subtasks'))
 
 
-@app.route('/ArchiveContentView/<subtask>', methods=['GET', 'POST'])
+@app.route('/RestoreSubtask/<subtask>', methods=['GET', 'POST'])
 def RestoreSubtask(subtask):
     print(subtask)
     for s in db.getAllSubtasks():
