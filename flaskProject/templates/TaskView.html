@@ -33,38 +33,38 @@
     <h4>Task Due Date </h4>
     <p>{{ task.getDueDate() }}</p>
     <hr>
-        <h4>Task Attachment </h4>
+    <h4>Task Attachment </h4>
     <p>{{ task.getAttachment() }}</p>
     <hr>
-        <h4>task Association To Task </h4>
+    <h4>task Association To Task </h4>
     {% for t in taskName %}
-            <ul>
-                <li style="list-style-type: circle">
-                    {{ t }}
-                </li>
-            </ul>
-        {% endfor %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ t }}
+            </li>
+        </ul>
+    {% endfor %}
     <hr>
 
     <h4>analyst: </h4>
     {% for analyst in analystAssg %}
-            <ul>
-                <li style="list-style-type: circle">
-                    {{ analyst }}
-                </li>
-            </ul>
-        {% endfor %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ analyst }}
+            </li>
+        </ul>
+    {% endfor %}
     <hr>
     <h4>Collaborate </h4>
     {% for collaborator in collaborators %}
-            <ul>
-                <li style="list-style-type: circle">
-                    {{ collaborator }}
-                </li>
-            </ul>
-        {% endfor %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ collaborator }}
+            </li>
+        </ul>
+    {% endfor %}
 
-
+    <hr>
 {% endblock content %}
 
 {% block sidebar %}
@@ -74,19 +74,23 @@
         <p class='text-muted'>You can put any information here you'd like.
         <ul class="list-group">
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a></li>
+            <li class="list-group-item list-group-item-light"><a
+                    href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a>
+            </li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived Contents</a>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived
+                Contents</a>
             </li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
                 Configuration</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
             </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help',_anchor='detailedtask') }}"> Help</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help',_anchor='detailedtask') }}">
+                Help</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
         </ul>
         </p>

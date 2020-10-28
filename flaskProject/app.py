@@ -40,7 +40,6 @@ for e in events:
         event = e
 
 
-
 @app.route('/', methods=['GET', 'POST'])
 def SetupContentView():
     form = SetupContentViewForm()
@@ -380,37 +379,17 @@ def RestoreSystem(system):
 def CreateTask():
     # pass these lists as arguments to populate select fields with data from the db
     form = CreateTaskForm(tasks=db.getAllTasks(), analysts=db.getAllAnalyst(), collaborators=db.getAllAnalyst())
-    associatedTasks = []
-    analystsAssigned = []
-    collaboration = []
+
     if 'createTask' in request.form:
-        for system in form.associationToTask.data:
-            for s in db.getAllTasks():
-                if s.getId() == ObjectId(system):
-                    u = s.getTitle() # list of titles since we cannot gt the to work with a list of tasks
-                    associatedTasks.append(u)
-
-        for analysta in form.taskAnalystAssignment.data:
-            for a in db.getAllAnalyst():
-                if a.getId() == ObjectId(analysta):
-                    u = a.getInitial()  # list of titles since we cannot gt the to work with a list of tasks
-                    analystsAssigned.append(u)
-
-        for collab in form.taskCollaboratorAssignment.data:
-            for c in db.getAllAnalyst():
-                if c.getId() == ObjectId(collab):
-                    u = c.getInitial()  # list of titles since we cannot gt the to work with a list of tasks
-                    collaboration.append(u)
-
         task = Task(form.taskName.data,
                     form.taskDescription.data,
                     form.taskPriority.data,
                     form.taskProgress.data,
                     form.taskDueDate.data.strftime('%m/%d/%Y'),
                     form.taskAttachment.data,
-                    associatedTasks,
-                    analystsAssigned,
-                    collaboration,
+                    form.associationToTask.data,
+                    form.taskAnalystAssignment.data,
+                    form.taskCollaboratorAssignment.data,
                     False)
         db.updateTask(analyst, task)
         return redirect(url_for("Tasks"))
@@ -426,22 +405,23 @@ def TaskView(task):
             task1 = t
     # display names of associated tasks instead of the id numbers
     taskName = []
-    for task in task1.getAssociationToTask():
+    for task0 in task1.getAssociationToTask():
         for t in db.getAllTasks():
-            if ObjectId(task) == t.getId():
+            if ObjectId(task0) == t.getId():
                 taskName.append(t.getTitle())
 
     # array of initials
     analystAssg = []
-    for task in task1.getAnalystAssigment():
+    for task2 in task1.getAnalystAssigment():
         for t in db.getAllAnalyst():
-            if ObjectId(task) == t.getId():
+            if ObjectId(task2) == t.getId():
                 analystAssg.append(t.getInitial())
+
     # array of initials for collaborators
     collaborators = []
-    for task in task1.getCollaboratorAssignment():
+    for task3 in task1.getCollaboratorAssignment():
         for t in db.getAllAnalyst():
-            if ObjectId(task) == t.getId():
+            if ObjectId(task3) == t.getId():
                 collaborators.append(t.getInitial())
 
     # check if archive task button has been pressed, if so, set it to be archived and redirect
@@ -450,7 +430,8 @@ def TaskView(task):
         db.updateTask(analyst, task1)
         return redirect(url_for('Tasks'))
 
-    return render_template('TaskView.html', task=task1,taskName=taskName,analystAssg=analystAssg,collaborators=collaborators)
+    return render_template('TaskView.html', task=task1, taskName=taskName, analystAssg=analystAssg,
+                           collaborators=collaborators)
 
 
 @app.route('/EditTask/<task>', methods=['GET', 'POST'])
@@ -490,6 +471,7 @@ def EditTask(task):
         return redirect(url_for("TaskView", task=task1.getId()))
 
     return render_template('EditTask.html', form=form, task=task1)
+
 
 @app.route('/Tasks')
 def Tasks():
@@ -536,8 +518,8 @@ def DemoteTask(task):
                               taskToDemote.getAssociationToTask(),
                               taskToDemote.getAnalystAssigment(),
                               taskToDemote.getCollaboratorAssignment(), False)
-            db.updateSubtask(analyst,subtask)
-            db.deleteTask(analyst,taskToDemote)
+            db.updateSubtask(analyst, subtask)
+            db.deleteTask(analyst, taskToDemote)
 
             return redirect(url_for('Tasks'))
     return redirect(url_for('Tasks'))
@@ -545,29 +527,10 @@ def DemoteTask(task):
 
 @app.route('/CreateSubTask', methods=['GET', 'POST'])
 def CreateSubTask():
-    associatedTasks=[]
-    analystsAssigned=[]
-    collaboration=[]
-    form = CreateSubtaskForm(subtasks=db.getAllSubtasks(), analysts=db.getAllAnalyst(), collaborators=db.getAllAnalyst())
+    form = CreateSubtaskForm(subtasks=db.getAllSubtasks(), analysts=db.getAllAnalyst(),
+                             collaborators=db.getAllAnalyst())
 
     if 'createSubtask' in request.form:
-        for subtask in form.associationToSubtask.data:
-            for s in db.getAllTasks():
-                if s.getId() == ObjectId(subtask):
-                    u = s.getTitle()  # list of titles since we cannot gt the to work with a list of tasks
-                    associatedTasks.append(u)
-
-        for analysta in form.subTaskAnalystAssignment.data:
-            for a in db.getAllAnalyst():
-                if a.getId() == ObjectId(analysta):
-                    u = a.getInitial()  # list of titles since we cannot gt the to work with a list of tasks
-                    analystsAssigned.append(u)
-
-        for collab in form.subTaskCollaboratorAssignment.data:
-            for c in db.getAllAnalyst():
-                if c.getId() == ObjectId(collab):
-                    u = c.getInitial()  # list of titles since we cannot gt the to work with a list of tasks
-                    collaboration.append(u)
         subtask = Subtask(form.subTaskName.data,
                           form.subTaskDescription.data,
                           form.subTaskProgress.data,
@@ -612,7 +575,6 @@ def EditSubTask(subtask):
         subT.setAssociationToTask(form.associationToSubtask.data)
         subT.setAnalystAssigment(form.subTaskAnalystAssignment.data)
         subT.setCollaboratorAssignment(form.subTaskCollaboratorAssignment.data)
-
         db.updateSubtask(analyst, subT)
         return redirect(url_for("SubTaskView", subtask=subT.getId()))
 
@@ -633,10 +595,14 @@ def SubTaskView(subtask):
 
     # array of initials FOR ASSIGNED ANALYSTS
     analystAssg = []
-    for subtask in subT.getAnalystAssigment():
+    print(subT.getAnalystAssigment())
+    for task2 in subT.getAnalystAssigment():
         for t in db.getAllAnalyst():
-            if ObjectId(subtask) == t.getId():
+            if ObjectId(task2) == t.getId():
+                print(t.getInitial())
                 analystAssg.append(t.getInitial())
+    print(analystAssg)
+
     # array of initials for collaborators
     collaborators = []
     for subtask in subT.getCollaboratorAssignment():
@@ -650,7 +616,8 @@ def SubTaskView(subtask):
         db.updateSubtask(analyst, subT)
         return redirect(url_for('Subtasks'))
 
-    return render_template('SubTaskView.html', subtask=subT,subtaskName=subtaskName,analystAssg=analystAssg,collaborators=collaborators)
+    return render_template('SubTaskView.html', subtask=subT, subtaskName=subtaskName, analystAssg=analystAssg,
+                           collaborators=collaborators)
 
 
 @app.route('/Subtasks')
@@ -765,7 +732,8 @@ def ArchiveContentView():
     for archivedTask in db.getAllTasks():
         if archivedTask.getArchiveStatus() == True:
             archivedTasksList.append(archivedTask)
-    return render_template('ArchiveContentView.html', archivedSystemList=archivedSystemList, archivedTasksList=archivedTasksList)
+    return render_template('ArchiveContentView.html', archivedSystemList=archivedSystemList,
+                           archivedTasksList=archivedTasksList)
 
 
 @app.route('/ConfigurationContentView')

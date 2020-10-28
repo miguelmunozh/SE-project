@@ -32,7 +32,7 @@
     <h4>Due date: </h4>
     <p>{{ subtask.getDueDate() }}</p>
     <h4>subtask Association To subtask </h4>
-    {% for t in collaborators %}
+    {% for t in subtaskName %}
         <ul>
             <li style="list-style-type: circle">
                 {{ t }}
@@ -57,6 +57,7 @@
             </li>
         </ul>
     {% endfor %}
+    <hr>
 {% endblock content %}
 
 {% block sidebar %}
