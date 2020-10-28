@@ -42,8 +42,8 @@
                     {# <button type="submit" class="btn btn-secondary">Archive System</button>#}
                     <button type="submit" class="btn btn-secondary"><a
                             href="{{ url_for('ArchiveTask', task=task.getId()) }}">Archive Task</a></button>
-{#                    <button type="submit" class="btn btn-secondary"><a#}
-{#                            href="{{ url_for('DemoteTask', task=task.getId()) }}">Demote task</a></button>#}
+                    <button type="submit" class="btn btn-secondary"><a
+                            href="{{ url_for('DemoteTask', task=task.getId()) }}">Demote task</a></button>
                 </form>
             </div>
         {% endfor %}

@@ -446,6 +446,23 @@ def TaskView(task):
     return render_template('TaskView.html', task=task1, taskName=taskName, analystAssg=analystAssg,
                            collaborators=collaborators)
 
+@app.route('/DemoteTask/<task>', methods=['GET', 'POST'])
+def DemoteTask(task):
+    for t in db.getAllTasks():
+        if t.getId() == ObjectId(task):
+            task1 = db.getTask(t)
+    subtask = Subtask(task1.getTitle(),
+                      task1.getDescription(),
+                      task1.getProgress(),
+                      task1.getDueDate(),
+                      task1.getAttachment(),
+                      task1.getAssociationToTask(),
+                      task1.getAnalystAssigment(),
+                      task1.getCollaboratorAssignment(), False)
+    db.updateSubtask(analyst, subtask)
+    db.deleteTask(analyst, task1)
+    return redirect(url_for('Tasks'))
+
 
 @app.route('/EditTask/<task>', methods=['GET', 'POST'])
 def EditTask(task):
@@ -623,6 +640,25 @@ def SubTaskView(subtask):
                            collaborators=collaborators)
 
 
+@app.route('/PromoteToTask/<subtask>', methods=['GET', 'POST'])
+def PromoteToTask(subtask):
+    for sub in db.getAllSubtasks():
+        if sub.getId() == ObjectId(subtask):
+            subT = sub
+    task = Task(subT.getTitle(),
+                subT.getDescription(),
+                Priority.MEDIUM.value,
+                subT.getProgress(),
+                subT.getDueDate(),
+                subT.getAttachment(),
+                subT.getAssociationToTask(),
+                subT.getAnalystAssigment(),
+                subT.getCollaboratorAssignment(),
+                False)
+    db.updateTask(analyst, task)
+    db.deleteSubtask(analyst, subT)
+    return redirect(url_for('Tasks'))
+
 @app.route('/Subtasks')
 def Subtasks():
     subTasksList = []
@@ -645,7 +681,6 @@ def ArchiveSubtask(subtask):
 
 @app.route('/RestoreSubtask/<subtask>', methods=['GET', 'POST'])
 def RestoreSubtask(subtask):
-    print(subtask)
     for s in db.getAllSubtasks():
         if s.getId() == ObjectId(subtask):
             s.setArchiveStatus(False)

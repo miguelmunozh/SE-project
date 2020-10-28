@@ -26,8 +26,8 @@
                     {# <button type="submit" class="btn btn-secondary">Archive System</button>#}
                     <button type="submit" class="btn btn-secondary"><a
                             href="{{ url_for('ArchiveSubtask', subtask=subtask.getId()) }}">Archive Subtask</a></button>
-{#                    <button type="submit" class="btn btn-secondary"><a#}
-{#                            href="{{ url_for('DemoteTask', task=task.getId()) }}">Demote task</a></button>#}
+                    <button type="submit" class="btn btn-secondary"><a
+                            href="{{ url_for('PromoteToTask', subtask=subtask.getId()) }}">Promote To Task</a></button>
                 </form>
                 {#        <form method=post>#}
                 {# <button type="submit" class="btn btn-secondary">Archive System</button>#}
