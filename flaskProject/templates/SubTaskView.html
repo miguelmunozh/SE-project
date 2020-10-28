@@ -5,7 +5,7 @@
 {% block content %}
     <h1>Subtask Detailed View </h1>
     <form method=post>
-        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditSubTask', subtask=subtask.getTitle()) }}">Edit
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditSubTask', subtask=subtask.getId()) }}">Edit
             subtask</a></button>
         <button type="submit" value="submit" name="ArchiveSubtask" class="btn btn-secondary">Archive subtask</button>
         <button type="submit" value="submit" name="PromoteToTask" class="btn btn-secondary">Promote To Task</button>

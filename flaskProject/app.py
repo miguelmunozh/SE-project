@@ -399,8 +399,9 @@ def CreateTask():
 
 @app.route('/TaskView/<task>', methods=['GET', 'POST'])
 def TaskView(task):
+    print(task)
     for t in db.getAllTasks():
-        if t.getTitle() == task:
+        if t.getId() == ObjectId(task):
             # task1 = db.getTask(t)
             task1 = t
     # display names of associated tasks instead of the id numbers
@@ -446,6 +447,7 @@ def TaskView(task):
     return render_template('TaskView.html', task=task1, taskName=taskName, analystAssg=analystAssg,
                            collaborators=collaborators)
 
+
 @app.route('/DemoteTask/<task>', methods=['GET', 'POST'])
 def DemoteTask(task):
     for t in db.getAllTasks():
@@ -467,7 +469,7 @@ def DemoteTask(task):
 @app.route('/EditTask/<task>', methods=['GET', 'POST'])
 def EditTask(task):
     for t in db.getAllTasks():
-        if t.getTitle() == task:
+        if t.getId() == ObjectId(task):
             task1 = db.getTask(t)
     form = EditTaskForm()
 
@@ -498,7 +500,7 @@ def EditTask(task):
         task1.setCollaboratorAssignment(form.taskCollaboratorAssignment.data)
 
         db.updateTask(analyst, task1)
-        return redirect(url_for("TaskView", task=task1.getTitle()))
+        return redirect(url_for("TaskView", task=task1.getId()))
 
     return render_template('EditTask.html', form=form, task=task1)
 
@@ -557,7 +559,7 @@ def CreateSubTask():
 @app.route('/EditSubTask/<subtask>', methods=['GET', 'POST'])
 def EditSubTask(subtask):
     for sub in db.getAllSubtasks():
-        if sub.getTitle() == subtask:
+        if sub.getId() == ObjectId(subtask):
             subT = db.getSubtask(sub)
     form = EditSubtaskForm()
     form.associationToSubtask.choices = [(c.getTitle(), c.getTitle()) for c in db.getAllSubtasks()]
@@ -585,7 +587,7 @@ def EditSubTask(subtask):
         subT.setAnalystAssigment(form.subTaskAnalystAssignment.data)
         subT.setCollaboratorAssignment(form.subTaskCollaboratorAssignment.data)
         db.updateSubtask(analyst, subT)
-        return redirect(url_for("SubTaskView", subtask=subT.getTitle()))
+        return redirect(url_for("SubTaskView", subtask=subT.getId()))
 
     return render_template('EditSubTask.html', form=form, subtask=subT)
 
@@ -593,7 +595,7 @@ def EditSubTask(subtask):
 @app.route('/SubTaskView/<subtask>', methods=['GET', 'POST'])
 def SubTaskView(subtask):
     for sub in db.getAllSubtasks():
-        if sub.getTitle() == subtask:
+        if sub.getId() == ObjectId(subtask):
             subT = sub
     # display names of associated subtasks
     subtaskName = []
@@ -632,8 +634,8 @@ def SubTaskView(subtask):
                     subT.getAnalystAssigment(),
                     subT.getCollaboratorAssignment(),
                     False)
-        db.updateTask(analyst,task)
-        db.deleteSubtask(analyst,subT)
+        db.updateTask(analyst, task)
+        db.deleteSubtask(analyst, subT)
         return redirect(url_for('Tasks'))
 
     return render_template('SubTaskView.html', subtask=subT, subtaskName=subtaskName, analystAssg=analystAssg,
@@ -658,6 +660,7 @@ def PromoteToTask(subtask):
     db.updateTask(analyst, task)
     db.deleteSubtask(analyst, subT)
     return redirect(url_for('Tasks'))
+
 
 @app.route('/Subtasks')
 def Subtasks():
@@ -687,7 +690,6 @@ def RestoreSubtask(subtask):
             db.updateSubtask(analyst, s)
             return redirect(url_for('ArchiveContentView'))
     return redirect(url_for('ArchiveContentView'))
-
 
 
 # HAVEN'T WORKED ON FINDINGS YET
@@ -798,7 +800,7 @@ def ArchiveContentView():
         if archivedSubtask.getArchiveStatus() == True:
             archivedSubtasksList.append(archivedSubtask)
     return render_template('ArchiveContentView.html', archivedSystemList=archivedSystemList,
-                           archivedTasksList=archivedTasksList,archivedSubtasksList=archivedSubtasksList)
+                           archivedTasksList=archivedTasksList, archivedSubtasksList=archivedSubtasksList)
 
 
 @app.route('/ConfigurationContentView')
