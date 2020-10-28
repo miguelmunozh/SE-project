@@ -11,11 +11,18 @@
 
             <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
                 <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                    <a href="{{ url_for('SubTaskView', subtask=subtask.getId())}}">
+                    <a href="{{ url_for('SubTaskView', subtask=subtask.getTitle())}}">
                         <h4 class="mb-1">{{ subtask.getTitle() }}</h4>
                     </a>
                     <small>No. of Findings: 2</small>
-                    <h5>Aanalyst: {{ subtask.getAnalystAssigment() }}</h5>
+                    <h5>Aanalyst: </h5>
+                    {% for analyst in subtask.getAnalystAssigment() %}
+                        <ul>
+                            <li style="list-style-type: circle">
+                                {{ analyst }}
+                            </li>
+                        </ul>
+                    {% endfor %}
                     <h5>Task: task 1</h5>
                     <h5>Due date:
                         <medium>{{ subtask.getDueDate() }}</medium>

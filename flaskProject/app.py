@@ -400,28 +400,28 @@ def CreateTask():
 @app.route('/TaskView/<task>', methods=['GET', 'POST'])
 def TaskView(task):
     for t in db.getAllTasks():
-        if t.getId() == ObjectId(task):
+        if t.getTitle() == task:
             # task1 = db.getTask(t)
             task1 = t
     # display names of associated tasks instead of the id numbers
     taskName = []
     for task0 in task1.getAssociationToTask():
         for t in db.getAllTasks():
-            if ObjectId(task0) == t.getId():
+            if task0 == t.getTitle():
                 taskName.append(t.getTitle())
 
     # array of initials
     analystAssg = []
     for task2 in task1.getAnalystAssigment():
         for t in db.getAllAnalyst():
-            if ObjectId(task2) == t.getId():
+            if task2 == t.getInitial():
                 analystAssg.append(t.getInitial())
 
     # array of initials for collaborators
     collaborators = []
     for task3 in task1.getCollaboratorAssignment():
         for t in db.getAllAnalyst():
-            if ObjectId(task3) == t.getId():
+            if task3 == t.getInitial():
                 collaborators.append(t.getInitial())
 
     # check if archive task button has been pressed, if so, set it to be archived and redirect
@@ -467,13 +467,13 @@ def DemoteTask(task):
 @app.route('/EditTask/<task>', methods=['GET', 'POST'])
 def EditTask(task):
     for t in db.getAllTasks():
-        if t.getId() == ObjectId(task):
+        if t.getTitle() == task:
             task1 = db.getTask(t)
     form = EditTaskForm()
 
-    form.associationToTask.choices = [(c.getId(), c.getTitle()) for c in db.getAllTasks()]
-    form.taskAnalystAssignment.choices = [(c.getId(), c.getInitial()) for c in db.getAllAnalyst()]
-    form.taskCollaboratorAssignment.choices = [(c.getId(), c.getInitial()) for c in db.getAllAnalyst()]
+    form.associationToTask.choices = [(c.getTitle(), c.getTitle()) for c in db.getAllTasks()]
+    form.taskAnalystAssignment.choices = [(c.getInitial(), c.getInitial()) for c in db.getAllAnalyst()]
+    form.taskCollaboratorAssignment.choices = [(c.getInitial(), c.getInitial()) for c in db.getAllAnalyst()]
     # populate the form with the data of the task to edit
     if request.method == 'GET':
         form.taskName.data = task1.getTitle()
@@ -498,7 +498,7 @@ def EditTask(task):
         task1.setCollaboratorAssignment(form.taskCollaboratorAssignment.data)
 
         db.updateTask(analyst, task1)
-        return redirect(url_for("TaskView", task=task1.getId()))
+        return redirect(url_for("TaskView", task=task1.getTitle()))
 
     return render_template('EditTask.html', form=form, task=task1)
 
@@ -557,12 +557,12 @@ def CreateSubTask():
 @app.route('/EditSubTask/<subtask>', methods=['GET', 'POST'])
 def EditSubTask(subtask):
     for sub in db.getAllSubtasks():
-        if sub.getId() == ObjectId(subtask):
+        if sub.getTitle() == subtask:
             subT = db.getSubtask(sub)
     form = EditSubtaskForm()
-    form.associationToSubtask.choices = [(c.getId(), c.getTitle()) for c in db.getAllSubtasks()]
-    form.subTaskAnalystAssignment.choices = [(c.getId(), c.getInitial()) for c in db.getAllAnalyst()]
-    form.subTaskCollaboratorAssignment.choices = [(c.getId(), c.getInitial()) for c in db.getAllAnalyst()]
+    form.associationToSubtask.choices = [(c.getTitle(), c.getTitle()) for c in db.getAllSubtasks()]
+    form.subTaskAnalystAssignment.choices = [(c.getInitial(), c.getInitial()) for c in db.getAllAnalyst()]
+    form.subTaskCollaboratorAssignment.choices = [(c.getInitial(), c.getInitial()) for c in db.getAllAnalyst()]
 
     # populate the form with the data of the system to edit
     if request.method == 'GET':
@@ -585,7 +585,7 @@ def EditSubTask(subtask):
         subT.setAnalystAssigment(form.subTaskAnalystAssignment.data)
         subT.setCollaboratorAssignment(form.subTaskCollaboratorAssignment.data)
         db.updateSubtask(analyst, subT)
-        return redirect(url_for("SubTaskView", subtask=subT.getId()))
+        return redirect(url_for("SubTaskView", subtask=subT.getTitle()))
 
     return render_template('EditSubTask.html', form=form, subtask=subT)
 
@@ -593,27 +593,27 @@ def EditSubTask(subtask):
 @app.route('/SubTaskView/<subtask>', methods=['GET', 'POST'])
 def SubTaskView(subtask):
     for sub in db.getAllSubtasks():
-        if sub.getId() == ObjectId(subtask):
+        if sub.getTitle() == subtask:
             subT = sub
     # display names of associated subtasks
     subtaskName = []
     for subtask in subT.getAssociationToTask():
         for t in db.getAllSubtasks():
-            if ObjectId(subtask) == t.getId():
+            if subtask == t.getTitle():
                 subtaskName.append(t.getTitle())
 
     # array of initials FOR ASSIGNED ANALYSTS
     analystAssg = []
     for task2 in subT.getAnalystAssigment():
         for t in db.getAllAnalyst():
-            if ObjectId(task2) == t.getId():
+            if task2 == t.getInitial():
                 analystAssg.append(t.getInitial())
 
     # array of initials for collaborators
     collaborators = []
     for subtask in subT.getCollaboratorAssignment():
         for t in db.getAllAnalyst():
-            if ObjectId(subtask) == t.getId():
+            if subtask == t.getInitial():
                 collaborators.append(t.getInitial())
 
     # check if archive event button has been pressed, if so, set it to be archived and redirect to main page

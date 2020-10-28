@@ -172,11 +172,11 @@ class CreateTaskForm(FlaskForm):
     def __init__(self, tasks=None, analysts=None, collaborators=None):
         super().__init__()  # calls the base initialisation and then...
         if tasks:
-            self.associationToTask.choices = [(task.getId(), task.getTitle()) for task in tasks]
+            self.associationToTask.choices = [(task.getTitle(), task.getTitle()) for task in tasks]
         if analysts:
-            self.taskAnalystAssignment.choices = [(analyst.getId(), analyst.getInitial()) for analyst in analysts]
+            self.taskAnalystAssignment.choices = [(analyst.getInitial(), analyst.getInitial()) for analyst in analysts]
         if collaborators:
-            self.taskCollaboratorAssignment.choices = [(collaborator.getId(), collaborator.getInitial()) for
+            self.taskCollaboratorAssignment.choices = [(collaborator.getInitial(), collaborator.getInitial()) for
                                                        collaborator in collaborators]
 
 
@@ -228,11 +228,11 @@ class CreateSubtaskForm(FlaskForm):
     def __init__(self, subtasks=None, analysts=None, collaborators=None):
         super().__init__()  # calls the base initialisation and then...
         if subtasks:
-            self.associationToSubtask.choices = [(task.getId(), task.getTitle()) for task in subtasks]
+            self.associationToSubtask.choices = [(task.getTitle(), task.getTitle()) for task in subtasks]
         if analysts:
-            self.subTaskAnalystAssignment.choices = [(analyst.getId(), analyst.getInitial()) for analyst in analysts]
+            self.subTaskAnalystAssignment.choices = [(analyst.getInitial(), analyst.getInitial()) for analyst in analysts]
         if collaborators:
-            self.subTaskCollaboratorAssignment.choices = [(collaborator.getId(), collaborator.getInitial()) for
+            self.subTaskCollaboratorAssignment.choices = [(collaborator.getInitial(), collaborator.getInitial()) for
                                                           collaborator in collaborators]
 
 
