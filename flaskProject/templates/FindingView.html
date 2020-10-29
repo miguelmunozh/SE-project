@@ -4,60 +4,56 @@
 <!-- html code for the body of the page-->
 {% block content %}
     <h1>Finding Overview</h1>
-        <form method=post>
-        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditFinding', system=system.getId()) }}">Edit
+    <form method=post>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EditFinding', finding=finding.getid()) }}">Edit
             Finding</a></button>
-        <button type="submit" value="submit" name="ArchiveSystem" class="btn btn-secondary">Archive Finding</button>
+        <button type="submit" value="submit" name="ArchiveFinding" class="btn btn-secondary">Delete Finding</button>
         <button type="submit" class="btn btn-secondary"><a href="{{ url_for('Help') }}">Help</a></button>
     </form>
     <hr>
     <h3>Finding information</h3>
     <hr>
-    <h4>Title</h4>
-    <p>{{ finding.getName() }}</p>
-    <hr>
     <h4>ID</h4>
-    <p>{{ finding.getName() }}</p>
+    <p>{{ finding.getid() }}</p>
     <hr>
     <h4>Host Name</h4>
-    <p>{{ finding.getName() }}</p>
+    <p>{{ finding.getHostName() }}</p>
     <hr>
     <h4>IP:Port</h4>
-    <p>{{ finding.getName() }}</p>
+    <p>{{ finding.getIpPort() }}</p>
     <hr>
     <h4>Description</h4>
-    <p>{{ finding.getName() }}</p>
+    <p>{{ finding.getDescription() }}</p>
     <hr>
     <h4>Long Description</h4>
-    <p>{{ finding.getName() }}</p>
+    <p>{{ finding.getLongDescription() }}</p>
     <hr>
     <h4>Status</h4>
-    <p>{{ finding.getName() }}</p>
+    <p>{{ finding.getStatus().value }}</p>
     <hr>
     <h4>Type</h4>
-    <p>{{ finding.getName() }}</p>
+    <p>{{ finding.getType().value }}</p>
     <hr>
     <h4>Classification</h4>
-    <p>{{ finding.getName() }}</p>
+    <p>{{ finding.getClassification().value }}</p>
     <hr>
     <h4>Evidence</h4>
-    <p>{{ finding.getName() }}</p>
+    <p>{{ finding.getEvidence() }}</p>
     <hr>
-
     <h4>Related Findings</h4>
-    <p>{{ finding.getName() }}</p>
+    <p>{{ finding.getAssociationTo() }}</p>
     <hr>
 
     <h3>Finding Impact</h3>
     <hr>
     <h4>Confidentiality</h4>
-    <p>H</p>
+    <p>{{ finding.getConfidentiality().value }}</p>
     <hr>
     <h4>Integrity</h4>
-    <p>L</p>
+    <p>{{ finding.getIntegrity().value }}</p>
     <hr>
     <h4>Availability</h4>
-    <p>This is some other text.</p>
+    <p>{{ finding.getAvailability().value }}</p>
     <hr>
 
     <h3>Analyst Information</h3>
@@ -69,88 +65,73 @@
     <p>MM, CD, JM</p>
     <hr>
     <h4>Posture</h4>
-    <p>Nearsider insider</p>
+    <p>{{ finding.getPosture().value }}</p>
     <hr>
 
     <h3>Mitigation</h3>
     <hr>
-    <h4>Mitigation</h4>
-    <p>Your script should filter meta characters fr</p>
-    <hr>
     <h4>Brief Description</h4>
-    <p>This is some other text.</p>
+    <p>{{ finding.getMitigationBriefDescription() }}</p>
     <hr>
     <h4>long Description</h4>
-    <p>This is some other text.</p>
+    <p>{{ finding.getMitigationLongDescription() }}</p>
     <hr>
 
-    <h3>Threat</h3>
-    <hr>
-    <h4>Threat Relevance</h4>
-    <p>Confirmed</p>
+    <h3>Threat Relevance</h3>
     <hr>
     <h4>Relevance</h4>
-    <p>Confirmed</p>
+    <p>{{ finding.getRelevance().value }}</p>
     <hr>
 
     <h3>Countermeasure</h3>
     <hr>
-    <h4>Countermeasure</h4>
-    <p>This is some other text.</p>
-    <hr>
     <h4>Effectiveness Rating</h4>
-    <p>Good</p>
+    <p>{{ finding.getCountermeasureEffectivenessRating().value }}</p>
     <hr>
 
     <h3>Imapact</h3>
     <hr>
-    <h4>Impact</h4>
-    <p>VL</p>
-    <hr>
     <h4>Impact Description</h4>
-    <p>Blind SQL injection</p>
+    <p>{{ finding.getImpactDescription() }}</p>
     <hr>
     <h4>Impact Level</h4>
-    <p>Blind SQL injection</p>
+    <p>{{ finding.getImpactLevel().value }}</p>
     <hr>
 
     <h3>Severity</h3>
     <hr>
-    <h4>Severity</h4>
-    <p>Critical</p>
-    <hr>
     <h4>Severity Category Score</h4>
-    <p>8</p>
+    <p>{{ finding.getSeverityCategoryCode().value }}</p>
     <hr>
     <h4>Vulnerability Severity Level</h4>
-    <p>This is some other text.</p>
+    <p>{{ finding.getVulnerabilitySeverity() }}</p>
     <hr>
-    <h4>Quantitive Vulnerability Severity</h4>
-    <p>This is some other text.</p>
+    <h4>Quantitative Vulnerability Severity</h4>
+    <p>{{ finding.getQualitativeVulnerabilitySeverity() }}</p>
     <hr>
 
     <h3>Risk</h3>
     <hr>
     <h4>Risk</h4>
-    <p>VL</p>
+    <p>{{ finding.getRisk() }}</p>
     <hr>
-    <h4>likehood</h4>
-    <p>M</p>
+    <h4>Likelihood</h4>
+    <p>{{ finding.getLikelihood() }}</p>
     <hr>
 
-    <h3>finding system level impact</h3>
+    <h3>Finding System Level Impact</h3>
     <hr>
     <h4>Confidentiality Finding Impact System</h4>
-    <p>H</p>
+    <p>{{ finding.getConfidentialityFindingImpactOnSystem().value }}</p>
     <hr>
     <h4>Integrity Finding Impact on System</h4>
-    <p>M</p>
+    <p>{{ finding.getIntegrityFindingImpactOnSystem().value }}</p>
     <hr>
     <h4>Availability Finding Impact on System</h4>
-    <p>L</p>
+    <p>{{ finding.getAvailabilityFindingImpactOnSystem().value }}</p>
     <hr>
     <h4>Impact Score</h4>
-    <p>8</p>
+    <p>{{ finding.getImpactScore() }}</p>
     <hr>
 
 {% endblock content %}
@@ -161,19 +142,23 @@
         <p class='text-muted'>You can put any information here you'd like.
         <ul class="list-group">
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a></li>
+            <li class="list-group-item list-group-item-light"><a
+                    href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a>
+            </li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived Contents</a>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived
+                Contents</a>
             </li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
                 Configuration</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
             </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help',_anchor='detailedFinding') }}"> Help</a></li>
+            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help',_anchor='detailedFinding') }}">
+                Help</a></li>
             <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
         </ul>
         </p>

@@ -1,12 +1,14 @@
-from flaskProject.analyst.analyst import Analyst
-from flaskProject.analyst.role import Role
-from flaskProject.event.event import Event, EventType, EventClassification
-from flaskProject.system.system import System
-from flaskProject.database.log import LogEntry
-from flaskProject.database.db import Db
-from flaskProject.task.task import Task
-from flaskProject.task.subtask import Subtask
-from flaskProject.finding.Finding import Finding
+from analyst.analyst import Analyst
+from analyst.role import Role
+from event.event import Event
+from event.eventType import EventType
+from event.eventClassification import EventClassification
+from system.system import System
+from database.log import LogEntry
+from database.db import Db
+from task.task import Task
+from task.subtask import Subtask
+from finding.Finding import Finding
 import datetime
 
 

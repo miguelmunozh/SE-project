@@ -1,6 +1,6 @@
 from enum import Enum
-from flaskProject.event.eventClassification import EventClassification
-from flaskProject.event.eventType import EventType
+from event.eventClassification import EventClassification
+from event.eventType import EventType
 
 
 class Event:

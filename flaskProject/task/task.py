@@ -1,5 +1,5 @@
-from flaskProject.task.progress import Progress
-from flaskProject.task.priority import Priority
+from task.progress import Progress
+from task.priority import Priority
 from datetime import datetime
 
 class Task:

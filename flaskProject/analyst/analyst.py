@@ -1,5 +1,5 @@
 from enum import Enum
-from flaskProject.analyst.role import Role
+from analyst.role import Role
 
 class Analyst:
 

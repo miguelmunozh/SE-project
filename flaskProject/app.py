@@ -9,6 +9,7 @@ from database.databaseHandler import DatabaseHandler
 from event.event import Event
 from event.eventType import EventType
 from event.eventClassification import EventClassification
+from finding.Finding import Finding
 from system.system import System
 from forms import *
 from Helper import *
@@ -739,12 +740,39 @@ def RestoreSubtask(subtask):
 
 
 # HAVEN'T WORKED ON FINDINGS YET
-@app.route('/CreateFinding')
+@app.route('/CreateFinding', methods=['GET', 'POST'])
 def CreateFinding():
     form = CreateFindingForm()
-    # if 'createFinding' in request.form:
-    #     finding = Finding()
-    #     db.updateFinding(analyst, finding)
+    if 'createFinding' in request.form:
+        # 3 if I just pass form.findingPosture.data we would get the same result, so what is the diff?
+        print(Posture.getMember(form.findingPosture.data))
+        # cast this to enum type
+        finding = Finding(form.findingHostName.data,
+                          form.findingIPPort.data,
+                          form.findingDescription.data,
+                          FindingStatus.getMember(form.findingStatus.data),
+                          FindingType.getMember(form.findingType.data),
+                          FindingClassification.getMember(form.findingClassification.data),
+                          form.associationToFinding.data,
+                          form.findingEvidence.data,
+                          False,
+                          Confidentiality.getMember(form.findingConfidentiality.data),
+                          Integrity.getMember(form.findingIntegrity.data),
+                          Availability.getMember(form.findingAvailability.data),
+                          ["jr", "sr"],
+                          Posture.getMember(form.findingPosture.data),
+                          form.mitigationBriefDescription.data,
+                          form.mitigationLongDescription.data,
+                          Relevance.getMember(int(form.findingThreatRelevance.data)),
+                          EffectivenessRating.getMember(int(form.findingEffectivenessRating.data)),
+                          form.impactDescription.data,
+                          ImpactLevel.getMember(int(form.impactLevel.data)),
+                          SeverityCategoryCode.getMember(int(form.severityCategoryCode.data)),
+                          form.findingLongDescription.data,
+                          ["jr", "sr"])
+        db.updateFinding(analyst, finding)
+        return redirect(url_for("FindingsView"))
+
     return render_template('CreateFinding.html', form=form)
 
 
@@ -760,8 +788,8 @@ def FindingsView():
 @app.route('/FindingView/<finding>', methods=['GET', 'POST'])
 def FindingView(finding):
     for f in db.getAllFindings():
-        if f.getId() == ObjectId(finding):
-            find = db.getSubtask(f)
+        if f.getid() == ObjectId(finding):
+            find = f
     # check if archive event button has been pressed, if so, set it to be archived and redirect to main page
     if 'ArchiveFinding' in request.form:
         find.setArchiveStatus(True)
@@ -824,6 +852,7 @@ def EditFinding(finding):
         db.updateSubtask(analyst, find)
         return redirect(url_for("SubTaskView", finding=find.getId()))
     return render_template('EditFinding.html', form=form, finding=find)
+
 
 # function to archive a system from event and db
 @app.route('/Tasks/<task>', methods=['GET', 'POST'])
@@ -961,7 +990,28 @@ def EventTree():
 
 @app.route('/AnalystProgressSummaryContentView')
 def AnalystProgressSummaryContentView():
-    return render_template('AnalystProgressSummaryContentView.html')
+    findingsList = []
+    for finding in db.getAllFindings():
+        if finding.getArchiveStatus() == False:
+            findingsList.append(finding)
+
+    tasksList = []
+    for task in db.getAllTasks():
+        if task.getArchiveStatus() == False:
+            tasksList.append(task)
+
+    systemList = []
+    for system in db.getAllSystems():
+        if system.getArchiveStatus() == False:
+            systemList.append(system)
+
+    subTasksList = []
+    for subtask in db.getAllSubtasks():
+        if subtask.getArchiveStatus() == False:
+            subTasksList.append(subtask)
+
+    return render_template('AnalystProgressSummaryContentView.html', findingsList=findingsList, tasksList=tasksList,
+                           systemList=systemList, subTasksList=subTasksList)
 
 
 if __name__ == '__main__':

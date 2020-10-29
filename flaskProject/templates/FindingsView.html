@@ -12,22 +12,22 @@
     </div>
     <hr>
     <div class="list-group">
-        {% for finding in systemList %}
+        {% for finding in findingsList %}
 
             <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
                 <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                    <a href="{{ url_for('FindingView') }}">
-                        <h4 class="mb-1">{{ finding.getName() }}</h4>
+                    <a href="{{ url_for('FindingView', finding=finding.getid()) }}">
+                        <h4 class="mb-1">{{ finding.getHostName() }}</h4>
                     </a>
-                    <h5 class="mb-1">ID: 132654 </h5>
+                    <h5 class="mb-1">ID: {{ finding.getid() }} </h5>
                     <h5 class="mb-1">System: system 1 </h5>
                     <h5 class="mb-1">Task: Task 1 </h5>
                     <h5 class="mb-1">Subtask: Subtask 1 </h5>
-                    <h5 class="mb-1">Analyst: </h5>
-                    <h5 class="mb-1">Status: </h5>
-                    <h5 class="mb-1">Clasificatioin: </h5>
-                    <h5 class="mb-1">Type: </h5>
-                    <h5 class="mb-1">Risk: </h5>
+                    <h5 class="mb-1">Analyst: {{ finding.getAnalystAssigned() }}</h5>
+                    <h5 class="mb-1">Status: {{ finding.getStatus() }}</h5>
+                    <h5 class="mb-1">Classification: {{ finding.getClassification() }} </h5>
+                    <h5 class="mb-1">Type: {{ finding.getType() }}</h5>
+                    <h5 class="mb-1">Risk: {{ finding.getRisk() }}</h5>
                 </div>
                 <div class="custom-control custom-checkbox mb-3">
                     <button type="submit" class="btn btn-secondary"><a href="">Delete finding</a></button>
