@@ -87,6 +87,37 @@ def CreateAnalyst():
     return render_template('CreateAnalyst.html', form=form)
 
 
+# @app.route('/EditAnalyst/<analys>', methods=['GET', 'POST'])
+# def EditAnalyst(analys):
+#     form = EditAnalystForm()
+#     for a in db.getAllAnalyst():
+#         if a.getInitial() == str(analys):
+#             m = a
+#     global analyst
+#
+#     if request.method == 'GET':
+#         form.EditAnalystFName.data = m.getFirstName()
+#         form.EditAnalystLName.data = m.getLastName()
+#         form.EditAnalystInitials.data = m.getInitial()
+#         form.EditAnalystRole.data = m.getRole()
+#
+#     if 'EditAnalyst' in request.form:
+#         m.setFirstName(form.EditAnalystFName.data)
+#         m.setLastName(form.EditAnalystLName.data)
+#         m.setInitial(form.EditAnalystInitials.data)
+#         m.setRole(form.EditAnalystRole.data)
+#
+#         if analys in event.getEventTeam():
+#             event.getEventTeam().remove(analys)
+#             event.getEventTeam().append(m.getInitial())
+#             db.updateEvent(analyst, event)
+#
+#         db.updateAnalyst(m)
+#         return redirect(url_for('EventView'))
+#
+#     return render_template('EditAnalyst.html',form=form, analys=m.getInitial())
+
+
 # function to delete analyst initials from event and db
 @app.route('/EventView/<string:initial>', methods=['GET', 'POST'])
 def deleteAnalyst(initial):
@@ -116,11 +147,26 @@ def EventView():
             event = e
     if notEvent:
         event = None
+    # get lists of analysts initials to display in event view
+    leadList = []
+    for ana in db.getAllAnalyst():
+        if ana.getRole() == Role.LEAD:
+            leadList.append(ana.getInitial())
+
+    nonleadList = []
+    for ana in db.getAllAnalyst():
+        if ana.getRole() != Role.LEAD:
+            nonleadList.append(ana.getInitial())
+
     # check if archive event button has been pressed, if so, set it to be archived and redirect to main page
     if 'ArchiveEvent' in request.form:
         # event.setArchiveStatus(True)
         # db.updateEvent(analyst, event)
         # delete event and its systems, tasks, etc since well deal only with one event at a time
+        for subtask in db.getAllSubtasks():
+            db.deleteSubtask(analyst, subtask)
+        for task in db.getAllTasks():
+            db.deleteTask(analyst, task)
         for system in db.getAllSystems():
             db.deleteSystem(analyst, system)
         for analyst in db.getAllAnalyst():
@@ -130,7 +176,7 @@ def EventView():
         return redirect(url_for('SetupContentView'))
 
     # pass event as parameter to use the event variable in the EventView.html
-    return render_template('EventView.html', event=event, db=db)
+    return render_template('EventView.html', event=event, db=db, leadList=leadList, nonleadList=nonleadList)
 
 
 @app.route('/EditEvent', methods=['GET', 'POST'])
@@ -778,6 +824,26 @@ def EditFinding(finding):
         db.updateSubtask(analyst, find)
         return redirect(url_for("SubTaskView", finding=find.getId()))
     return render_template('EditFinding.html', form=form, finding=find)
+
+# function to archive a system from event and db
+@app.route('/Tasks/<task>', methods=['GET', 'POST'])
+def ArchiveFinding(finding):
+    for y in db.getAllFindings():
+        if y.getId() == ObjectId(finding):
+            y.setArchiveStatus(True)
+            db.updateFinding(analyst, y)
+            return redirect(url_for('FindingsView'))
+    return redirect(url_for('FindingsView'))
+
+
+@app.route('/RestoreFinding/<finding>', methods=['GET', 'POST'])
+def RestoreFinding(finding):
+    for r in db.getAllFindings():
+        if r.getId() == ObjectId(finding):
+            r.setArchiveStatus(False)
+            db.updateFinding(analyst, r)
+            return redirect(url_for('ArchiveContentView'))
+    return redirect(url_for('ArchiveContentView'))
 
 
 @app.route('/GenerateReport')

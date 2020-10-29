@@ -104,6 +104,17 @@ class CreateAnalystForm(FlaskForm):
                                     validators=[DataRequired()])
 
 
+class EditAnalystForm(FlaskForm):
+    EditAnalystFName = StringField('Analyst First Name', validators=[DataRequired()])
+    EditAnalystLName = StringField('Analyst Last Name')
+    EditAnalystInitials = StringField('Initials', validators=[DataRequired()])
+    EditAnalystRole = SelectField('Analyst role',
+                                  choices=[(Role.ANALYST.value, Role.ANALYST.name),
+                                           (Role.LEAD.value, Role.LEAD.name),
+                                           (Role.COLLABORATOR.value, Role.COLLABORATOR.name)],
+                                  validators=[DataRequired()])
+
+
 class CreateSystemForm(FlaskForm):
     systemName = StringField("System Name", validators=[DataRequired()])
     systemDescription = StringField("system Description")
@@ -230,7 +241,8 @@ class CreateSubtaskForm(FlaskForm):
         if subtasks:
             self.associationToSubtask.choices = [(task.getTitle(), task.getTitle()) for task in subtasks]
         if analysts:
-            self.subTaskAnalystAssignment.choices = [(analyst.getInitial(), analyst.getInitial()) for analyst in analysts]
+            self.subTaskAnalystAssignment.choices = [(analyst.getInitial(), analyst.getInitial()) for analyst in
+                                                     analysts]
         if collaborators:
             self.subTaskCollaboratorAssignment.choices = [(collaborator.getInitial(), collaborator.getInitial()) for
                                                           collaborator in collaborators]

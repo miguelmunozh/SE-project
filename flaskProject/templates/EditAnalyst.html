@@ -1,0 +1,33 @@
+<!-- extends the layout.html main structure to avoid repetition -->
+{% extends "layout.html" %}
+
+<!-- html code for the body of the page-->
+{% block content %}
+    <h1>Edit Analyst</h1>
+    <form method="POST">
+        <div class="form-group">
+            {{ form.EditAnalystFName.label }}            <br>
+            {{ form.EditAnalystFName(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.EditAnalystLName.label }}
+            <br>
+            {{ form.EditAnalystLName(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.EditAnalystInitials.label }}
+            <br>
+            {{ form.EditAnalystInitials(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.EditAnalystRole.label }}
+            <br>
+            {{ form.EditAnalystRole(class_="form-control") }}
+        </div>
+
+        <button type="submit" name="EditAnalyst" class="btn btn-secondary">Save</button>
+        <button type="submit" class="btn btn-secondary"><a href="{{ url_for('EventView') }}">Cancel</a></button>
+        <br><br>
+    </form>
+{% endblock content %}
+
