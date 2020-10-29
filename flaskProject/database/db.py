@@ -1,7 +1,7 @@
 import pymongo
 from pymongo import MongoClient
 from datetime import date
-from database.log import LogEntry
+from flaskProject.database.log import LogEntry
 import datetime
 
 

@@ -1,5 +1,5 @@
-from task.task import Task
-from task.progress import Progress
+from flaskProject.task.task import Task
+from flaskProject.task.progress import Progress
 from datetime import datetime
 
 

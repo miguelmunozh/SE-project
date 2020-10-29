@@ -7,7 +7,10 @@ from flaskProject.event.eventType import EventType
 from flaskProject.system.system import System, Confidentiality, Availability, Integrity
 from flaskProject.task.task import Task, Progress, Priority
 from flaskProject.task.subtask import Subtask
-from flaskProject.finding.Finding import Finding, FindingClassification, FindingStatus, FindingType
+from flaskProject.finding.Finding import Finding, FindingClassification, FindingStatus, FindingType, EffectivenessRating, Posture, ImpactLevel, Relevance, SeverityCategoryCode
+from flaskProject.finding.findingStatus import FindingStatus
+from flaskProject.finding.findingType import FindingType
+
 
 from datetime import datetime, date
 
@@ -153,16 +156,30 @@ class TestDatabaseOperations(unittest.TestCase):
         database = DatabaseHandler()
         analyst = Analyst("FirstName", "lastname", "initial", "title", Role.LEAD)
 
+        print(type(FindingStatus.OPEN))
         finding = Finding("hostName"
                           , "IpPort"
                           , "description"
-                          , "long_description"
                           , FindingStatus.OPEN
                           , FindingType.AUTHENTICATION_BYPASS
                           , FindingClassification.INFORMATION
                           , ["association1", "association2"]
                           , "evidence"
-                          , False)
+                          , False
+                          , Confidentiality.LOW
+                          , Integrity.MEDIUM
+                          , Availability.HIGH
+                          , ["jr", "cj"]
+                          , Posture.INSIDER
+                          , "mitigationDescBrief"
+                          , "mitigationDescLong"
+                          , Relevance.CONFIRMED
+                          , EffectivenessRating.LOW_2
+                          , "impactDescription"
+                          , ImpactLevel.VH
+                          , SeverityCategoryCode.II
+                          , "longDescription"
+                          , ["jz","bg"])
 
         database.updateFinding(analyst, finding)
 
@@ -175,7 +192,41 @@ class TestDatabaseOperations(unittest.TestCase):
         self.assertEqual(finding.getDescription(), finding2.getDescription())
         self.assertEqual(finding.getLongDescription(), finding2.getLongDescription())
         self.assertEqual(finding.getStatus(), finding2.getStatus())
+        self.assertEqual(finding.getType(), finding2.getType())
         self.assertEqual(finding.getClassification(), finding2.getClassification())
         self.assertEqual(finding.getAssociationTo(), finding2.getAssociationTo())
         self.assertEqual(finding.getEvidence(), finding2.getEvidence())
-        self.assertEqual(finding.getArchioveStatus(), finding2.getArchioveStatus())
+        self.assertEqual(finding.getArchiveStatus(), finding2.getArchiveStatus())
+        self.assertEqual(finding.getConfidentiality(), finding2.getConfidentiality())
+        self.assertEqual(finding.getIntegrity(), finding2.getIntegrity() )
+        self.assertEqual(finding.getAvailability(), finding2.getAvailability() )
+        self.assertEqual(finding.getAnalystAssigned(), finding2.getAnalystAssigned() )
+        self.assertEqual(finding.getPosture(), finding2.getPosture() )
+        self.assertEqual(finding.getMitigationBriefDescription(), finding2.getMitigationBriefDescription() )
+        self.assertEqual(finding.getMitigationLongDescription(), finding2.getMitigationLongDescription())
+        self.assertEqual(finding.getRelevance(), finding2.getRelevance())
+        self.assertEqual(finding.getCountermeasureEffectivenessRating(), finding2.getCountermeasureEffectivenessRating())
+        self.assertEqual(finding.getImpactDescription(), finding2.getImpactDescription())
+        self.assertEqual(finding.getImpactLevel(), finding2.getImpactLevel())
+        self.assertEqual(finding.getImpactScore(), finding2.getImpactScore())
+        self.assertEqual(finding.getCollaboratorsAssigned(), finding2.getCollaboratorsAssigned())
+        self.assertEqual(finding.getSeverityCategoryCode(), finding2.getSeverityCategoryCode())
+        self.assertEqual(finding.getSeverityCategoryScore(), finding2.getSeverityCategoryScore())
+        self.assertEqual(finding.getVulnerabilitySeverity(), finding2.getVulnerabilitySeverity())
+        self.assertEqual(finding.getQualitativeVulnerabilitySeverity(), finding2.getQualitativeVulnerabilitySeverity())
+        self.assertEqual(finding.getRisk(), finding2.getRisk())
+        self.assertEqual(finding.getLikelihood(), finding2.getLikelihood())
+        self.assertEqual(finding.getConfidentialityFindingImpactOnSystem(), finding2.getConfidentialityFindingImpactOnSystem())
+        self.assertEqual(finding.getIntegrityFindingImpactOnSystem(), finding2.getIntegrityFindingImpactOnSystem())
+        self.assertEqual(finding.getAvailabilityFindingImpactOnSystem(), finding2.getAvailabilityFindingImpactOnSystem())
+        self.assertEqual(finding.getImpactScore(), finding2.getImpactScore())
+
+
+
+
+
+        def getImpactScore(self):
+            return self.__impactScore
+
+
+
