@@ -39,10 +39,10 @@ class CreateEventForm(FlaskForm):
 
     EventType = SelectField('Event Type',
                             choices=[(EventType.COOPERATIVE_VULNERABILITY_PENETRATION_ASSESSMENT.value,
-                                      EventType.COOPERATIVE_VULNERABILITY_PENETRATION_ASSESSMENT.name),
+                                      "Cooperative Vulnerability Penetration Assessment"),
                                      (EventType.COOPERATIVE_VULNERABILITY_INVESTIGATION.value,
-                                      EventType.COOPERATIVE_VULNERABILITY_INVESTIGATION.name),
-                                     (EventType.VERIFICATION_OF_FIXES.value, EventType.VERIFICATION_OF_FIXES.name)],
+                                      "Cooperative Vulnerability Investigation"),
+                                     (EventType.VERIFICATION_OF_FIXES.value, "Verification Of Fixes")],
                             validators=[DataRequired()])
     OrganizationName = StringField('Organization Name', validators=[DataRequired()])
     CustomerName = StringField('Customer Name', validators=[DataRequired()])
@@ -50,14 +50,15 @@ class CreateEventForm(FlaskForm):
     DeclassificationDate = DateField('Declassification Date', validators=[DataRequired()])
     SCTG = StringField('Security Classification Title Guide', validators=[DataRequired()])
     EventClassification = SelectField('Event Classification',
-                                      choices=[
-                                          (EventClassification.TOP_SECRET.value, EventClassification.TOP_SECRET.name),
-                                          (EventClassification.SECRET.value, EventClassification.SECRET.name),
-                                          (EventClassification.CONFIDENTIAL.value,
-                                           EventClassification.CONFIDENTIAL.name),
-                                          (EventClassification.CLASSIFIED.value, EventClassification.CLASSIFIED.name),
-                                          (EventClassification.UNCLASSIFIED.value,
-                                           EventClassification.UNCLASSIFIED.name)],
+                                      choices=[(EventClassification.TOP_SECRET.value,
+                                                "Top Secret"),
+                                               (EventClassification.SECRET.value, "Secret"),
+                                               (EventClassification.CONFIDENTIAL.value,
+                                                "Confidential"),
+                                               (EventClassification.CLASSIFIED.value,
+                                                "Classified"),
+                                               (EventClassification.UNCLASSIFIED.value,
+                                                "Unclassified")],
                                       validators=[DataRequired()])
     # For event team in event class
     EventLeadAnalysts = StringField('Event Lead Analysts', validators=[DataRequired()])
@@ -73,26 +74,26 @@ class EditEventForm(FlaskForm):
     EditEventVersion = StringField('Event Version', validators=[DataRequired()])
     EditEventType = SelectField('Event Type',
                                 choices=[(EventType.COOPERATIVE_VULNERABILITY_PENETRATION_ASSESSMENT.value,
-                                          EventType.COOPERATIVE_VULNERABILITY_PENETRATION_ASSESSMENT.name),
+                                          "Cooperative Vulnerability Penetration Assessment"),
                                          (EventType.COOPERATIVE_VULNERABILITY_INVESTIGATION.value,
-                                          EventType.COOPERATIVE_VULNERABILITY_INVESTIGATION.name),
-                                         (EventType.VERIFICATION_OF_FIXES.value, EventType.VERIFICATION_OF_FIXES.name)],
+                                          "Cooperative Vulnerability Investigation"),
+                                         (EventType.VERIFICATION_OF_FIXES.value, "Verification Of Fixes")],
                                 validators=[DataRequired()])
     EditEventOrganizationName = StringField('Organization Name')
     EditEventCustomerName = StringField('Customer name')
-    EditEventAssessmentDate = DateField('Assessment date')
+    # EditEventAssessmentDate = DateField('Assessment date')
     EditEventDeclassificationDate = DateField('Declassification date')
     EditEventSCTG = StringField('Security Classification Title Guide')
     EditEventClassification = SelectField('Event Classification',
                                           choices=[(EventClassification.TOP_SECRET.value,
-                                                    EventClassification.TOP_SECRET.name),
-                                                   (EventClassification.SECRET.value, EventClassification.SECRET.name),
+                                                    "Top Secret"),
+                                                   (EventClassification.SECRET.value, "Secret"),
                                                    (EventClassification.CONFIDENTIAL.value,
-                                                    EventClassification.CONFIDENTIAL.name),
+                                                    "Confidential"),
                                                    (EventClassification.CLASSIFIED.value,
-                                                    EventClassification.CLASSIFIED.name),
+                                                    "Classified"),
                                                    (EventClassification.UNCLASSIFIED.value,
-                                                    EventClassification.UNCLASSIFIED.name)])
+                                                    "Unclassified")])
     EditEventClassifiedBy = StringField('Classified by')
     EditEventDerivedFrom = StringField('Derived from')
 
@@ -131,22 +132,22 @@ class CreateSystemForm(FlaskForm):
     # archiveStatus = StringField()
 
     systemConfidentiality = SelectField("System Confidentiality",
-                                        choices=[(Confidentiality.LOW.value, Confidentiality.LOW.name),
-                                                 (Confidentiality.MEDIUM.value, Confidentiality.MEDIUM.name),
-                                                 (Confidentiality.HIGH.value, Confidentiality.HIGH.name),
-                                                 (Confidentiality.INFO.value, Confidentiality.INFO.name)],
+                                        choices=[(Confidentiality.LOW.value, "Low"),
+                                                 (Confidentiality.MEDIUM.value, "Medium"),
+                                                 (Confidentiality.HIGH.value, "High"),
+                                                 (Confidentiality.INFO.value, "Info")],
                                         validators=[DataRequired()])
     systemIntegrity = SelectField("System Integrity",
-                                  choices=[(Integrity.LOW.value, Integrity.LOW.name),
-                                           (Integrity.MEDIUM.value, Integrity.MEDIUM.name),
-                                           (Integrity.HIGH.value, Integrity.HIGH.name),
-                                           (Integrity.INFO.value, Integrity.INFO.name)],
+                                  choices=[(Integrity.LOW.value, "Low"),
+                                           (Integrity.MEDIUM.value, "Medium"),
+                                           (Integrity.HIGH.value, "High"),
+                                           (Integrity.INFO.value, "Info")],
                                   validators=[DataRequired()])
     systemAvailability = SelectField("System Availability",
-                                     choices=[(Availability.LOW.value, Availability.LOW.name),
-                                              (Availability.MEDIUM.value, Availability.MEDIUM.name),
-                                              (Availability.HIGH.value, Availability.HIGH.name),
-                                              (Availability.INFO.value, Availability.INFO.name)],
+                                     choices=[(Availability.LOW.value, "Low"),
+                                              (Availability.MEDIUM.value, "Medium"),
+                                              (Availability.HIGH.value, "High"),
+                                              (Availability.INFO.value, "Info")],
                                      validators=[DataRequired()])
 
 
@@ -164,17 +165,17 @@ class CreateTaskForm(FlaskForm):
     taskName = StringField("Task Name", validators=[DataRequired()])
     taskDescription = StringField("Task Description", validators=[DataRequired()])
     taskPriority = SelectField("Task Priority",
-                               choices=[(Priority.LOW.value, Priority.LOW.name),
-                                        (Priority.MEDIUM.value, Priority.MEDIUM.name),
-                                        (Priority.HIGH.value, Priority.HIGH.name)], validators=[DataRequired()])
+                               choices=[(Priority.LOW.value, "Low"),
+                                        (Priority.MEDIUM.value, "Medium"),
+                                        (Priority.HIGH.value, "High")], validators=[DataRequired()])
     # Editable if the task has no subtask.
     taskProgress = SelectField("Task Progress", validators=[DataRequired()],
-                               choices=[(Progress.NOT_STARTED.value, Progress.NOT_STARTED.name),
-                                        (Progress.ASSIGNED.value, Progress.ASSIGNED.name),
-                                        (Progress.TRANSFERRED.value, Progress.TRANSFERRED.name),
-                                        (Progress.IN_PROGRESS.value, Progress.IN_PROGRESS.name),
-                                        (Progress.COMPLETE.value, Progress.COMPLETE.name),
-                                        (Progress.NOT_APPLICABLE.value, Progress.NOT_APPLICABLE.name)])
+                               choices=[(Progress.NOT_STARTED.value, "Not Started"),
+                                        (Progress.ASSIGNED.value, "Assigned"),
+                                        (Progress.TRANSFERRED.value, "Transferred"),
+                                        (Progress.IN_PROGRESS.value, "In Progress"),
+                                        (Progress.COMPLETE.value, "Complete"),
+                                        (Progress.NOT_APPLICABLE.value, "Not Applicable")])
 
     taskDueDate = DateField('Task Due Date', validators=[DataRequired()])
     taskAttachment = StringField("Task Attachment")
@@ -187,11 +188,11 @@ class CreateTaskForm(FlaskForm):
     def __init__(self, tasks=None, analysts=None, collaborators=None):
         super().__init__()  # calls the base initialisation and then...
         if tasks:
-            self.associationToTask.choices = [(task.getTitle(), task.getTitle()) for task in tasks]
+            self.associationToTask.choices = [(task.getId(), task.getTitle()) for task in tasks]
         if analysts:
-            self.taskAnalystAssignment.choices = [(analyst.getInitial(), analyst.getInitial()) for analyst in analysts]
+            self.taskAnalystAssignment.choices = [(analyst.getId(), analyst.getInitial()) for analyst in analysts]
         if collaborators:
-            self.taskCollaboratorAssignment.choices = [(collaborator.getInitial(), collaborator.getInitial()) for
+            self.taskCollaboratorAssignment.choices = [(collaborator.getId(), collaborator.getInitial()) for
                                                        collaborator in collaborators]
 
 
@@ -199,17 +200,17 @@ class EditTaskForm(FlaskForm):
     taskName = StringField("Task Name", validators=[DataRequired()])
     taskDescription = StringField("Task Description", validators=[DataRequired()])
     taskPriority = SelectField("Task Priority",
-                               choices=[(Priority.LOW.value, Priority.LOW.name),
-                                        (Priority.MEDIUM.value, Priority.MEDIUM.name),
-                                        (Priority.HIGH.value, Priority.HIGH.name)], validators=[DataRequired()])
+                               choices=[(Priority.LOW.value, "Low"),
+                                        (Priority.MEDIUM.value, "Medium"),
+                                        (Priority.HIGH.value, "High")], validators=[DataRequired()])
     # Editable if the task has no subtask.
     taskProgress = SelectField("Task Progress", validators=[DataRequired()],
-                               choices=[(Progress.NOT_STARTED.value, Progress.NOT_STARTED.name),
-                                        (Progress.ASSIGNED.value, Progress.ASSIGNED.name),
-                                        (Progress.TRANSFERRED.value, Progress.TRANSFERRED.name),
-                                        (Progress.IN_PROGRESS.value, Progress.IN_PROGRESS.name),
-                                        (Progress.COMPLETE.value, Progress.COMPLETE.name),
-                                        (Progress.NOT_APPLICABLE.value, Progress.NOT_APPLICABLE.name)])
+                               choices=[(Progress.NOT_STARTED.value, "Not Started"),
+                                        (Progress.ASSIGNED.value, "Assigned"),
+                                        (Progress.TRANSFERRED.value, "Transferred"),
+                                        (Progress.IN_PROGRESS.value, "In Progress"),
+                                        (Progress.COMPLETE.value, "Complete"),
+                                        (Progress.NOT_APPLICABLE.value, "Not Applicable")])
     taskDueDate = DateField('Task Due Date', validators=[DataRequired()])
     taskAttachment = StringField("Task Attachment")
     # task associated to another task? show a list of tasks with the same parent system
@@ -226,12 +227,12 @@ class CreateSubtaskForm(FlaskForm):
     # number? to use as var for progress
     # set 0 as default and 1 would be that the subtask is complete
     subTaskProgress = SelectField("Subtask Progress", validators=[DataRequired()],
-                                  choices=[(Progress.NOT_STARTED.value, Progress.NOT_STARTED.name),
-                                           (Progress.ASSIGNED.value, Progress.ASSIGNED.name),
-                                           (Progress.TRANSFERRED.value, Progress.TRANSFERRED.name),
-                                           (Progress.IN_PROGRESS.value, Progress.IN_PROGRESS.name),
-                                           (Progress.COMPLETE.value, Progress.COMPLETE.name),
-                                           (Progress.NOT_APPLICABLE.value, Progress.NOT_APPLICABLE.name)])
+                                  choices=[(Progress.NOT_STARTED.value, "Not Started"),
+                                           (Progress.ASSIGNED.value, "Assigned"),
+                                           (Progress.TRANSFERRED.value, "Transferred"),
+                                           (Progress.IN_PROGRESS.value, "In Progress"),
+                                           (Progress.COMPLETE.value, "Complete"),
+                                           (Progress.NOT_APPLICABLE.value, "Not Applicable")])
     subTaskDueDate = DateField('Subtask Due Date', validators=[DataRequired()])
     subTaskAttachment = StringField("Subtask Attachment")
     # task associated to another task
@@ -243,12 +244,12 @@ class CreateSubtaskForm(FlaskForm):
     def __init__(self, subtasks=None, analysts=None, collaborators=None):
         super().__init__()  # calls the base initialisation and then...
         if subtasks:
-            self.associationToSubtask.choices = [(task.getTitle(), task.getTitle()) for task in subtasks]
+            self.associationToSubtask.choices = [(task.getId(), task.getTitle()) for task in subtasks]
         if analysts:
-            self.subTaskAnalystAssignment.choices = [(analyst.getInitial(), analyst.getInitial()) for analyst in
+            self.subTaskAnalystAssignment.choices = [(analyst.getId(), analyst.getInitial()) for analyst in
                                                      analysts]
         if collaborators:
-            self.subTaskCollaboratorAssignment.choices = [(collaborator.getInitial(), collaborator.getInitial()) for
+            self.subTaskCollaboratorAssignment.choices = [(collaborator.getId(), collaborator.getInitial()) for
                                                           collaborator in collaborators]
 
 
@@ -258,12 +259,12 @@ class EditSubtaskForm(FlaskForm):
     # Editable if the task has no subtask. number? to use as var for progress
     # set 0 as default
     subTaskProgress = SelectField("Task Progress", validators=[DataRequired()],
-                                  choices=[(Progress.NOT_STARTED.value, Progress.NOT_STARTED.name),
-                                           (Progress.ASSIGNED.value, Progress.ASSIGNED.name),
-                                           (Progress.TRANSFERRED.value, Progress.TRANSFERRED.name),
-                                           (Progress.IN_PROGRESS.value, Progress.IN_PROGRESS.name),
-                                           (Progress.COMPLETE.value, Progress.COMPLETE.name),
-                                           (Progress.NOT_APPLICABLE.value, Progress.NOT_APPLICABLE.name)])
+                                  choices=[(Progress.NOT_STARTED.value, "Not Started"),
+                                           (Progress.ASSIGNED.value, "Assigned"),
+                                           (Progress.TRANSFERRED.value, "Transferred"),
+                                           (Progress.IN_PROGRESS.value, "In Progress"),
+                                           (Progress.COMPLETE.value, "Complete"),
+                                           (Progress.NOT_APPLICABLE.value, "Not Applicable")])
     subTaskDueDate = DateField('Subtask Due Date', validators=[DataRequired()])
     subTaskAttachment = StringField("Subtask Attachment")
     # subtask associated to another subtask? it is a list of subtasks with the same task as parent
@@ -279,60 +280,60 @@ class CreateFindingForm(FlaskForm):
     findingDescription = StringField("Finding Description", validators=[DataRequired()])
     findingLongDescription = StringField("Finding Long Description")
     findingStatus = SelectField("Finding Status",
-                                choices=[(FindingStatus.OPEN.value, FindingStatus.OPEN.name),
-                                         (FindingStatus.CLOSED.value, FindingStatus.CLOSED.name)],
+                                choices=[(FindingStatus.OPEN.value, "Open"),
+                                         (FindingStatus.CLOSED.value, "Closed")],
                                 validators=[DataRequired()])
     findingType = SelectField("Finding Type",
                               choices=[
-                                  (FindingType.CREDENTIALS_COMPLEXITY.value, FindingType.CREDENTIALS_COMPLEXITY.name),
+                                  (FindingType.CREDENTIALS_COMPLEXITY.value, "Credentials Complexity"),
                                   (FindingType.MANUFACTURER_DEFAULT_CREDS.value,
-                                   FindingType.MANUFACTURER_DEFAULT_CREDS.name),
-                                  (FindingType.LACK_OF_AUTHENTICATION.value, FindingType.LACK_OF_AUTHENTICATION.name),
-                                  (FindingType.PLAIN_TEXT_PROTOCOLS.value, FindingType.PLAIN_TEXT_PROTOCOLS.name),
-                                  (FindingType.PLAIN_TEXT_WEB_LOGIN.value, FindingType.PLAIN_TEXT_WEB_LOGIN.name),
-                                  (FindingType.ENCRYPTION.value, FindingType.ENCRYPTION.name),
-                                  (FindingType.AUTHENTICATION_BYPASS.value, FindingType.AUTHENTICATION_BYPASS.name),
-                                  (FindingType.PORT_SECURITY.value, FindingType.PORT_SECURITY.name),
-                                  (FindingType.ACCESS_CONTROL.value, FindingType.ACCESS_CONTROL.name),
-                                  (FindingType.LEAST_PRIVILEGE.value, FindingType.LEAST_PRIVILEGE.name),
-                                  (FindingType.PRIVILEGE_ESCALATION.value, FindingType.PRIVILEGE_ESCALATION.name),
-                                  (FindingType.MISSING_PATCHES.value, FindingType.MISSING_PATCHES.name),
-                                  (FindingType.PHYSICAL_SECURITY.value, FindingType.PHYSICAL_SECURITY.name),
-                                  (FindingType.INFORMATION_DISCLOSURE.value, FindingType.INFORMATION_DISCLOSURE.name)],
+                                   "Manufacturer Default Creds"),
+                                  (FindingType.LACK_OF_AUTHENTICATION.value, "Lack Of Authentication"),
+                                  (FindingType.PLAIN_TEXT_PROTOCOLS.value, "Plain Text Protocols"),
+                                  (FindingType.PLAIN_TEXT_WEB_LOGIN.value, "Plain Text Web Login"),
+                                  (FindingType.ENCRYPTION.value, "Encryption"),
+                                  (FindingType.AUTHENTICATION_BYPASS.value, "Authentication Bypass"),
+                                  (FindingType.PORT_SECURITY.value, "Port Security"),
+                                  (FindingType.ACCESS_CONTROL.value, "Access Control"),
+                                  (FindingType.LEAST_PRIVILEGE.value, "Least Privilege"),
+                                  (FindingType.PRIVILEGE_ESCALATION.value, "Privilege Escalation"),
+                                  (FindingType.MISSING_PATCHES.value, "Missing Patches"),
+                                  (FindingType.PHYSICAL_SECURITY.value, "Physical Security"),
+                                  (FindingType.INFORMATION_DISCLOSURE.value, "Information Disclosure")],
                               validators=[DataRequired()])
 
     findingClassification = SelectField("Finding Classification",
                                         choices=[(FindingClassification.VULNERABILITY.value,
-                                                  FindingClassification.VULNERABILITY.name),
+                                                  "Vulnerability"),
                                                  (FindingClassification.INFORMATION.value,
-                                                  FindingClassification.INFORMATION.name)], validators=[DataRequired()])
-    associationToFinding = StringField("Finding Association To Finding")
+                                                  "Information")], validators=[DataRequired()])
+    associationToFinding = SelectMultipleField("Finding Association To Finding", choices=[])
     # EVIDENCE IS A FILE NOT A STRING
     findingEvidence = StringField("Finding Evidence", validators=[DataRequired()])
 
     # Finding Impact
     findingConfidentiality = SelectField("Finding Confidentiality",
-                                         choices=[(Confidentiality.LOW.value, Confidentiality.LOW.name),
-                                                  (Confidentiality.MEDIUM.value, Confidentiality.MEDIUM.name),
-                                                  (Confidentiality.HIGH.value, Confidentiality.HIGH.name),
-                                                  (Confidentiality.INFO.value, Confidentiality.INFO.name)],
+                                         choices=[(Confidentiality.LOW.value, "Low"),
+                                                  (Confidentiality.MEDIUM.value, "Medium"),
+                                                  (Confidentiality.HIGH.value, "High"),
+                                                  (Confidentiality.INFO.value, "Info")],
                                          validators=[DataRequired()])
     findingIntegrity = SelectField("Finding Integrity",
-                                   choices=[(Integrity.LOW.value, Integrity.LOW.name),
-                                            (Integrity.MEDIUM.value, Integrity.MEDIUM.name),
-                                            (Integrity.HIGH.value, Integrity.HIGH.name),
-                                            (Integrity.INFO.value, Integrity.INFO.name)],
+                                   choices=[(Integrity.LOW.value, "Low"),
+                                            (Integrity.MEDIUM.value, "Medium"),
+                                            (Integrity.HIGH.value, "High"),
+                                            (Integrity.INFO.value, "Info")],
                                    validators=[DataRequired()])
     findingAvailability = SelectField("Finding Availability",
-                                      choices=[(Availability.LOW.value, Availability.LOW.name),
-                                               (Availability.MEDIUM.value, Availability.MEDIUM.name),
-                                               (Availability.HIGH.value, Availability.HIGH.name),
-                                               (Availability.INFO.value, Availability.INFO.name)],
+                                      choices=[(Availability.LOW.value, "Low"),
+                                               (Availability.MEDIUM.value, "Medium"),
+                                               (Availability.HIGH.value, "High"),
+                                               (Availability.INFO.value, "Info")],
                                       validators=[DataRequired()])
     # Finding Analyst Information
     # it could be a multiple selection and then from the list out of that
-    findingAnalystAssignment = StringField("Finding Analyst Assignment", validators=[DataRequired()])
-    findingCollaboratorAssignment = StringField("Finding Collaborator Assignment")
+    findingAnalystAssignment = SelectMultipleField("Finding Analyst Assignment", validators=[DataRequired()])
+    findingCollaboratorAssignment = SelectMultipleField("Finding Collaborator Assignment")
     findingPosture = SelectField("Finding Posture", validators=[DataRequired()],
                                  choices=[(Posture.INSIDER.value, 'Insider'),
                                           (Posture.INSIDER_NEARSIDER.value, 'Insider-nearsider'),
@@ -349,7 +350,7 @@ class CreateFindingForm(FlaskForm):
                                                   (Relevance.EXPECTED.value, 'Expected'),
                                                   (Relevance.ANTICIPATED.value, 'Anticipated'),
                                                   (Relevance.PREDICTED.value, 'Predicted'),
-                                                  (Relevance.POSSIBLE.value, 'Possible')], validators=[DataRequired()],coerce=int)
+                                                  (Relevance.POSSIBLE.value, 'Possible')], validators=[DataRequired()])
 
     # Finding Countermeasure
     findingEffectivenessRating = SelectField("Finding Effectiveness Rating",
@@ -390,21 +391,21 @@ class CreateFindingForm(FlaskForm):
     severityCategoryCode = SelectField("Finding Severity Category Code",
                                        choices=[(SeverityCategoryCode.I.value, 'I'),
                                                 (SeverityCategoryCode.II.value, 'II'),
-                                                (SeverityCategoryCode.III.value, 'III')], validators=[DataRequired()], coerce=int)
-    # these three are set automatically on creation
-    # securityCategoryScore = StringField("Finding Impact Description", validators=[DataRequired()])
-    # vulnerabilitySeverity = StringField("Finding Impact Description", validators=[DataRequired()])
-    # QuantitativeVulnerabilitySeverity = StringField("Finding Impact Description", validators=[DataRequired()])
+                                                (SeverityCategoryCode.III.value, 'III')], validators=[DataRequired()])
 
-    # Finding Risk
-    # findingRisk = StringField("Finding Risk", validators=[DataRequired()])
-    # findingLikelihood = StringField("Finding Likelihood", validators=[DataRequired()])
+    # this is to populate the select fields with info from the db
 
-    # Finding Level Impact
-    # ConfidentialityFindingImpactOnSystem
-    # IntegrityFindingImpactOnSystem
-    # AvailabilityFindingImpactOnSystem
-    # impactScore = StringField("Finding Risk", validators=[DataRequired()])
+
+    def __init__(self, findings=None, analysts=None, collaborators=None):
+        super().__init__()
+        if findings:
+            self.associationToFinding.choices = [(finding.getid(), finding.getHostName()) for finding in findings]
+        if analysts:
+            self.findingAnalystAssignment.choices = [(analyst.getId(), analyst.getInitial()) for analyst in
+                                                     analysts]
+        if collaborators:
+            self.findingCollaboratorAssignment.choices = [(collaborator.getId(), collaborator.getInitial()) for
+                                                          collaborator in collaborators]
 
 
 class EditFindingForm(FlaskForm):
@@ -413,33 +414,33 @@ class EditFindingForm(FlaskForm):
     findingDescription = StringField("Finding Description", validators=[DataRequired()])
     findingLongDescription = StringField("Finding Long Description", validators=[DataRequired()])
     findingStatus = SelectField("Finding status",
-                                choices=[(FindingStatus.OPEN, FindingStatus.OPEN.name),
-                                         (FindingStatus.CLOSED, FindingStatus.CLOSED.name)],
+                                choices=[(FindingStatus.OPEN.value, "Open"),
+                                         (FindingStatus.CLOSED.value, "Closed")],
                                 validators=[DataRequired()])
     findingType = SelectField("Finding Type",
                               choices=[
-                                  (FindingType.CREDENTIALS_COMPLEXITY, FindingType.CREDENTIALS_COMPLEXITY.name),
-                                  (FindingType.MANUFACTURER_DEFAULT_CREDS,
-                                   FindingType.MANUFACTURER_DEFAULT_CREDS.name),
-                                  (FindingType.LACK_OF_AUTHENTICATION, FindingType.LACK_OF_AUTHENTICATION.name),
-                                  (FindingType.PLAIN_TEXT_PROTOCOLS, FindingType.PLAIN_TEXT_PROTOCOLS.name),
-                                  (FindingType.PLAIN_TEXT_WEB_LOGIN, FindingType.PLAIN_TEXT_WEB_LOGIN.name),
-                                  (FindingType.ENCRYPTION, FindingType.ENCRYPTION.name),
-                                  (FindingType.AUTHENTICATION_BYPASS, FindingType.AUTHENTICATION_BYPASS.name),
-                                  (FindingType.PORT_SECURITY, FindingType.PORT_SECURITY.name),
-                                  (FindingType.ACCESS_CONTROL, FindingType.ACCESS_CONTROL.name),
-                                  (FindingType.LEAST_PRIVILEGE, FindingType.LEAST_PRIVILEGE.name),
-                                  (FindingType.PRIVILEGE_ESCALATION, FindingType.PRIVILEGE_ESCALATION.name),
-                                  (FindingType.MISSING_PATCHES, FindingType.MISSING_PATCHES.name),
-                                  (FindingType.PHYSICAL_SECURITY, FindingType.PHYSICAL_SECURITY.name),
-                                  (FindingType.INFORMATION_DISCLOSURE, FindingType.INFORMATION_DISCLOSURE.name)],
+                                  (FindingType.CREDENTIALS_COMPLEXITY.value, "Credentials Complexity"),
+                                  (FindingType.MANUFACTURER_DEFAULT_CREDS.value,
+                                   "Manufacturer Default Creds"),
+                                  (FindingType.LACK_OF_AUTHENTICATION.value, "Lack Of Authentication"),
+                                  (FindingType.PLAIN_TEXT_PROTOCOLS.value, "Plain Text Protocols"),
+                                  (FindingType.PLAIN_TEXT_WEB_LOGIN.value, "Plain Text Web Login"),
+                                  (FindingType.ENCRYPTION.value, "Encryption"),
+                                  (FindingType.AUTHENTICATION_BYPASS.value, "Authentication Bypass"),
+                                  (FindingType.PORT_SECURITY.value, "Port Security"),
+                                  (FindingType.ACCESS_CONTROL.value, "Access Control"),
+                                  (FindingType.LEAST_PRIVILEGE.value, "Least Privilege"),
+                                  (FindingType.PRIVILEGE_ESCALATION.value, "Privilege Escalation"),
+                                  (FindingType.MISSING_PATCHES.value, "Missing Patches"),
+                                  (FindingType.PHYSICAL_SECURITY.value, "Physical Security"),
+                                  (FindingType.INFORMATION_DISCLOSURE.value, "Information Disclosure")],
                               validators=[DataRequired()])
 
     findingClassification = SelectField("Finding Classification",
-                                        choices=[(FindingClassification.VULNERABILITY,
-                                                  FindingClassification.VULNERABILITY.name),
-                                                 (FindingClassification.INFORMATION,
-                                                  FindingClassification.INFORMATION.name)], validators=[DataRequired()])
+                                        choices=[(FindingClassification.VULNERABILITY.value,
+                                                  "Vulnerability"),
+                                                 (FindingClassification.INFORMATION.value,
+                                                  "Information")], validators=[DataRequired()])
 
     associationToFinding = StringField("Finding Association To Finding")
     # EVIDENCE IS A FILE NOT A STRING
@@ -449,66 +450,58 @@ class EditFindingForm(FlaskForm):
     findingAnalystAssignment = StringField("Finding Analyst Assignment", validators=[DataRequired()])
     findingCollaboratorAssignment = StringField("Finding Collaborator Assignment")
     findingPosture = SelectField("Finding Posture", validators=[DataRequired()],
-                                 choices=[(Posture.INSIDER, 'Insider'),
+                                 choices=[(Posture.INSIDER.value, 'Insider'),
                                          (Posture.INSIDER_NEARSIDER.value, 'Insider-nearsider'),
-                                         (Posture.OUTSIDER, 'Outsider'),
-                                         (Posture.NEARSIDER, 'Nearsider'),
-                                         (Posture.NEARSIDER_OUTSIDER, 'Nearsider-outsider')])
+                                         (Posture.OUTSIDER.value, 'Outsider'),
+                                         (Posture.NEARSIDER.value, 'Nearsider'),
+                                         (Posture.NEARSIDER_OUTSIDER.value, 'Nearsider-outsider')])
     # Finding Mitigation
     mitigationBriefDescription = StringField("Mitigation Brief Description", validators=[DataRequired()])
     mitigationLongDescription = StringField("Mitigation Long Description", validators=[DataRequired()])
 
     # Threat Relevance
     findingThreatRelevance = SelectField("Finding Threat Relevance",
-                                         choices=[(Relevance.CONFIRMED, 'Confirmed'),
-                                                  (Relevance.EXPECTED, 'Expected'),
-                                                  (Relevance.ANTICIPATED, 'Anticipated'),
-                                                  (Relevance.PREDICTED, 'Predicted'),
-                                                  (Relevance.POSSIBLE, 'Possible')], validators=[DataRequired()])
+                                         choices=[(Relevance.CONFIRMED.value, 'Confirmed'),
+                                                  (Relevance.EXPECTED.value, 'Expected'),
+                                                  (Relevance.ANTICIPATED.value, 'Anticipated'),
+                                                  (Relevance.PREDICTED.value, 'Predicted'),
+                                                  (Relevance.POSSIBLE.value, 'Possible')], validators=[DataRequired()])
 
     # Finding Countermeasure
     findingEffectivenessRating = SelectField("Finding Effectiveness",
-                                             choices=[(EffectivenessRating.VERYLOW_0, '0 - Countermeasure implemented is effective'),
-                                                      (EffectivenessRating.LOW_1,
+                                             choices=[(EffectivenessRating.VERYLOW_0.value, '0 - Countermeasure implemented is effective'),
+                                                      (EffectivenessRating.LOW_1.value,
                                                        '1 - Countermeasure is implemented HIGHLY effective but can be improved.'),
-                                                      (EffectivenessRating.LOW_2,
+                                                      (EffectivenessRating.LOW_2.value,
                                                        '2 - Countermeasure is implemented HIGHLY effective but can be improved.'),
-                                                      (EffectivenessRating.LOW_3,
+                                                      (EffectivenessRating.LOW_3.value,
                                                        '3 - Countermeasure is implemented HIGHLY effective but can be improved.'),
-                                                      (EffectivenessRating.MODERATE_4,
+                                                      (EffectivenessRating.MODERATE_4.value,
                                                        '4 - Countermeasure is implemented but MODERATELY effective'),
-                                                      (EffectivenessRating.MODERATE_5,
+                                                      (EffectivenessRating.MODERATE_5.value,
                                                        '5 - Countermeasure is implemented but MODERATELY effective'),
-                                                      (EffectivenessRating.MODERATE_6,
+                                                      (EffectivenessRating.MODERATE_6.value,
                                                        '6 - Countermeasure is implemented but MODERATELY effective'),
-                                                      (EffectivenessRating.HIGH_7,
+                                                      (EffectivenessRating.HIGH_7.value,
                                                        '7 - Countermeasure is implemented but MINIMALLY effective'),
-                                                      (EffectivenessRating.HIGH_8,
+                                                      (EffectivenessRating.HIGH_8.value,
                                                        '8 - Countermeasure is implemented but MINIMALLY effective'),
-                                                      (EffectivenessRating.HIGH_9,
+                                                      (EffectivenessRating.HIGH_9.value,
                                                        '9 - Countermeasure is implemented but MINIMALLY effective'),
-                                                      (EffectivenessRating.VERYHIGH, '10 - Countermeasure not implemented')],
+                                                      (EffectivenessRating.VERYHIGH.value, '10 - Countermeasure not implemented')],
                                              validators=[DataRequired()])
 
     # Finding Impact
     impactDescription = StringField("Finding Impact Description", validators=[DataRequired()])
     impactLevel = SelectField("Finding Impact Level",
-                              choices=[(ImpactLevel.VH, 'VH'),
-                                       (ImpactLevel.H, 'H'),
-                                       (ImpactLevel.M, 'M'),
-                                       (ImpactLevel.L, 'L'),
-                                       (ImpactLevel.VL, 'VL'),
-                                       (ImpactLevel.INFORMATION, 'Information')], validators=[DataRequired()])
+                              choices=[(ImpactLevel.VH.value, 'VH'),
+                                       (ImpactLevel.H.value, 'H'),
+                                       (ImpactLevel.M.value, 'M'),
+                                       (ImpactLevel.L.value, 'L'),
+                                       (ImpactLevel.VL.value, 'VL'),
+                                       (ImpactLevel.INFORMATION.value, 'Information')], validators=[DataRequired()])
     # Finding Severity
     severityCategoryCode = SelectField("Finding Severity Category Code",
-                                       choices=[(SeverityCategoryCode.I, 'I'),
-                                                (SeverityCategoryCode.II, 'II'),
-                                                (SeverityCategoryCode.III, 'III')], validators=[DataRequired()])
-    # these three are set automatically on creation
-    # securityCategoryScore = StringField("Finding Impact Description", validators=[DataRequired()])
-    # vulnerabilitySeverity = StringField("Finding Impact Description", validators=[DataRequired()])
-    # QuantitativeVulnerabilitySeverity = StringField("Finding Impact Description", validators=[DataRequired()])
-
-    # Finding Risk
-    # findingRisk = StringField("Finding Risk", validators=[DataRequired()])
-    # findingLikelihood = StringField("Finding Likelihood", validators=[DataRequired()])
+                                       choices=[(SeverityCategoryCode.I.value, 'I'),
+                                                (SeverityCategoryCode.II.value, 'II'),
+                                                (SeverityCategoryCode.III.value, 'III')], validators=[DataRequired()])

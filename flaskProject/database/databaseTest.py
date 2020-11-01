@@ -90,6 +90,11 @@ finding = Finding("form.findingHostName.data",
                           "form.findingLongDescription.data",
                           ["jr","sr"])
 dbHandler.updateFinding(analyst, finding)
+# finding.setDescription("aasasdsdasd edited description")
+# dbHandler.updateFinding(analyst, finding)
+
+dbHandler.deleteFinding(analyst,finding)
+
 # event = Event("eventName",
 #               "eventDescription",
 #               EventType.VERIFICATION_OF_FIXES,

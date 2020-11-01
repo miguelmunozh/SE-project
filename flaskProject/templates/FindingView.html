@@ -41,7 +41,13 @@
     <p>{{ finding.getEvidence() }}</p>
     <hr>
     <h4>Related Findings</h4>
-    <p>{{ finding.getAssociationTo() }}</p>
+        {% for t in findingsName %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ t }}
+            </li>
+        </ul>
+    {% endfor %}
     <hr>
 
     <h3>Finding Impact</h3>
@@ -59,10 +65,23 @@
     <h3>Analyst Information</h3>
     <hr>
     <h4>Analyst initials</h4>
-    <p>CJ</p>
+    {% for t in analystAssg %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ t }}
+            </li>
+        </ul>
+    {% endfor %}
+    <hr>
     <hr>
     <h4>Collaborator</h4>
-    <p>MM, CD, JM</p>
+        {% for t in collaborators %}
+        <ul>
+            <li style="list-style-type: circle">
+                {{ t }}
+            </li>
+        </ul>
+    {% endfor %}
     <hr>
     <h4>Posture</h4>
     <p>{{ finding.getPosture().value }}</p>

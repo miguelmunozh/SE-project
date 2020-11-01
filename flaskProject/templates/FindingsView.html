@@ -23,15 +23,24 @@
                     <h5 class="mb-1">System: system 1 </h5>
                     <h5 class="mb-1">Task: Task 1 </h5>
                     <h5 class="mb-1">Subtask: Subtask 1 </h5>
-                    <h5 class="mb-1">Analyst: {{ finding.getAnalystAssigned() }}</h5>
-                    <h5 class="mb-1">Status: {{ finding.getStatus() }}</h5>
-                    <h5 class="mb-1">Classification: {{ finding.getClassification() }} </h5>
-                    <h5 class="mb-1">Type: {{ finding.getType() }}</h5>
+                    <h5 class="mb-1">Analyst:</h5>
+                    {% for t in finding.getAnalystAssigned() %}
+                        <ul>
+                            <li style="list-style-type: circle">
+                                {{ t }}
+                            </li>
+                        </ul>
+                    {% endfor %}
+                    <h5 class="mb-1">Status: {{ finding.getStatus().value }}</h5>
+                    <h5 class="mb-1">Classification: {{ finding.getClassification().value }} </h5>
+                    <h5 class="mb-1">Type: {{ finding.getType().value }}</h5>
                     <h5 class="mb-1">Risk: {{ finding.getRisk() }}</h5>
                 </div>
-                <div class="custom-control custom-checkbox mb-3">
-                    <button type="submit" class="btn btn-secondary"><a href="">Delete finding</a></button>
-                </div>
+                <form method=post>
+                    {# <button type="submit" class="btn btn-secondary">Archive System</button>#}
+                    <button type="submit" class="btn btn-secondary"><a
+                            href="{{ url_for('ArchiveFinding', finding=finding.getid()) }}">Archive Finding</a></button>
+                </form>
             </div>
         {% endfor %}
 
