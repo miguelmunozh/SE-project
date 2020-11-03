@@ -57,17 +57,20 @@
     <button type="submit" class="btn btn-secondary"><a href="{{ url_for('CreateAnalyst') }}">Add Analyst</a></button>
     <hr>
     <h4>Lead Analysts</h4>
-        <table style="width:100%">
+    <table style="width:100%">
 
         {% for initial in leadList %}
             <tr>
-                <td>{{ initial }}</td>
-                <td>
-                    <form action="{{ url_for('deleteAnalyst', initial=initial) }}" method=post>
+            <td>
+                <a href="{{ url_for('AnalystProgressSummaryContentView', initials=initial) }}"
+                   type="submit"> {{ initial }} </a>
+            </td>
+            <td>
+                <form action="{{ url_for('deleteAnalyst', initial=initial) }}" method=post>
 
-                        <input type="submit" class="btn btn-secondary" value="Delete"/>
-                    </form>
-                </td>
+                    <input type="submit" class="btn btn-secondary" value="Delete"/>
+                </form>
+            </td>
         {% endfor %}
     </table>
 
@@ -77,52 +80,23 @@
     <table style="width:100%">
         {% for initial in nonleadList %}
             <tr>
-                <td>{{ initial }}</td>
+                <td>
+                    <a href="{{ url_for('AnalystProgressSummaryContentView', initials=initial) }}"
+                       type="submit"> {{ initial }} </a>
+                </td>
                 <td>
                     <form action="{{ url_for('deleteAnalyst', initial=initial) }}" method=post>
-
                         <input type="submit" class="btn btn-secondary" value="Delete"/>
                     </form>
                 </td>
-{#                <td>#}
-{#                    <form action="{{ url_for('EditAnalyst', analys=initial) }}" method=post>#}
-{#                        <input type="submit" class="btn btn-secondary" value="Edit Analyst"/>#}
-{#                    </form>#}
-{#                </td>#}
+                {#                <td>#}
+                {#                    <form action="{{ url_for('EditAnalyst', analys=initial) }}" method=post>#}
+                {#                        <input type="submit" class="btn btn-secondary" value="Edit Analyst"/>#}
+                {#                    </form>#}
+                {#                </td>#}
             </tr>
         {% endfor %}
     </table>
 
     <hr>
 {% endblock content %}
-
-{% block sidebar %}
-    <!-- side bar -->
-    <div class="content-section">
-        <h3>FRIC menu</h3>
-        <p class='text-muted'>You can put any information here you'd like.
-        <ul class="list-group">
-            <!-- added these options according to the professor's final SRS -->
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
-            <li class="list-group-item list-group-item-light"><a
-                    href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a>
-            </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived
-                Contents</a>
-            </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
-                Configuration</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
-            </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help',_anchor='createevent') }}">
-                Help</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
-        </ul>
-        </p>
-    </div>
-{% endblock %}

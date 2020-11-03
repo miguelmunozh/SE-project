@@ -65,9 +65,9 @@
         {% for subtask in archivedSubtasksList %}
             <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
                 <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                    <a href="{{ url_for('SubTaskView', subtask=subtask.getId()) }}">
+{#                    <a href="{{ url_for('SubTaskView', subtask=subtask.getId()) }}">#}
                         <h4 class="mb-1">{{ subtask.getTitle() }}</h4>
-                    </a>
+{#                    </a>#}
                     <small>No. of Findings: 2</small>
                     <h5>Aanalyst: {{ subtask.getAnalystAssigment() }}</h5>
                     <h5>Due date:
@@ -79,65 +79,33 @@
                     <form action="{{ url_for('RestoreSubtask', subtask=subtask.getId()) }}" method=post>
                         <button type="submit" class="btn btn-secondary">Restore Subtask</button>
                     </form>
-{#                    <p> <a href="{{ url_for('RestoreSubtask', subtask=subtask.getId()) }}">werwr</a>34</p>#}
+                    {#<p> <a href="{{ url_for('RestoreSubtask', subtask=subtask.getId()) }}">werwr</a>34</p>#}
                 </div>
             </div>
         {% endfor %}
     </div>
-    {#    <h3>Archived Findings</h3>#}
-    {#    <div class="list-group">#}
-    {#        <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">#}
-    {#            <div class="d-flex w-100 p-3 flex-fill justify-content-between">#}
-    {#                <a href="{{ url_for('FindingView') }}">#}
-    {#                    <h4 class="mb-1">Finding 1</h4>#}
-    {#                </a>#}
-    {#                <h5 class="mb-1">ID: 132654 </h5>#}
-    {#                <h5 class="mb-1">System: system 1 </h5>#}
-    {#                <h5 class="mb-1">Task: Task 1 </h5>#}
-    {#                <h5 class="mb-1">Subtask: Subtask 1 </h5>#}
-    {#                <h5 class="mb-1">Analyst: </h5>#}
-    {#                <h5 class="mb-1">Status: </h5>#}
-    {#                <h5 class="mb-1">Clasificatioin: </h5>#}
-    {#                <h5 class="mb-1">Type: </h5>#}
-    {#                <h5 class="mb-1">Risk: </h5>#}
-    {#            </div>#}
-    {#            <div class="custom-control custom-checkbox mb-3">#}
-    {#                <button type="submit" class="btn btn-secondary"><a href="">Restore finding</a></button>#}
-    {#            </div>#}
-    {#        </div>#}
-    {#    </div>#}
-{% endblock content %}
-
-{% block sidebar %}
-    <!-- side bar -->
-    <div class="content-section">
-        <h3>Sidebar</h3>
-        <p class='text-muted'>You can put any information here you'd like.
-        <ul class="list-group">
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
-            <li class="list-group-item list-group-item-light"><a
-                    href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a>
-            </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived
-                Contents</a>
-            </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
-                Configuration</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
-            </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help',_anchor='archivedContent') }}">
-                Help</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
-        </ul>
-        </p>
+    <h3>Archived Findings</h3>
+    <div class="list-group">
+        {% for finding in archivedFindingsList %}
+            <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
+                <div class="d-flex w-100 p-3 flex-fill justify-content-between">
+{#                    <a href="{{ url_for('FindingView') }}">#}
+                        <h4 class="mb-1">{{ finding.getHostName() }}</h4>
+{#                    </a>#}
+                    <h5 class="mb-1">ID: {{ finding.getid() }} </h5>
+                    <h5 class="mb-1">System: system 1 </h5>
+                    <h5 class="mb-1">Task: Task 1 </h5>
+                    <h5 class="mb-1">Subtask: Subtask 1 </h5>
+                    <h5 class="mb-1">Analyst: {{ finding.getAnalystAssigned() }}</h5>
+                    <h5 class="mb-1">Status: {{ finding.getStatus().value }}</h5>
+                    <h5 class="mb-1">Clasificatioin: {{ finding.getClassification().value }}</h5>
+                    <h5 class="mb-1">Type: {{ finding.getType().value }}</h5>
+                    <h5 class="mb-1">Risk: {{ finding.getRisk() }}</h5>
+                </div>
+                    <form action="{{ url_for('RestoreFinding', finding=finding.getid()) }}" method=post>
+                        <button type="submit" class="btn btn-secondary">Restore Finding</button>
+                    </form>
+            </div>
+        {% endfor %}
     </div>
-{% endblock %}
-
-
-
-
+{% endblock content %}

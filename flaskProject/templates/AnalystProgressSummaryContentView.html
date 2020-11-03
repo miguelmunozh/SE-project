@@ -115,280 +115,38 @@
             </div>
         {% endfor %}
     </div>
-    <h2>Systems Overview</h2>
-    <hr>
-    <div class="list-group">
-        {% for system in systemList %}
-            <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
-                <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-                    <a type="submit" href="{{ url_for('SystemView', system=system.getId()) }}">
-                        <h4 class="mb-1">{{ system.getName() }}</h4>
-                    </a>
-                    <small>No. of Tasks: 4 </small>
-                    <b>|</b>
-                    <small>No. of Findings: 2</small>
-                </div>
-                <p class="mb-1">{{ system.getDescription() }}</p>
-                <h5>Progress:</h5>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                         aria-valuemin="0"
-                         aria-valuemax="100">25%
-                    </div>
-                </div>
-                <div class="custom-control custom-checkbox mb-4">
-                    <form method=post>
+{#    <h2>Systems Overview</h2>#}
+{#    <hr>#}
+{#    <div class="list-group">#}
+{#        {% for system in systemList %}#}
+{#            <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">#}
+{#                <div class="d-flex w-100 p-3 flex-fill justify-content-between">#}
+{#                    <a type="submit" href="{{ url_for('SystemView', system=system.getId()) }}">#}
+{#                        <h4 class="mb-1">{{ system.getName() }}</h4>#}
+{#                    </a>#}
+{#                    <small>No. of Tasks: 4 </small>#}
+{#                    <b>|</b>#}
+{#                    <small>No. of Findings: 2</small>#}
+{#                </div>#}
+{#                <p class="mb-1">{{ system.getDescription() }}</p>#}
+{#                <h5>Progress:</h5>#}
+{#                <div class="progress">#}
+{#                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"#}
+{#                         aria-valuemin="0"#}
+{#                         aria-valuemax="100">25%#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="custom-control custom-checkbox mb-4">#}
+{#                    <form method=post>#}
                         {# <button type="submit" class="btn btn-secondary">Archive System</button>#}
-                        <button type="submit" class="btn btn-secondary"><a
-                                href="{{ url_for('ArchiveSystem', system=system.getId()) }}">Archive
-                            System</a></button>
-                    </form>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-
-    {#<table class="table table-bordered table-sm">#}
-    {#    <h3>Task Overview</h3>#}
-    {#    <thead>#}
-    {#        <tr>#}
-    {#            <th>Title</th>#}
-    {#            <th>System</th>#}
-    {#            <th>Analyst</th>#}
-    {#            <th>Priority</th>#}
-    {#            <th>Progress</th>#}
-    {#            <th>No. of Subtasks</th>#}
-    {#            <th>No. of Findings</th>#}
-    {#            <th>Due Date</th>#}
-    {#            <th></th>#}
-    {#        </tr>#}
-    {#    </thead>#}
-    {#        <tbody>#}
-    {#            <tr>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="System 1" id="title1">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="ATM" id="system1">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="JR" id="numOfFindings1">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="High" id="priority">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="In Progress" id="progress1">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="4" id="numOfSubtasks">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="3" id="numOfFinding">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="1/1/2020" id="dueDate1">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="checkbox" class="form-input" id="exampleCheck">#}
-    {#                </td>#}
-    {#            </tr>#}
-    {#            <tr>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="System 1" id="system2">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="ATM" id="numOfTasks">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="CJ" id="numOfFindings2">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="Mid" id="progress2">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                <input type="text" class="form-control" placeholder="In Progress" id="progress3">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                <input type="text" class="form-control" placeholder="3" id="progress4">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                <input type="text" class="form-control" placeholder="2" id="progress5">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="2" id="progress6">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="checkbox" class="form-input" id="exampleCheck3">#}
-    {#                </td>#}
-    {#            </tr>#}
-    {#        </tbody>#}
-    {#    </table>#}
-    {#    <h3>Subtask Overview</h3>#}
-    {##}
-    {#    <table class="table table-bordered table-sm">#}
-    {#        <thead>#}
-    {#            <tr>#}
-    {#                <th>Title</th>#}
-    {#                <th>Task</th>#}
-    {#                <th>Analyst</th>#}
-    {#                <th>Progress</th>#}
-    {#                <th>No. of Findings</th>#}
-    {#                <th>Due Date</th>#}
-    {#                <th></th>#}
-    {#            </tr>#}
-    {#        </thead>#}
-    {#        <tbody>#}
-    {#            <tr>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="System 1" id="title3">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="ATM" id="task3">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="CJ" id="analyst3">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="Mid" id="progress">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="In Progress" id="numOfFindings">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="3" id="dueDate">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="checkbox" class="form-input" id="exampleCheck1">#}
-    {#                </td>#}
-    {#            </tr>#}
-    {#        </tbody>#}
-    {#    </table>#}
-    {##}
-    {#    <h3>Findings Overview</h3>#}
-    {##}
-    {#    <table class="table table-bordered table-sm">#}
-    {#        <thead>#}
-    {#            <tr>#}
-    {#                <th>ID</th>#}
-    {#                <th>Title</th>#}
-    {#                <th>System</th>#}
-    {#                <th>Task</th>#}
-    {#                <th>Subtask</th>#}
-    {#                <th>Analyst</th>#}
-    {#                <th>Status</th>#}
-    {#                <th>Classification</th>#}
-    {#                <th>Type</th>#}
-    {#                <th>Risk</th>#}
-    {#                <th></th>#}
-    {#            </tr>#}
-    {#        </thead>#}
-    {#        <tbody>#}
-    {#            <tr>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="1" id="id">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="weak authentification" id="title">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="ATM" id="system">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="test ATM" id="task">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="test authentification" id="subtask">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="CJ" id="analyst">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="In Progress" id="status">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="classification" id="classification">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="type" id="type">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="Mid" id="risk">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="checkbox" class="form-input" id="checkbox">#}
-    {#                </td>#}
-    {#            </tr>#}
-    {#        </tbody>#}
-    {#    </table>#}
-    {##}
-    {#    <h3>Findings Overview</h3>#}
-    {##}
-    {#    <table class="table table-bordered table-sm">#}
-    {#        <thead>#}
-    {#            <tr>#}
-    {#                <th>System</th>#}
-    {#                <th>No. Of Tasks</th>#}
-    {#                <th>No. Of Findings</th>#}
-    {#                <th>Progress</th>#}
-    {#                <th></th>#}
-    {#            </tr>#}
-    {#        </thead>#}
-    {#        <tbody>#}
-    {#            <tr>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="System 1" id="System 1">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="3" id="numOfTasks1">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="4" id="numOfFindings3">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="text" class="form-control" placeholder="In Progress" id="Progress7">#}
-    {#                </td>#}
-    {#                <td>#}
-    {#                    <input type="checkbox" class="form-input" id="checkbox1">#}
-    {#                </td>#}
-    {#            </tr>#}
-    {#        </tbody>#}
-    {#    </table>#}
-    {##}
-    {##}
-    {#</form>#}
-    <!-- content goes here -->
-
-{% endblock %}
+{#                        <button type="submit" class="btn btn-secondary"><a#}
+{#                                href="{{ url_for('ArchiveSystem', system=system.getId()) }}">Archive#}
+{#                            System</a></button>#}
+{#                    </form>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
 
 
-
-
-{% block sidebar %}
-    <!-- side bar -->
-    <div class="content-section">
-        <h3>Sidebar</h3>
-        <p class='text-muted'>You can put any information here you'd like.
-        <ul class="list-group">
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventTree') }}"> Event Tree</a></li>
-            <li class="list-group-item list-group-item-light"><a
-                    href="{{ url_for('AnalystProgressSummaryContentView') }}"> Analyst Progress Summary</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('EventView') }}">Event Overview</a>
-            </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Systems') }}"> Systems</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Tasks') }}"> Tasks</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Subtasks') }}"> Subtasks</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('FindingsView') }}"> Findings</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ArchiveContentView') }}"> Archived
-                Contents</a>
-            </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('ConfigurationContentView') }}">
-                Configuration</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('SetupContentView') }}"> Setup</a>
-            </li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Help') }}"> Help</a></li>
-            <li class="list-group-item list-group-item-light"><a href="{{ url_for('Sync') }}"> Sync</a></li>
-        </ul>
-        </p>
-    </div>
 {% endblock %}

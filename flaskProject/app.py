@@ -829,7 +829,12 @@ def FindingView(finding):
         db.updateFinding(analyst, find)
         return redirect(url_for('FindingsView'))
 
-    return render_template('FindingView.html', finding=find, findingsName=findingsName, analystAssg=analystAssg, collaborators=collaborators)
+    if 'DeleteFinding' in request.form:
+        db.deleteFinding(analyst, find)
+        return redirect(url_for('FindingsView'))
+
+    return render_template('FindingView.html', finding=find, findingsName=findingsName, analystAssg=analystAssg,
+                           collaborators=collaborators)
 
 
 @app.route('/EditFinding/<finding>', methods=['GET', 'POST'])
@@ -883,7 +888,8 @@ def EditFinding(finding):
         find.setMitigationBriefDescription(form.mitigationBriefDescription.data)
         find.setMitigationLongDescription(form.mitigationLongDescription.data)
         find.setRelevance(Relevance.getMember(int(form.findingThreatRelevance.data)))
-        find.setCountermeasureEffectivenessRating(EffectivenessRating.getMember(int(form.findingEffectivenessRating.data)))
+        find.setCountermeasureEffectivenessRating(
+            EffectivenessRating.getMember(int(form.findingEffectivenessRating.data)))
         find.setImpactDescription(form.impactDescription.data)
         find.setImpactLevel(ImpactLevel.getMember(int(form.impactLevel.data)))
         find.setSeverityCategoryCode(SeverityCategoryCode.getMember(int(form.severityCategoryCode.data)))
@@ -933,8 +939,14 @@ def ArchiveContentView():
     for archivedSubtask in db.getAllSubtasks():
         if archivedSubtask.getArchiveStatus() == True:
             archivedSubtasksList.append(archivedSubtask)
+
+    archivedFindingsList = []
+    for archivedFinding in db.getAllFindings():
+        if archivedFinding.getArchiveStatus() == True:
+            archivedFindingsList.append(archivedFinding)
     return render_template('ArchiveContentView.html', archivedSystemList=archivedSystemList,
-                           archivedTasksList=archivedTasksList, archivedSubtasksList=archivedSubtasksList)
+                           archivedTasksList=archivedTasksList, archivedSubtasksList=archivedSubtasksList,
+                           archivedFindingsList=archivedFindingsList)
 
 
 @app.route('/ConfigurationContentView')
@@ -1027,30 +1039,32 @@ def EventTree():
     return render_template('EventTree.html')
 
 
-@app.route('/AnalystProgressSummaryContentView')
-def AnalystProgressSummaryContentView():
+@app.route('/AnalystProgressSummaryContentView/<initials>', methods=['GET', 'POST'])
+def AnalystProgressSummaryContentView(initials):
+    for analyst in db.getAllAnalyst():
+        if analyst.getInitial() == initials:
+            a = analyst
+
     findingsList = []
     for finding in db.getAllFindings():
-        if finding.getArchiveStatus() == False:
-            findingsList.append(finding)
+        for aanalyst in finding.getAnalystAssigned():
+            if a.getId() == ObjectId(aanalyst):
+                findingsList.append(finding)
 
     tasksList = []
     for task in db.getAllTasks():
-        if task.getArchiveStatus() == False:
-            tasksList.append(task)
-
-    systemList = []
-    for system in db.getAllSystems():
-        if system.getArchiveStatus() == False:
-            systemList.append(system)
+        for aanalyst in task.getAnalystAssigment():
+            if a.getId() == ObjectId(aanalyst):
+                tasksList.append(task)
 
     subTasksList = []
     for subtask in db.getAllSubtasks():
-        if subtask.getArchiveStatus() == False:
-            subTasksList.append(subtask)
+        for aanalyst in subtask.getAnalystAssigment():
+            if a.getId() == ObjectId(aanalyst):
+                subTasksList.append(subtask)
 
     return render_template('AnalystProgressSummaryContentView.html', findingsList=findingsList, tasksList=tasksList,
-                           systemList=systemList, subTasksList=subTasksList)
+                           subTasksList=subTasksList)
 
 
 if __name__ == '__main__':

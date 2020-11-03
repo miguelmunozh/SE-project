@@ -317,7 +317,7 @@ class Finding:
                 "status": self.__status,
                 "type": self.__type,
                 "classification": self.__classification,
-                "associatedTo": self.__associationTo,
+                "associatedTo": self.__associationToFinding,
                 "evidence": self.__evidence,
                 "archiveStatus": self.__archiveStatus,
                 "confidentiality": self.__confidentiality,
