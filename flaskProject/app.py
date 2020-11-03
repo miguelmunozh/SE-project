@@ -843,7 +843,7 @@ def EditFinding(finding):
         if f.getid() == ObjectId(finding):
             find = f
     form = EditFindingForm()
-    form.associationToFinding.choices = [(c.getId(), c.getHostName()) for c in db.getAllFindings()]
+    form.associationToFinding.choices = [(c.getid(), c.getHostName()) for c in db.getAllFindings()]
     form.findingAnalystAssignment.choices = [(c.getId(), c.getInitial()) for c in db.getAllAnalyst()]
     form.findingCollaboratorAssignment.choices = [(c.getId(), c.getInitial()) for c in db.getAllAnalyst()]
     # populate the form with the data of the system to edit
