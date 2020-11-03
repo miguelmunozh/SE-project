@@ -442,13 +442,13 @@ class EditFindingForm(FlaskForm):
                                                  (FindingClassification.INFORMATION.value,
                                                   "Information")], validators=[DataRequired()])
 
-    associationToFinding = StringField("Finding Association To Finding")
+    associationToFinding = SelectMultipleField("Finding Association To Finding")
     # EVIDENCE IS A FILE NOT A STRING
     findingEvidence = StringField("Finding Evidence", validators=[DataRequired()])
 
     # Finding Analyst Information
-    findingAnalystAssignment = StringField("Finding Analyst Assignment", validators=[DataRequired()])
-    findingCollaboratorAssignment = StringField("Finding Collaborator Assignment")
+    findingAnalystAssignment = SelectMultipleField("Finding Analyst Assignment", validators=[DataRequired()])
+    findingCollaboratorAssignment = SelectMultipleField("Finding Collaborator Assignment")
     findingPosture = SelectField("Finding Posture", validators=[DataRequired()],
                                  choices=[(Posture.INSIDER.value, 'Insider'),
                                          (Posture.INSIDER_NEARSIDER.value, 'Insider-nearsider'),

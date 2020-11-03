@@ -804,23 +804,28 @@ def FindingView(finding):
             find = f
     # display names of associated subtasks
     findingsName = []
+    print(find.getAssociationTo())
     for finding in find.getAssociationTo():
+        print(finding)
+
         for t in db.getAllFindings():
             if ObjectId(finding) == t.getid():
                 findingsName.append(t.getHostName())
 
     # array of initials FOR ASSIGNED ANALYSTS
     analystAssg = []
-    for finding in find.getAnalystAssigned():
+    print(find.getAnalystAssigned())
+    for analyst in find.getAnalystAssigned():
+        print(analyst)
         for t in db.getAllAnalyst():
-            if ObjectId(finding) == t.getId():
+            if ObjectId(analyst) == t.getId():
                 analystAssg.append(t.getInitial())
 
     # array of initials for collaborators
     collaborators = []
-    for finding in find.getCollaboratorsAssigned():
+    for collab in find.getCollaboratorsAssigned():
         for t in db.getAllAnalyst():
-            if ObjectId(finding) == t.getId():
+            if ObjectId(collab) == t.getId():
                 collaborators.append(t.getInitial())
 
     # check if archive event button has been pressed, if so, set it to be archived and redirect to main page
