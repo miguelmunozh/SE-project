@@ -43,7 +43,7 @@
     {% endfor %}
     <hr>
     <h4>analyst </h4>
-    {% for analyst in analystAssg %}
+    {% for analyst in subtask.getAnalystAssigment() %}
         <ul>
             <li style="list-style-type: circle">
                 {{ analyst }}
@@ -52,7 +52,7 @@
     {% endfor %}
     <hr>
     <h4>Collaborate </h4>
-    {% for collaborator in collaborators %}
+    {% for collaborator in subtask.getCollaboratorAssignment() %}
         <ul>
             <li style="list-style-type: circle">
                 {{ collaborator }}

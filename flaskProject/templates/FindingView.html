@@ -65,7 +65,7 @@
     <h3>Analyst Information</h3>
     <hr>
     <h4>Analyst initials</h4>
-    {% for t in analystAssg %}
+    {% for t in finding.getAnalystAssigned() %}
         <ul>
             <li style="list-style-type: circle">
                 {{ t }}
@@ -75,7 +75,7 @@
     <hr>
     <hr>
     <h4>Collaborator</h4>
-        {% for t in collaborators %}
+        {% for t in finding.getCollaboratorsAssigned() %}
         <ul>
             <li style="list-style-type: circle">
                 {{ t }}

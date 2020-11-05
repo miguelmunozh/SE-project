@@ -75,7 +75,7 @@
     </table>
 
     <hr>
-    <h4>Analysts (Event Team)</h4>
+    <h4>Analysts</h4>
     <!-- loop through the list of initials that event.getEventTeam() retrieves  and display them along with a delete button-->
     <table style="width:100%">
         {% for initial in nonleadList %}
@@ -89,11 +89,11 @@
                         <input type="submit" class="btn btn-secondary" value="Delete"/>
                     </form>
                 </td>
-                {#                <td>#}
-                {#                    <form action="{{ url_for('EditAnalyst', analys=initial) }}" method=post>#}
-                {#                        <input type="submit" class="btn btn-secondary" value="Edit Analyst"/>#}
-                {#                    </form>#}
-                {#                </td>#}
+{#                <td>#}
+{#                    <form action="{{ url_for('EditAnalyst', initial=initial) }}" method=post>#}
+{#                        <input type="submit" class="btn btn-secondary" value="Edit Analyst"/>#}
+{#                    </form>#}
+{#                </td>#}
             </tr>
         {% endfor %}
     </table>

@@ -190,9 +190,9 @@ class CreateTaskForm(FlaskForm):
         if tasks:
             self.associationToTask.choices = [(task.getId(), task.getTitle()) for task in tasks]
         if analysts:
-            self.taskAnalystAssignment.choices = [(analyst.getId(), analyst.getInitial()) for analyst in analysts]
+            self.taskAnalystAssignment.choices = [(analyst.getInitial(), analyst.getInitial()) for analyst in analysts]
         if collaborators:
-            self.taskCollaboratorAssignment.choices = [(collaborator.getId(), collaborator.getInitial()) for
+            self.taskCollaboratorAssignment.choices = [(collaborator.getInitial(), collaborator.getInitial()) for
                                                        collaborator in collaborators]
 
 
@@ -246,10 +246,10 @@ class CreateSubtaskForm(FlaskForm):
         if subtasks:
             self.associationToSubtask.choices = [(task.getId(), task.getTitle()) for task in subtasks]
         if analysts:
-            self.subTaskAnalystAssignment.choices = [(analyst.getId(), analyst.getInitial()) for analyst in
+            self.subTaskAnalystAssignment.choices = [(analyst.getInitial(), analyst.getInitial()) for analyst in
                                                      analysts]
         if collaborators:
-            self.subTaskCollaboratorAssignment.choices = [(collaborator.getId(), collaborator.getInitial()) for
+            self.subTaskCollaboratorAssignment.choices = [(collaborator.getInitial(), collaborator.getInitial()) for
                                                           collaborator in collaborators]
 
 
@@ -401,10 +401,10 @@ class CreateFindingForm(FlaskForm):
         if findings:
             self.associationToFinding.choices = [(finding.getid(), finding.getHostName()) for finding in findings]
         if analysts:
-            self.findingAnalystAssignment.choices = [(analyst.getId(), analyst.getInitial()) for analyst in
+            self.findingAnalystAssignment.choices = [(analyst.getInitial(), analyst.getInitial()) for analyst in
                                                      analysts]
         if collaborators:
-            self.findingCollaboratorAssignment.choices = [(collaborator.getId(), collaborator.getInitial()) for
+            self.findingCollaboratorAssignment.choices = [(collaborator.getInitial(), collaborator.getInitial()) for
                                                           collaborator in collaborators]
 
 
