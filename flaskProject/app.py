@@ -1,22 +1,12 @@
-from datetime import datetime, date
-
+from datetime import datetime
 from bson import ObjectId
-from flask import Flask, render_template, url_for, request, redirect, flash
+from flask import Flask, render_template, url_for, request, redirect
 from flask_bootstrap import Bootstrap
-from analyst.analyst import Analyst
-from analyst.role import Role
 from database.databaseHandler import DatabaseHandler
-from event.event import Event
-from event.eventType import EventType
-from event.eventClassification import EventClassification
-from finding.Finding import Finding
-from system.system import System
 from forms import *
 from Helper import *
 from objectsHandler import *
 
-from task.subtask import Subtask
-from task.task import Task
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -78,7 +68,12 @@ def CreateAnalyst():
         if not e.getArchiveStatus():
             event = e
     form = CreateAnalystForm()
+
     if 'createAnalyst' in request.form:
+        # get the string from the user input, transform to list
+        titleList = list(form.CreateAnalystTitle.data.split("-"))
+
+        # check for initials in db to avoid collisions
         for init in db.getAllAnalyst():
             if form.CreateAnalystInitials.data == init.getInitial():
                 initialsCoalition = True
@@ -87,8 +82,10 @@ def CreateAnalyst():
                 return redirect(url_for("CreateAnalyst"))
         # if there is not collition in the db, then create the new analyst
         if initialsCoalition == False:
-            a = createAnalyst(form.CreateAnalystFName.data, form.CreateAnalystLName.data,
-                              form.CreateAnalystInitials.data, "title",
+            a = createAnalyst(form.CreateAnalystFName.data,
+                              form.CreateAnalystLName.data,
+                              form.CreateAnalystInitials.data,
+                              titleList,
                               form.CreateAnalystRole.data)
             db.updateAnalyst(a)
 
@@ -103,16 +100,24 @@ def CreateAnalyst():
 @app.route('/EditAnalyst/<initial>', methods=['GET', 'POST'])
 def EditAnalyst(initial):
     global analyst
-    form = EditAnalystForm()
     for a in db.getAllAnalyst():
         if a.getInitial() == initial:
             m = a
-            
-    # pre populate form
-    form.EditAnalystFName.data = m.getFirstName()
-    form.EditAnalystLName.data = m.getLastName()
-    form.EditAnalystInitials.data = m.getInitial()
-    form.EditAnalystRole.data = m.getRole()
+
+    form = EditAnalystForm()
+
+    if request.method == 'GET':
+        # get the list, make it a string to display it when pre populating the form
+        titleList = "-".join(m.getTitle())
+        print(titleList)
+
+        # TO DO: pre populate the edit analyst form
+        # pre populate form (is not working... why)
+        form.EditAnalystFName.data = m.getFirstName()
+        form.EditAnalystLName.data = m.getLastName()
+        form.EditAnalystTitle.data = titleList
+        form.EditAnalystInitials.data = m.getInitial()
+        form.EditAnalystRole.data = m.getRole()
 
     if 'EditAnalyst' in request.form:
         # we have edited the analyst object so far, now update the event list of initials
@@ -121,11 +126,15 @@ def EditAnalyst(initial):
             event.getEventTeam().append(form.EditAnalystInitials.data)
             db.updateEvent(analyst, event)
 
+        titles = form.EditAnalystTitle.data
+        titleList = list(titles.split("-"))
+        print(titleList)
+
         m.setFirstName(form.EditAnalystFName.data)
         m.setLastName(form.EditAnalystLName.data)
+        m.setTitle(titleList)
         m.setInitial(form.EditAnalystInitials.data)
         m.setRole(form.EditAnalystRole.data)
-
         db.updateAnalyst(m)
         return redirect(url_for('EventView'))
 
@@ -240,12 +249,6 @@ def EditEvent():
 @app.route('/CreateEvent', methods=['GET', 'POST'])
 def CreateEvent():
     global analyst
-    # global notEvent
-    # events = db.getAllEvents()
-    # for e in events:
-    #     if not e.getArchiveStatus():
-    #         event = e
-    #         notEvent = False
     # create a form from the forms.py file (need to import the file)
     form = CreateEventForm()
 

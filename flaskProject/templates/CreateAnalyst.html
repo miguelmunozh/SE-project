@@ -16,6 +16,11 @@
             {{ form.CreateAnalystLName(class_="form-control") }}
         </div>
         <div class="form-group">
+            {{ form.CreateAnalystTitle.label }}
+            <br>
+            {{ form.CreateAnalystTitle(class_="form-control", placeholder="Title 1-Title 2") }}
+        </div>
+        <div class="form-group">
             {% if errorMessage %}
                 <p class="alert-danger form-control"> {{ errorMessage }} </p>
             {% endif %}

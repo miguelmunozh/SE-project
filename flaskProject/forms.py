@@ -101,6 +101,7 @@ class EditEventForm(FlaskForm):
 class CreateAnalystForm(FlaskForm):
     CreateAnalystFName = StringField('Analyst First Name', validators=[DataRequired()])
     CreateAnalystLName = StringField('Analyst Last Name')
+    CreateAnalystTitle = StringField('Analyst Title')
     CreateAnalystInitials = StringField('Initials', validators=[DataRequired()])
     CreateAnalystRole = SelectField('Analyst role',
                                     choices=[(Role.ANALYST.value, Role.ANALYST.name),
@@ -112,6 +113,7 @@ class CreateAnalystForm(FlaskForm):
 class EditAnalystForm(FlaskForm):
     EditAnalystFName = StringField('Analyst First Name', validators=[DataRequired()])
     EditAnalystLName = StringField('Analyst Last Name')
+    EditAnalystTitle = StringField('Analyst Title')
     EditAnalystInitials = StringField('Initials', validators=[DataRequired()])
     EditAnalystRole = SelectField('Analyst role',
                                   choices=[(Role.ANALYST.value, Role.ANALYST.name),
