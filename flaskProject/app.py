@@ -71,8 +71,8 @@ def SetupContentView():
 
 @app.route('/CreateAnalyst', methods=['GET', 'POST'])
 def CreateAnalyst():
-    errorMessage = "initials already exist in the Data Base"
-    initialsCollition = False
+    errorMessage = ''
+    initialsCoalition = False
     events = db.getAllEvents()
     for e in events:
         if not e.getArchiveStatus():
@@ -81,10 +81,12 @@ def CreateAnalyst():
     if 'createAnalyst' in request.form:
         for init in db.getAllAnalyst():
             if form.CreateAnalystInitials.data == init.getInitial():
-                initialsCollition = True
+                initialsCoalition = True
+                errorMessage = "initials already exist in the Data Base"
+
                 return redirect(url_for("CreateAnalyst"))
         # if there is not collition in the db, then create the new analyst
-        if initialsCollition == False:
+        if initialsCoalition == False:
             a = createAnalyst(form.CreateAnalystFName.data, form.CreateAnalystLName.data,
                               form.CreateAnalystInitials.data, "title",
                               form.CreateAnalystRole.data)
@@ -98,36 +100,36 @@ def CreateAnalyst():
     return render_template('CreateAnalyst.html', form=form, errorMessage=errorMessage)
 
 
-# @app.route('/EditAnalyst/<initial>', methods=['GET', 'POST'])
-# def EditAnalyst(initial):
-#     global analyst
-#     form = EditAnalystForm()
-#     for a in db.getAllAnalyst():
-#         if a.getInitial() == initial:
-#             m = a
-#             print(m.getInitial())
-#
-#     if request.method == 'GET':
-#         form.EditAnalystFName.data = m.getFirstName()
-#         form.EditAnalystLName.data = m.getLastName()
-#         form.EditAnalystInitials.data = m.getInitial()
-#         form.EditAnalystRole.data = m.getRole()
-#
-#     if 'EditAnalyst' in request.form:
-#         # we have edited the analyst object so far, now update the event
-#         if initial in event.getEventTeam():
-#             event.getEventTeam().remove(initial)
-#             event.getEventTeam().append(m.getInitial())
-#             db.updateEvent(analyst, event)
-#
-#         m.setFirstName(form.EditAnalystFName.data)
-#         m.setLastName(form.EditAnalystLName.data)
-#         m.setInitial(form.EditAnalystInitials.data)
-#         m.setRole(form.EditAnalystRole.data)
-#         db.updateAnalyst(m)
-#         return redirect(url_for('EventView'))
-#
-#     return render_template('EditAnalyst.html',form=form, analys=m.getInitial())
+@app.route('/EditAnalyst/<initial>', methods=['GET', 'POST'])
+def EditAnalyst(initial):
+    global analyst
+    form = EditAnalystForm()
+    for a in db.getAllAnalyst():
+        if a.getInitial() == initial:
+            m = a
+            
+    # pre populate form
+    form.EditAnalystFName.data = m.getFirstName()
+    form.EditAnalystLName.data = m.getLastName()
+    form.EditAnalystInitials.data = m.getInitial()
+    form.EditAnalystRole.data = m.getRole()
+
+    if 'EditAnalyst' in request.form:
+        # we have edited the analyst object so far, now update the event list of initials
+        if initial in event.getEventTeam():
+            event.getEventTeam().remove(initial)
+            event.getEventTeam().append(form.EditAnalystInitials.data)
+            db.updateEvent(analyst, event)
+
+        m.setFirstName(form.EditAnalystFName.data)
+        m.setLastName(form.EditAnalystLName.data)
+        m.setInitial(form.EditAnalystInitials.data)
+        m.setRole(form.EditAnalystRole.data)
+
+        db.updateAnalyst(m)
+        return redirect(url_for('EventView'))
+
+    return render_template('EditAnalyst.html', form=form, analys=m.getInitial())
 
 
 # function to delete analyst initials from event and db
@@ -1019,19 +1021,19 @@ def AnalystProgressSummaryContentView(initials):
     findingsList = []
     for finding in db.getAllFindings():
         for aanalyst in finding.getAnalystAssigned():
-            if a.getId() == ObjectId(aanalyst):
+            if a.getInitial() == aanalyst:
                 findingsList.append(finding)
 
     tasksList = []
     for task in db.getAllTasks():
         for aanalyst in task.getAnalystAssigment():
-            if a.getId() == ObjectId(aanalyst):
+            if a.getInitial() == aanalyst:
                 tasksList.append(task)
 
     subTasksList = []
     for subtask in db.getAllSubtasks():
         for aanalyst in subtask.getAnalystAssigment():
-            if a.getId() == ObjectId(aanalyst):
+            if a.getInitial() == aanalyst:
                 subTasksList.append(subtask)
 
     return render_template('AnalystProgressSummaryContentView.html', findingsList=findingsList, tasksList=tasksList,

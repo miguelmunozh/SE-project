@@ -67,8 +67,12 @@
             </td>
             <td>
                 <form action="{{ url_for('deleteAnalyst', initial=initial) }}" method=post>
-
                     <input type="submit" class="btn btn-secondary" value="Delete"/>
+                </form>
+            </td>
+            <td>
+                <form action="{{ url_for('EditAnalyst', initial=initial) }}" method=post>
+                    <input type="submit" class="btn btn-secondary" value="Edit Analyst"/>
                 </form>
             </td>
         {% endfor %}
@@ -89,11 +93,11 @@
                         <input type="submit" class="btn btn-secondary" value="Delete"/>
                     </form>
                 </td>
-{#                <td>#}
-{#                    <form action="{{ url_for('EditAnalyst', initial=initial) }}" method=post>#}
-{#                        <input type="submit" class="btn btn-secondary" value="Edit Analyst"/>#}
-{#                    </form>#}
-{#                </td>#}
+                <td>
+                    <form action="{{ url_for('EditAnalyst', initial=initial) }}" method=post>
+                        <input type="submit" class="btn btn-secondary" value="Edit Analyst"/>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </table>
