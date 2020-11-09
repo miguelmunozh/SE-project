@@ -1020,17 +1020,19 @@ def EventTree():
 
 @app.route('/RiskMatrixReport')
 def RiskMatrixReport():
-
+    print(RiskMatrixReport)
     return render_template('FindingsView.html')
 
 
 @app.route('/ERBReport')
 def ERBReport():
+    print("ERBReport")
     return render_template('FindingsView.html')
 
 
 @app.route('/FinalTechnicalReport')
 def FinalTechnicalReport():
+    print("FinalTechnicalReport")
     return render_template('FindingsView.html')
 
 
