@@ -65,9 +65,9 @@
         {% for subtask in archivedSubtasksList %}
             <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
                 <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-{#                    <a href="{{ url_for('SubTaskView', subtask=subtask.getId()) }}">#}
-                        <h4 class="mb-1">{{ subtask.getTitle() }}</h4>
-{#                    </a>#}
+                    {#                    <a href="{{ url_for('SubTaskView', subtask=subtask.getId()) }}">#}
+                    <h4 class="mb-1">{{ subtask.getTitle() }}</h4>
+                    {#                    </a>#}
                     <small>No. of Findings: 2</small>
                     <h5>Aanalyst: {{ subtask.getAnalystAssigment() }}</h5>
                     <h5>Due date:
@@ -89,22 +89,29 @@
         {% for finding in archivedFindingsList %}
             <div class="list-group-item list-group-item-action flex-column flex-fill align-items-start">
                 <div class="d-flex w-100 p-3 flex-fill justify-content-between">
-{#                    <a href="{{ url_for('FindingView') }}">#}
-                        <h4 class="mb-1">{{ finding.getHostName() }}</h4>
-{#                    </a>#}
+                    {#                    <a href="{{ url_for('FindingView') }}">#}
+                    <h4 class="mb-1">{{ finding.getHostName() }}</h4>
+                    {#                    </a>#}
                     <h5 class="mb-1">ID: {{ finding.getid() }} </h5>
                     <h5 class="mb-1">System: system 1 </h5>
                     <h5 class="mb-1">Task: Task 1 </h5>
                     <h5 class="mb-1">Subtask: Subtask 1 </h5>
-                    <h5 class="mb-1">Analyst: {{ finding.getAnalystAssigned() }}</h5>
+                    <h5 class="mb-1">Analyst:</h5>
+                    {% for t in finding.getAnalystAssigned() %}
+                        <ul>
+                            <li style="list-style-type: circle">
+                                {{ t }}
+                            </li>
+                        </ul>
+                    {% endfor %}
                     <h5 class="mb-1">Status: {{ finding.getStatus().value }}</h5>
                     <h5 class="mb-1">Clasificatioin: {{ finding.getClassification().value }}</h5>
                     <h5 class="mb-1">Type: {{ finding.getType().value }}</h5>
                     <h5 class="mb-1">Risk: {{ finding.getRisk() }}</h5>
                 </div>
-                    <form action="{{ url_for('RestoreFinding', finding=finding.getid()) }}" method=post>
-                        <button type="submit" class="btn btn-secondary">Restore Finding</button>
-                    </form>
+                <form action="{{ url_for('RestoreFinding', finding=finding.getid()) }}" method=post>
+                    <button type="submit" class="btn btn-secondary">Restore Finding</button>
+                </form>
             </div>
         {% endfor %}
     </div>

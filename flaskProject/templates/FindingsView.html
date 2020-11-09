@@ -5,10 +5,13 @@
 {% block content %}
     <h1>Findings Overview </h1>
     <div class="btn-group">
-        <a class="btn btn-secondary" href="{{ url_for('CreateFinding') }}" role="button">Add Finding</a>
-        <a class="btn btn-secondary" href="#" role="button">ERB Report</a>
-        <a class="btn btn-secondary" href="#" role="button">Risk Matrix</a>
-        <a class="btn btn-secondary" href="#" role="button">Final Report</a>
+        <button><a type="submit" class="btn btn-secondary btn-sm" href="{{ url_for('CreateFinding') }}">Add Finding</a></button>
+        <button><a  type="submit" class="btn btn-secondary btn-sm" href="{{ url_for('RiskMatrixReport') }}">Risk Matrix</a></button>
+        <button><a  type="submit" class="btn btn-secondary btn-sm" href="{{ url_for('ERBReport') }}">ERB Report</a>
+        </button>
+        <button><a type="submit" class="btn btn-secondary btn-sm" href="{{ url_for('FinalTechnicalReport') }}">Final Report</a>
+        </button>
+
     </div>
     <hr>
     <div class="list-group">

@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from bson import ObjectId
 from flask import Flask, render_template, url_for, request, redirect
@@ -7,6 +8,7 @@ from forms import *
 from Helper import *
 from objectsHandler import *
 
+import xlsxwriter
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -478,7 +480,6 @@ def TaskView(task):
             if ObjectId(task0) == t.getId():
                 taskName.append(t.getTitle())
 
-
     # check if archive task button has been pressed, if so, set it to be archived and redirect
     if 'ArchiveTask' in request.form:
         task1.setArchiveStatus(True)
@@ -717,7 +718,6 @@ def Subtasks():
         #                     analystAssg.append(anal.getInitial())
         #                     print(analystAssg)
 
-
     return render_template('Subtasks.html', subTasksList=subTasksList)
 
 
@@ -744,6 +744,7 @@ def RestoreSubtask(subtask):
 
 @app.route('/CreateFinding', methods=['GET', 'POST'])
 def CreateFinding():
+    # TO-DO: create lists of non-archived objects
     form = CreateFindingForm(findings=db.getAllFindings(), analysts=db.getAllAnalyst(),
                              collaborators=db.getAllAnalyst())
     if 'createFinding' in request.form:
@@ -1013,6 +1014,24 @@ def Sync():
 @app.route('/EventTree')
 def EventTree():
     return render_template('EventTree.html')
+
+
+# REPORTS
+
+@app.route('/RiskMatrixReport')
+def RiskMatrixReport():
+
+    return render_template('FindingsView.html')
+
+
+@app.route('/ERBReport')
+def ERBReport():
+    return render_template('FindingsView.html')
+
+
+@app.route('/FinalTechnicalReport')
+def FinalTechnicalReport():
+    return render_template('FindingsView.html')
 
 
 @app.route('/AnalystProgressSummaryContentView/<initials>', methods=['GET', 'POST'])

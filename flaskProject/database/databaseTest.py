@@ -65,35 +65,39 @@ dbHandler = DatabaseHandler()
 
 # print(lists)
 
-analyst = Analyst("jonathan", "roman", "jr", ["jr","sr"], Role.LEAD)
-finding = Finding("form.findingHostName.data",
-                          "form.findingIPPort.data",
-                          "form.findingDescription.data",
-                          FindingStatus.CLOSED,
-                          FindingType.PHYSICAL_SECURITY,
-                          FindingClassification.INFORMATION,
-                          ["jr","sr"],
-                          "form.findingEvidence.data",
-                          False,
-                          Confidentiality.MEDIUM,
-                          Integrity.MEDIUM,
-                          Availability.MEDIUM,
-                          ["jr","sr"],
-                          Posture.NEARSIDER,
-                          "form.mitigationBriefDescription.data",
-                          "form.mitigationLongDescription.data",
-                          Relevance.POSSIBLE,
-                          EffectivenessRating.VERYHIGH,
-                          "form.impactDescription.data",
-                          ImpactLevel.VL,
-                          SeverityCategoryCode.II,
-                          "form.findingLongDescription.data",
-                          ["jr","sr"])
-dbHandler.updateFinding(analyst, finding)
-# finding.setDescription("aasasdsdasd edited description")
+# analyst = Analyst("jonathan", "roman", "jr", ["jr","sr"], Role.LEAD)
+# finding = Finding("form.findingHostName.data",
+#                           "form.findingIPPort.data",
+#                           "form.findingDescription.data",
+#                           FindingStatus.CLOSED,
+#                           FindingType.PHYSICAL_SECURITY,
+#                           FindingClassification.INFORMATION,
+#                           ["jr","sr"],
+#                           "form.findingEvidence.data",
+#                           False,
+#                           Confidentiality.MEDIUM,
+#                           Integrity.MEDIUM,
+#                           Availability.MEDIUM,
+#                           ["jr","sr"],
+#                           Posture.NEARSIDER,
+#                           "form.mitigationBriefDescription.data",
+#                           "form.mitigationLongDescription.data",
+#                           Relevance.POSSIBLE,
+#                           EffectivenessRating.VERYHIGH,
+#                           "form.impactDescription.data",
+#                           ImpactLevel.VL,
+#                           SeverityCategoryCode.II,
+#                           "form.findingLongDescription.data",
+#                           ["jr","sr"])
 # dbHandler.updateFinding(analyst, finding)
+# # finding.setDescription("aasasdsdasd edited description")
+# # dbHandler.updateFinding(analyst, finding)
+#
+# dbHandler.deleteFinding(analyst,finding)
 
-dbHandler.deleteFinding(analyst,finding)
+for log in dbHandler.getAllLogs():
+    print(log.getTime())
+
 
 # event = Event("eventName",
 #               "eventDescription",
@@ -185,4 +189,4 @@ dbHandler.deleteFinding(analyst,finding)
 #     dbHandler.updateEvent(event)
 
 # dbHandler.updateEvent(event)
-dbHandler.updateAnalyst(analyst)
+# dbHandler.updateAnalyst(analyst)

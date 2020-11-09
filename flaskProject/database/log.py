@@ -40,7 +40,7 @@ class LogEntry:
         return logDoc
 
     @staticmethod
-    def convertDocument(self, document):
+    def convertDocument(document):
         log = LogEntry(document["actionPerformed"]
                        , document["analystInitials"]
                        , datetime.datetime.strptime(document["logTime"], "%m/%d/%Y, %H:%M:%S"), document["_id"])
