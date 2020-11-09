@@ -1025,6 +1025,9 @@ def RiskMatrixReport():
     for finding in db.getAllFindings():
         if finding.getArchiveStatus() == False:
             findingsList.append(finding)
+
+    # Code to generate RiskMatrixReport
+
     return render_template('FindingsView.html', findingsList=findingsList)
 
 
@@ -1035,6 +1038,9 @@ def ERBReport():
     for finding in db.getAllFindings():
         if finding.getArchiveStatus() == False:
             findingsList.append(finding)
+
+    # Code to generate RiskMatrixReport
+
     return render_template('FindingsView.html', findingsList=findingsList)
 
 
@@ -1045,6 +1051,9 @@ def FinalTechnicalReport():
     for finding in db.getAllFindings():
         if finding.getArchiveStatus() == False:
             findingsList.append(finding)
+            
+    # Code to generate RiskMatrixReport
+
     return render_template('FindingsView.html', findingsList=findingsList)
 
 
