@@ -1020,20 +1020,32 @@ def EventTree():
 
 @app.route('/RiskMatrixReport')
 def RiskMatrixReport():
-    print(RiskMatrixReport)
-    return render_template('FindingsView.html')
+    print("RiskMatrixReport")
+    findingsList = []
+    for finding in db.getAllFindings():
+        if finding.getArchiveStatus() == False:
+            findingsList.append(finding)
+    return render_template('FindingsView.html', findingsList=findingsList)
 
 
 @app.route('/ERBReport')
 def ERBReport():
     print("ERBReport")
-    return render_template('FindingsView.html')
+    findingsList = []
+    for finding in db.getAllFindings():
+        if finding.getArchiveStatus() == False:
+            findingsList.append(finding)
+    return render_template('FindingsView.html', findingsList=findingsList)
 
 
 @app.route('/FinalTechnicalReport')
 def FinalTechnicalReport():
     print("FinalTechnicalReport")
-    return render_template('FindingsView.html')
+    findingsList = []
+    for finding in db.getAllFindings():
+        if finding.getArchiveStatus() == False:
+            findingsList.append(finding)
+    return render_template('FindingsView.html', findingsList=findingsList)
 
 
 @app.route('/AnalystProgressSummaryContentView/<initials>', methods=['GET', 'POST'])
