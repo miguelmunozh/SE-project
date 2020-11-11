@@ -3,12 +3,18 @@ from datetime import datetime
 from bson import ObjectId
 from flask import Flask, render_template, url_for, request, redirect
 from flask_bootstrap import Bootstrap
+from pptx.chart.data import CategoryChartData
+from pptx.dml.color import RGBColor
+from pptx.enum.chart import XL_CHART_TYPE
+from pptx.util import Inches, Pt
+
 from database.databaseHandler import DatabaseHandler
 from forms import *
 from Helper import *
 from objectsHandler import *
+from pptx import Presentation
 
-import xlsxwriter
+from reportsHandler import generateERB
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -1033,13 +1039,19 @@ def RiskMatrixReport():
 
 @app.route('/ERBReport')
 def ERBReport():
-    print("ERBReport")
     findingsList = []
     for finding in db.getAllFindings():
         if finding.getArchiveStatus() == False:
             findingsList.append(finding)
 
-    # Code to generate RiskMatrixReport
+    systemsList = []
+    for system in db.getAllSystems():
+        if finding.getArchiveStatus() == False:
+            systemsList.append(system)
+
+
+    # generate ERB report
+    generateERB(event,findingsList, systemsList)
 
     return render_template('FindingsView.html', findingsList=findingsList)
 
@@ -1051,8 +1063,10 @@ def FinalTechnicalReport():
     for finding in db.getAllFindings():
         if finding.getArchiveStatus() == False:
             findingsList.append(finding)
-            
+
     # Code to generate RiskMatrixReport
+
+
 
     return render_template('FindingsView.html', findingsList=findingsList)
 
