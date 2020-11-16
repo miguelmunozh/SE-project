@@ -1,7 +1,7 @@
 from enum import Enum
-from security_objectives.integrity import Integrity
-from security_objectives.availability import Availability
-from security_objectives.confidentiality import Confidentiality
+from flaskProject.security_objectives.integrity import Integrity
+from flaskProject.security_objectives.availability import Availability
+from flaskProject.security_objectives.confidentiality import Confidentiality
 
 
 class System:

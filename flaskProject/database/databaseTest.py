@@ -1,31 +1,48 @@
 from bson import ObjectId
+from PIL import Image
 
-from database.databaseHandler import DatabaseHandler
-from event.event import Event
-from event.eventType import EventType
-from event.eventClassification import EventClassification
-from analyst.analyst import Analyst
-from analyst.role import Role
-from finding.Finding import Finding
-from finding.findingStatus import FindingStatus
-from finding.findingType import FindingType
-from finding.findingClassification import FindingClassification
-from finding.posture import Posture
-from finding.relevance import Relevance
-from finding.effectivenessRating import EffectivenessRating
-from finding.impactLevel import ImpactLevel
-from finding.severityCategoryCode import SeverityCategoryCode
-from system.system import System, Availability, Confidentiality, Integrity
+from flaskProject.database.databaseHandler import DatabaseHandler
+from flaskProject.event.event import Event
+from flaskProject.event.eventType import EventType
+from flaskProject.event.eventClassification import EventClassification
+from flaskProject.analyst.analyst import Analyst
+from flaskProject.analyst.role import Role
+from flaskProject.finding.Finding import Finding
+from flaskProject.finding.findingStatus import FindingStatus
+from flaskProject.finding.findingType import FindingType
+from flaskProject.finding.findingClassification import FindingClassification
+from flaskProject.finding.posture import Posture
+from flaskProject.finding.relevance import Relevance
+from flaskProject.finding.effectivenessRating import EffectivenessRating
+from flaskProject.finding.impactLevel import ImpactLevel
+from flaskProject.finding.severityCategoryCode import SeverityCategoryCode
+from flaskProject.system.system import System, Availability, Confidentiality, Integrity
 from datetime import date
 from datetime import datetime
 
-from task.priority import Priority
-from task.progress import Progress
-from task.subtask import Subtask
-from task.task import Task
+from flaskProject.task.priority import Priority
+from flaskProject.task.progress import Progress
+from flaskProject.task.subtask import Subtask
+from flaskProject.task.task import Task
+from flaskProject.attachment.attachment import Attachment
+from flaskProject.attachment.attachmentHandler import AttachmentHandler
 
 dbHandler = DatabaseHandler()
+attHandler = AttachmentHandler()
+attHandler.appendAttachment('C:\\Users\\jonat\\Desktop\\software2Team\\flaskProject\\images\\Capture.PNG', "Capture.PNG")
+attHandler.find_and_open_attachment("Capture.PNG")
+# dbHandler.storeAttachment()
 
+# file = dbHandler.retrieveAttachment()
+# Image.open(file).show()
+file = dbHandler.findAttachment({"file_name": "Capture.PNG"})
+
+print(type(file))
+att = Attachment(attachment=file, file_name="Capture.PNG")
+print(file.file_name)
+print(type(file._id))
+att.viewFile()
+# Image.open(file).show()
 
 # list = dbHandler.getAllSystems()
 # system = list[0]
@@ -95,8 +112,8 @@ dbHandler = DatabaseHandler()
 #
 # dbHandler.deleteFinding(analyst,finding)
 
-for log in dbHandler.getAllLogs():
-    print(log.getTime())
+# for log in dbHandler.getAllLogs():
+#     print(log.getTime())
 
 
 # event = Event("eventName",

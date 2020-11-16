@@ -1,11 +1,12 @@
-from task.progress import Progress
-from task.priority import Priority
+from flaskProject.task.progress import Progress
+from flaskProject.task.priority import Priority
+from flaskProject.attachment.attachment import Attachment
 from datetime import datetime
 
 class Task:
 
     def __init__(self, title: str, description: str, priority: Priority, progress: Progress, dueDate: datetime,
-                 attachment, associationToTask: list, analystAssignment: list, collaboratorAssignment: list, archiveStatus: bool, id =-1):
+                 associationToTask: list, analystAssignment: list, collaboratorAssignment: list, archiveStatus: bool, attachment:list = [], id =-1):
         self.__id = id
         self.__title = title
         self.__description = description
@@ -42,8 +43,8 @@ class Task:
         self.__dueDate = dueDate
         return
 
-    def setAttachment(self, attachment):
-        self.__attachment = attachment
+    def appendAttachment(self, attachment: Attachment):
+        self.__attachment.append(attachment)
         return
 
     def setAssociationToTask(self, associationToTask: list):

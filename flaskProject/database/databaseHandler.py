@@ -1,14 +1,15 @@
-from analyst.analyst import Analyst
-from analyst.role import Role
-from event.event import Event
-from event.eventType import EventType
-from event.eventClassification import EventClassification
-from system.system import System
-from database.log import LogEntry
-from database.db import Db
-from task.task import Task
-from task.subtask import Subtask
-from finding.Finding import Finding
+from flaskProject.analyst.analyst import Analyst
+from flaskProject.analyst.role import Role
+from flaskProject.event.event import Event
+from flaskProject.event.eventType import EventType
+from flaskProject.event.eventClassification import EventClassification
+from flaskProject.system.system import System
+from flaskProject.database.log import LogEntry
+from flaskProject.database.db import Db
+from flaskProject.task.task import Task
+from flaskProject.task.subtask import Subtask
+from flaskProject.finding.Finding import Finding
+from flaskProject.attachment.attachment import Attachment
 import datetime
 
 
@@ -16,6 +17,24 @@ class DatabaseHandler:
     def __init__(self):
         self.__db = Db.getInstance()
         return
+
+
+    def storeAttachment(self, attachmentPath, file_name: str):
+        id = self.__db.insertAttachment(attachmentPath, file_name)
+        print(id)
+        return id
+
+    def findAttachment(self, attachementQuery):
+        file = self.__db.findAttachent(attachementQuery)
+        return file
+
+    def retrieveAttachment(self, attachmentID):
+        file = self.__db.retrieveAttachment(attachmentID)
+        return file
+
+    def findAttachment(self, query: dict):
+        file = self.__db.findAttachment(query)
+        return file
 
 
     def updateAnalyst(self, analyst):

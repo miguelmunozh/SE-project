@@ -1,7 +1,8 @@
 import pymongo
 from pymongo import MongoClient
+from gridfs import GridFS
 from datetime import date
-from database.log import LogEntry
+from flaskProject.database.log import LogEntry
 import datetime
 
 
@@ -23,6 +24,7 @@ class Db:
             Db.__instance__ = self
             self.__client = MongoClient(port=27017)
             self.__database = self.__client.FRIC
+            self.__FRIC_file_system = self.__client.FRIC_FILES
             self.__analystCollection = self.__database.analyst
             self.__eventCollection = self.__database.event
             self.__systemCollection = self.__database.system
@@ -30,8 +32,21 @@ class Db:
             self.__subtaskCollection = self.__database.subtask
             self.__findingCollection = self.__database.finding
             self.__logCollection = self.__database.log
+            self.__file_system = GridFS(self.__FRIC_file_system)
         else:
             raise Exception("You cannot create another Db class")
+
+    def insertAttachment(self, attachmentPath, name: str):
+        fileID = self.__file_system.put( open( attachmentPath, 'rb'), file_name=name)
+        return fileID
+
+    def retrieveAttachment(self, attachmentID):
+        file = self.__file_system.get(attachmentID)
+        return file
+
+    def findAttachment(self, attachmentQueary: dict):
+        file = self.__file_system.find_one(attachmentQueary)
+        return file
 
     def findAnalyst(self, analystDoc):
         query = {"_id": analystDoc["_id"]}
