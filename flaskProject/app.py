@@ -1,5 +1,7 @@
 import os
 from datetime import datetime, date
+
+import xlsxwriter
 from bson import ObjectId
 from flask import Flask, render_template, url_for, request, redirect
 from flask_bootstrap import Bootstrap
@@ -7,7 +9,7 @@ from database.databaseHandler import DatabaseHandler
 from forms import *
 from Helper import *
 from objectsHandler import *
-from reportsHandler import generateERB, generateFinalTecReport
+from reportsHandler import generateERB, generateFinalTecReport, createRiskMatrixReport
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -1026,7 +1028,8 @@ def RiskMatrixReport():
             findingsList.append(finding)
 
     # Code to generate RiskMatrixReport
-
+    createRiskMatrixReport(findingsList,event)
+    
     return render_template('FindingsView.html', findingsList=findingsList)
 
 
