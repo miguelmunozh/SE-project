@@ -13,7 +13,17 @@ class Subtask(Task):
                  associationToTask: list,
                  analystAssignment: list,
                  collaboratorAssignment: list,
-                 archiveStatus: bool):
+                 archiveStatus: bool,
+                 parentTask = -1):
 
         Task.__init__(self, title, description, None, progress, dueDate, attachment,
                       associationToTask, analystAssignment, collaboratorAssignment, archiveStatus)
+
+        self.__parentTaskId = parentTask
+
+    def getParentTask(self):
+        pass
+
+    def setParentTask(self, parentTask):
+        self.__parentTaskId = parentTask
+        return

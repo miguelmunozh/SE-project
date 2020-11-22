@@ -36,6 +36,7 @@ class Finding:
                  severityCategoryCode: SeverityCategoryCode,
                  longDescription: str = "",
                  collaboratorAssigned: list = [],
+                 associatedTask = -1,
                  id = -1):
 
         self.__id = id
@@ -73,6 +74,7 @@ class Finding:
         self.__qualitativeVulnerabilitySeverity:str  = self.__deriveQualitaiveVulnerabilitySeverity()
         self.__likelihood = self.__deriveLikelihood()
         self.__assessedRisk = self.__deriveRisk()
+        self.__associatedTask = associatedTask
 
 
 
@@ -103,7 +105,7 @@ class Finding:
         self.__classification = classification
 
     def setAssociationTo(self, associationTo: list):
-        self.__associationTo = associationTo
+        self.__associationToFinding = associationTo
 
     def setEvidence(self, evidence):
         self.__evidence = evidence
@@ -165,6 +167,9 @@ class Finding:
 
     def setImpactScore(self):
         self.__impactScore = self.__deriveImpactScore(self.__confidentiality, self.__integrity, self.__availability)
+
+    def setAssociatedTask(self, associatedTask):
+        self.__associatedTask = associatedTask
 
 
     #Getters
@@ -267,6 +272,9 @@ class Finding:
     def getImpactScore(self):
         return self.__impactScore
 
+    def getAssociatedTask(self):
+        return self.__associatedTask
+
     def toDocument(self):
         if self.__id == -1:
             findingDoc = {
@@ -301,7 +309,8 @@ class Finding:
                 "vulnerabilitySeverity": self.__vulnerabilitySeverity,
                 "qualitativeVulnerabilitySeverity": self.__qualitativeVulnerabilitySeverity,
                 "likelihood": self.__likelihood,
-                "assessedRisk": self.__assessedRisk
+                "assessedRisk": self.__assessedRisk,
+                "associatedTask": self.__associatedTask
 
 
 
@@ -341,36 +350,38 @@ class Finding:
                 "vulnerabilitySeverity": self.__vulnerabilitySeverity,
                 "qualitativeVulnerabilitySeverity": self.__qualitativeVulnerabilitySeverity,
                 "likelihood": self.__likelihood,
-                "assessedRisk": self.__assessedRisk
+                "assessedRisk": self.__assessedRisk,
+                "associatedTask": self.__associatedTask
             }
             return findingDoc
 
     @staticmethod
     def convertDocument(document):
-        return Finding(document["hostname"],
-                       document["ipPort"],
-                       document["description"],
-                       FindingStatus.getMember(document["status"]),
-                       FindingType.getMember(document["type"]),
-                       FindingClassification.getMember(document["classification"]),
-                       document["associatedTo"],
-                       document["evidence"],
-                       document["archiveStatus"],
-                       Confidentiality.getMember(document["confidentiality"]),
-                       Integrity.getMember(document["integrity"]),
-                       Availability.getMember(document["availability"]),
-                       document["analystAssigned"],
-                       Posture.getMember(document["posture"]),
-                       document["mitigationBriefDescription"],
-                       document["mitigationLongDescription"],
-                       Relevance.getMember(document["threatRelevance"]),
-                       EffectivenessRating.getMember(document["countermeasureEffectivenessRating"]),
-                       document["impactDescription"],
-                       ImpactLevel.getMember(document["impactLevel"]),
-                       SeverityCategoryCode.getMember(document["severityCategoryCode"]),
-                       document["longDescription"],
-                       document["collaboratorAssigned"],
-                       document["_id"])
+        return Finding(hostName= document["hostname"],
+                       ipPort= document["ipPort"],
+                       description= document["description"],
+                       status= FindingStatus.getMember(document["status"]),
+                       type= FindingType.getMember(document["type"]),
+                       classification= FindingClassification.getMember(document["classification"]),
+                       associationToFinding= document["associatedTo"],
+                       evidence= document["evidence"],
+                       archiveStatus= document["archiveStatus"],
+                       confidentiality= Confidentiality.getMember(document["confidentiality"]),
+                       integrity= Integrity.getMember(document["integrity"]),
+                       availability= Availability.getMember(document["availability"]),
+                       analystAssigned= document["analystAssigned"],
+                       posture= Posture.getMember(document["posture"]),
+                       mitigationBriefDescription= document["mitigationBriefDescription"],
+                       mitigationLongDescription= document["mitigationLongDescription"],
+                       relevance= Relevance.getMember(document["threatRelevance"]),
+                       countermeasureEffectivenessRating= EffectivenessRating.getMember(document["countermeasureEffectivenessRating"]),
+                       impactDescription= document["impactDescription"],
+                       impactLevel= ImpactLevel.getMember(document["impactLevel"]),
+                       severityCategoryCode= SeverityCategoryCode.getMember(document["severityCategoryCode"]),
+                       longDescription= document["longDescription"],
+                       collaboratorAssigned= document["collaboratorAssigned"],
+                       associatedTask= document["associatedTask"],
+                       id= document["_id"])
 
     # derive likelihood methods are helper methods for __deriveLikelihood
     # these should be changed to derive the value in a programmatic way if time allows for it

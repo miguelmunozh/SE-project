@@ -6,7 +6,7 @@ from datetime import datetime
 class Task:
 
     def __init__(self, title: str, description: str, priority: Priority, progress: Progress, dueDate: datetime,
-                 associationToTask: list, analystAssignment: list, collaboratorAssignment: list, archiveStatus: bool, attachment:list = [], id =-1):
+                 associationToTask: list, analystAssignment: list, collaboratorAssignment: list, archiveStatus: bool,associationToSystem , attachment:list = [],parentId = -1 ,id =-1):
         self.__id = id
         self.__title = title
         self.__description = description
@@ -14,10 +14,12 @@ class Task:
         self.__progress = progress
         self.__dueDate = dueDate
         self.__attachment = attachment
+        self.__associatedParent = parentId
         self.__associationToTask = associationToTask
         self.__analystAssignment = analystAssignment
         self.__collaboratorAssignment = collaboratorAssignment
         self.__archiveStatus = archiveStatus
+        self.__associationToSystem = associationToSystem
 
 
     def setId(self, id):
@@ -63,6 +65,10 @@ class Task:
         self.__archiveStatus = status
         return
 
+    def setAssociatedParent(self, parent_id):
+        self.__associatedParent = parent_id
+        return
+
 
 
 
@@ -99,6 +105,9 @@ class Task:
     def getArchiveStatus(self):
         return self.__archiveStatus
 
+    def getAssociatedParent(self):
+        return self.__associatedParent
+
 
     def toDocument(self):
         if self.__id == -1:
@@ -110,6 +119,7 @@ class Task:
                 "dueDate": self.__dueDate,
                 "attachement": self.__attachment,
                 "association": self.__associationToTask,
+                "system_Association": self.__associationToSystem,
                 "analyst_Assignment": self.__analystAssignment,
                 "collaborator_Assignment": self.__collaboratorAssignment,
                 "archive_status": self.__archiveStatus
@@ -125,6 +135,7 @@ class Task:
                 "dueDate": self.__dueDate,
                 "attachement": self.__attachment,
                 "association": self.__associationToTask,
+                "system_Association": self.__associationToSystem,
                 "analyst_Assignment": self.__analystAssignment,
                 "collaborator_Assignment": self.__collaboratorAssignment,
                 "archive_status": self.__archiveStatus
@@ -133,14 +144,15 @@ class Task:
 
     @staticmethod
     def convertDocument(document):
-        return Task(document["title"],
-                    document["description"],
-                    Priority.getMember(document["priority"]),
-                    Progress.getMember(document["progress"]),
-                    document["dueDate"],
-                    document["attachement"],
-                    document["association"],
-                    document["analyst_Assignment"],
-                    document["collaborator_Assignment"],
-                    document["archive_status"],
-                    document["_id"])
+        return Task(title=document["title"],
+                    description=document["description"],
+                    priority=Priority.getMember(document["priority"]),
+                    progress=Progress.getMember(document["progress"]),
+                    dueDate=document["dueDate"],
+                    attachment=document["attachement"],
+                    associationToTask=document["association"],
+                    analystAssignment=document["analyst_Assignment"],
+                    collaboratorAssignment=document["collaborator_Assignment"],
+                    archiveStatus=document["archive_status"],
+                    associationToSystem=document["system_Association"],
+                    id=document["_id"])

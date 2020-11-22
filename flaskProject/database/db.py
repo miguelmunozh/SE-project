@@ -121,47 +121,48 @@ class Db:
 
 
     def __logAction(self, logDoc):
-        self.__logCollection.insert_one(logDoc)
-        return
+        insertDocid = self.__logCollection.insert_one(logDoc)
+        return insertDocid.inserted_id
 
 
     def __addNewAnalyst(self, analystDoc):
         insertDocid = self.__analystCollection.insert_one(analystDoc)
-        return
+        return insertDocid.inserted_id
 
 
     def __addNewTask(self, taskDoc):
         insertDocid = self.__taskCollection.insert_one(taskDoc)
-        return
+        return insertDocid.inserted_id
 
 
     def __addNewSubtask(self, subtaskDoc):
         insertDocid = self.__subtaskCollection.insert_one(subtaskDoc)
-        return
+        return insertDocid.inserted_id
 
 
     def __addNewFinding(self, findingDoc):
         insertDocid = self.__findingCollection.insert_one(findingDoc)
-        return
+        return insertDocid.inserted_id
 
 
     def __addNewEvent(self, eventDoc):
-        self.__eventCollection.insert_one(eventDoc)
-        return
+        insertDocid = self.__eventCollection.insert_one(eventDoc)
+        return insertDocid.inserted_id
 
 
     def __addNewSystem(self, systemDoc):
-        self.__systemCollection.insert_one(systemDoc)
-        return
+        insertDocid = self.__systemCollection.insert_one(systemDoc)
+        return insertDocid.inserted_id
 
     def storeSystem(self, systemDoc, analystDoc):
         try:
-            self.__addNewSystem(systemDoc)
+            item_id = self.__addNewSystem(systemDoc)
             self.__logAction(LogEntry("Added new system: " + systemDoc["name"], analystDoc["initial"]).toDocument())
+            return item_id
         except pymongo.errors.DuplicateKeyError:
             self.__updateSystem(systemDoc)
             self.__logAction(LogEntry("Updated system: " + systemDoc["name"], analystDoc["initial"]).toDocument())
-        return
+        return systemDoc["_id"]
 
     def storeAnalyst(self, analystDoc):
         try:
@@ -181,32 +182,35 @@ class Db:
 
     def storeTask(self, taskDoc, analystDoc):
         try:
-            self.__addNewTask(taskDoc)
+            item_id = self.__addNewTask(taskDoc)
             self.__logAction(LogEntry("Added new task: " + taskDoc["title"], analystDoc["initial"]).toDocument())
+            return item_id
         except pymongo.errors.DuplicateKeyError:
             self.__updateTask(taskDoc)
             self.__logAction(LogEntry("Updated task: " + taskDoc["title"], analystDoc["initial"]).toDocument())
-        return
+        return taskDoc["_id"]
 
 
     def storeSubtask(self, subtaskDoc, analystDoc):
         try:
-            self.__addNewSubtask(subtaskDoc)
+            item_id = self.__addNewSubtask(subtaskDoc)
             self.__logAction(LogEntry("Added new subtask: " + subtaskDoc["title"], analystDoc["initial"]).toDocument())
+            return item_id
         except pymongo.errors.DuplicateKeyError:
             self.__updateSubtask(subtaskDoc)
             self.__logAction(LogEntry("Updated subtask: " + subtaskDoc["title"], analystDoc["initial"]).toDocument())
-        return
+        return subtaskDoc["_id"]
 
 
     def storeFinding(self, findingDoc, analystDoc):
         try:
-            self.__addNewFinding(findingDoc)
+            item_id = self.__addNewFinding(findingDoc)
             self.__logAction(LogEntry("Added new finding: " + findingDoc["description"], analystDoc["initial"]).toDocument())
+            return item_id
         except pymongo.errors.DuplicateKeyError:
             self.__updateFinding(findingDoc)
             self.__logAction(LogEntry("Updated finding: " + findingDoc["description"], analystDoc["initial"]).toDocument())
-        return
+        return findingDoc["_id"]
 
 
     def getAllAnalyst(self):

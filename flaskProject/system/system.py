@@ -16,9 +16,9 @@ class System:
                  archiveStatus: bool = False,
                  confidentiality: Confidentiality = Confidentiality.INFO,
                  integrity: Integrity = Integrity.INFO,
-                 availability: Availability = Availability.INFO):
+                 availability: Availability = Availability.INFO, id = -1):
 
-        self.__id = -1
+        self.__id = id
         self.__name = name
         self.__description = description
         self.__location = location
