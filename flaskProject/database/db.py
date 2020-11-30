@@ -1,9 +1,7 @@
 import pymongo
 from pymongo import MongoClient
 from gridfs import GridFS
-from datetime import date
-from flaskProject.database.log import LogEntry
-import datetime
+from flaskProject.log.log import LogEntry
 
 
 class Db:
@@ -166,15 +164,17 @@ class Db:
 
     def storeAnalyst(self, analystDoc):
         try:
-            self.__addNewAnalyst(analystDoc)
+            storeId = self.__addNewAnalyst(analystDoc)
+            return storeId
         except pymongo.errors.DuplicateKeyError:
             self.__updateAnalyst(analystDoc)
         return
 
     def storeEvent(self, eventDoc, analystDoc):
         try:
-            self.__addNewEvent(eventDoc)
+            event_id = self.__addNewEvent(eventDoc)
             self.__logAction(LogEntry("Added new event: " + eventDoc["name"], analystDoc["initial"]).toDocument())
+            return event_id
         except pymongo.errors.DuplicateKeyError:
             self.__updateEvent(eventDoc)
             self.__logAction(LogEntry("Updated event: " + eventDoc["name"], analystDoc["initial"]).toDocument())

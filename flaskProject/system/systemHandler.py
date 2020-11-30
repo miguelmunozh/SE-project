@@ -1,12 +1,12 @@
 from flaskProject.system.system import System, Confidentiality, Availability, Integrity
-from flaskProject.database.databaseHandler import DatabaseHandler
+from flaskProject.database.db import Db
 from flaskProject.analyst.analyst import Analyst
 
 class SystemHandler:
 
     def __init__(self, system = []):
         self.__system = system
-        self.__database = DatabaseHandler()
+        self.__database = Db.getInstance()
 
 
     def getSystem(self, systemId):
@@ -61,8 +61,25 @@ class SystemHandler:
             index += 1
 
     def loadSystems(self):
-        self.__system = self.__database.getAllSystems()
+        self.__system = self.__getAllSystems()
 
     def __updateDatabase(self, system: System, analyst: Analyst):
-        id = self.__database.updateSystem(system=system, analyst=analyst)
+        id = self.__updateSystem(system=system, analyst=analyst)
         return id
+
+    def __getSystem(self, system):
+        systemDoc = system.toDocument()
+        return System.convertDocument(self.__database.findSystem(systemDoc))
+
+    def __updateSystem(self, analyst, system):
+        systemDoc = system.toDocument()
+        analystDoc = analyst.toDocument()
+        item_id =self.__database.storeSystem(systemDoc, analystDoc)
+        return item_id
+
+    def __getAllSystems(self):
+        docSystemList = self.__database.getAllSystems()
+        systemList = []
+        for document in docSystemList:
+            systemList.append(System.convertDocument(document))
+        return systemList

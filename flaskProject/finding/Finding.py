@@ -9,6 +9,7 @@ from flaskProject.finding.relevance import Relevance
 from flaskProject.finding.effectivenessRating import EffectivenessRating
 from flaskProject.finding.impactLevel import ImpactLevel
 from flaskProject.finding.severityCategoryCode import SeverityCategoryCode
+from flaskProject.attachment.attachmentHandler import AttachmentHandler
 
 
 class Finding:
@@ -20,7 +21,6 @@ class Finding:
                  type: FindingType,
                  classification: FindingClassification,
                  associationToFinding: list,
-                 evidence,
                  archiveStatus: bool,
                  confidentiality: Confidentiality,
                  integrity: Integrity,
@@ -34,6 +34,7 @@ class Finding:
                  impactDescription: str,
                  impactLevel: ImpactLevel,
                  severityCategoryCode: SeverityCategoryCode,
+                 evidence: list = [],
                  longDescription: str = "",
                  collaboratorAssigned: list = [],
                  associatedTask = -1,
@@ -78,6 +79,8 @@ class Finding:
 
 
 
+    def appendEvidence(self, evidenceId):
+        return self.__evidence.append(evidenceId)
 
     #Setters
     def setid(self, id):
@@ -107,8 +110,6 @@ class Finding:
     def setAssociationTo(self, associationTo: list):
         self.__associationToFinding = associationTo
 
-    def setEvidence(self, evidence):
-        self.__evidence = evidence
 
     def setArchiveStatus(self, archiveStatus: bool):
         self.__archiveStatus = archiveStatus
@@ -200,7 +201,7 @@ class Finding:
     def getAssociationTo(self):
         return self.__associationToFinding
 
-    def getEvidence(self):
+    def getAllEvidence(self):
         return self.__evidence
 
     def getArchiveStatus(self):

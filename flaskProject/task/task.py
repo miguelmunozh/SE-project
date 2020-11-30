@@ -69,8 +69,13 @@ class Task:
         self.__associatedParent = parent_id
         return
 
+    def setAssociationToSystem(self, associationToSystem):
+        self.__associationToSystem = associationToSystem
+        return
 
 
+    def getAssociationToSystem(self):
+        return self.__associationToSystem
 
     def getId(self):
         return self.__id
@@ -117,7 +122,7 @@ class Task:
                 "priority": self.__priority,
                 "progress": self.__progress,
                 "dueDate": self.__dueDate,
-                "attachement": self.__attachment,
+                "attachment": self.__attachment,
                 "association": self.__associationToTask,
                 "system_Association": self.__associationToSystem,
                 "analyst_Assignment": self.__analystAssignment,
@@ -133,7 +138,7 @@ class Task:
                 "priority": self.__priority,
                 "progress": self.__progress,
                 "dueDate": self.__dueDate,
-                "attachement": self.__attachment,
+                "attachment": self.__attachment,
                 "association": self.__associationToTask,
                 "system_Association": self.__associationToSystem,
                 "analyst_Assignment": self.__analystAssignment,
@@ -149,7 +154,7 @@ class Task:
                     priority=Priority.getMember(document["priority"]),
                     progress=Progress.getMember(document["progress"]),
                     dueDate=document["dueDate"],
-                    attachment=document["attachement"],
+                    attachment=document["attachment"],
                     associationToTask=document["association"],
                     analystAssignment=document["analyst_Assignment"],
                     collaboratorAssignment=document["collaborator_Assignment"],

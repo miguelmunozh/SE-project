@@ -1,11 +1,11 @@
 from flaskProject.task.subtask import Subtask, Progress, datetime
-from flaskProject.database.databaseHandler import DatabaseHandler
+from flaskProject.database.db import Db
 from flaskProject.analyst.analyst import Analyst
 
 class SubtaskHandler:
 
     def __init__(self, subtask= []):
-        self.__database = DatabaseHandler()
+        self.__database = Db.getInstance()
         self.__subtask = subtask
 
     def getSubtask(self, subtaskId):
@@ -23,12 +23,12 @@ class SubtaskHandler:
                    description: str,
                    progress: Progress,
                    dueDate: datetime,
-                   attachment,
                    associationToTask: list,
                    analystAssignment: list,
                    collaboratorAssignment: list,
                    archiveStatus: bool,
-                   parentTask = -1):
+                   attachment = [],
+                   parentId = -1):
 
         new_subtask = Subtask(title=title,
                         description=description,
@@ -38,9 +38,9 @@ class SubtaskHandler:
                         analystAssignment=analystAssignment,
                         collaboratorAssignment=collaboratorAssignment,
                         archiveStatus=archiveStatus, attachment=attachment,
-                        parentTask= parentTask)
+                        parentId= parentId)
 
-        new_subtask.setId(self.__database.updateTask(analyst=analyst, task=new_subtask))
+        new_subtask.setId(self.__updateSubtask(analyst=analyst, subTask=new_subtask))
         self.__subtask.append(new_subtask)
         return
 
@@ -56,8 +56,25 @@ class SubtaskHandler:
             index += 1
 
     def loadSubtask(self):
-        self.__subtask = self.__database.getAllSubtasks()
+        self.__subtask = self.__getAllSubtasks()
 
     def __updateDatabase(self, subtask: Subtask, analyst: Analyst):
-        id = self.__database.updateSubtask(subTask=subtask, analyst=analyst)
+        id = self.__updateSubtask(subTask=subtask, analyst=analyst)
         return id
+
+    def __updateSubtask(self, analyst, subTask):
+        subtaskDoc = subTask.toDocument()
+        analystDoc = analyst.toDocument()
+        item_id = self.__database.storeSubtask(subtaskDoc, analystDoc)
+        return item_id
+
+    def __getSubtask(self, subtask):
+        subtaskDoc = subtask.toDocument()
+        return Subtask.convertDocument(self.__database.findSubtask(subtaskDoc))
+
+    def __getAllSubtasks(self):
+        subtaskDocList = self.__database.getAllSubtasks()
+        subtaskList = []
+        for document in subtaskDocList:
+            subtaskList.append(Subtask.convertDocument(document))
+        return subtaskList

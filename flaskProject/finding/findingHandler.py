@@ -1,13 +1,12 @@
 from flaskProject.finding.Finding import Finding, FindingType, FindingStatus, FindingClassification, Confidentiality,\
     ImpactLevel, Integrity, Availability, Posture, Relevance, EffectivenessRating, SeverityCategoryCode
-from flaskProject.database.databaseHandler import DatabaseHandler
+from flaskProject.database.db import Db
 from flaskProject.analyst.analyst import Analyst
-
 
 class FindingHandler:
     def __init__(self, finding: list = []):
         self.__finding = finding
-        self.__database = DatabaseHandler()
+        self.__database = Db.getInstance()
 
 
     #return a finding that was being searched for
@@ -76,7 +75,7 @@ class FindingHandler:
                               associatedTask=associatedTask,
                               id= id)
 
-        new_finding.setid(self.__database.updateFinding(analyst= analyst, finding= new_finding))
+        new_finding.setid(self.__updateFinding(analyst= analyst, finding= new_finding))
         self.__finding.append(new_finding)
         return
 
@@ -93,8 +92,35 @@ class FindingHandler:
 
 
     def loadFindings(self):
-        self.__finding = self.__database.getAllFindings()
+        self.__finding = self.__getAllFindings()
 
     def __updateDatabase(self, finding: Finding, analyst: Analyst):
-        id = self.__database.updateFinding(finding=finding, analyst= analyst)
+        id = self.__updateFinding(finding=finding, analyst= analyst)
         return id
+
+
+    def __updateFinding(self, analyst, finding):
+        findingDoc = finding.toDocument()
+        analystDoc = analyst.toDocument()
+        item_id = self.__database.storeFinding(findingDoc, analystDoc)
+        return item_id
+
+    def __deleteFinding(self, analyst, finding):
+        findingDoc = finding.toDocument()
+        analystDoc = analyst.toDocument()
+        self.__database.removeFinding(findingDoc, analystDoc)
+        return
+
+    def __getFinding(self, finding):
+        findingDoc = finding.toDocument()
+        return Finding.convertDocument(self.__database.findFinding(findingDoc))
+
+
+    def __getAllFindings(self):
+        findingDocList = self.__database.getAllFindings()
+        findingList = []
+        for document in findingDocList:
+            findingList.append(Finding.convertDocument(document))
+        return findingList
+
+

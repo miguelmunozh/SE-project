@@ -1,10 +1,10 @@
 from flaskProject.task.task import Task, Progress, Priority, datetime
-from flaskProject.database.databaseHandler import DatabaseHandler
+from flaskProject.database.db import Db
 from flaskProject.analyst.analyst import Analyst
 
 class TaskHandler:
     def __init__(self, task: list = []):
-        self.__database = DatabaseHandler()
+        self.__database = Db.getInstance()
         self.__task = task
 
     def getTask(self, taskId):
@@ -31,7 +31,7 @@ class TaskHandler:
                         archiveStatus=archiveStatus, attachment=attachment,
                         parentId=parentId, associationToSystem=associationToSystem,id=id)
 
-        new_task.setId(self.__database.updateTask(analyst= analyst, task= new_task))
+        new_task.setId(self.__updateTask(analyst= analyst, task= new_task))
         self.__task.append(new_task)
         return
 
@@ -48,8 +48,25 @@ class TaskHandler:
 
 
     def loadTask(self):
-        self.__task = self.__database.getAllTasks()
+        self.__task = self.__getAllTasks()
 
     def __updateDatabase(self, task: Task, analyst: Analyst):
-        id = self.__database.updateTask(task=task , analyst= analyst)
+        id = self.__updateTask(task=task , analyst= analyst)
         return id
+
+    def __getTask(self, task):
+        taskDoc = task.toDocument()
+        return Task.convertDocument(self.__database.findTask(taskDoc))
+
+    def __getAllTasks(self):
+        taskDocList = self.__database.getAllTasks()
+        taskList = []
+        for document in taskDocList:
+            taskList.append(Task.convertDocument(document))
+        return taskList
+
+    def __updateTask(self, analyst, task):
+        taskDoc = task.toDocument()
+        analystDoc = analyst.toDocument()
+        item_id = self.__database.storeTask(taskDoc, analystDoc)
+        return item_id

@@ -3,8 +3,8 @@ from flaskProject.analyst.role import Role
 
 class Analyst:
 
-    def __init__(self, firstName = None, lastName = None, initial = None, title = None, role:Role = Role.COLLABORATOR):
-        self.__id = -1
+    def __init__(self, firstName = None, lastName = None, initial = None, title = None, role:Role = Role.COLLABORATOR, id = -1):
+        self.__id = id
         self.__firstName = firstName
         self.__lastName = lastName
         self.__initial = initial
