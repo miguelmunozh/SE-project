@@ -26,6 +26,9 @@ The PyMongo library allows interaction with the MongoDB database through Python;
 pip install pymongo
 
 ```
+Mongodb local server should be installed using the installation tool. The tool can be found at the following url:
+https://www.mongodb.com/try/download/community
+
 ## How to run
 
 
