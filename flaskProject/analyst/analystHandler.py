@@ -12,15 +12,19 @@ class AnalystHandler:
 
     def appendAnalyst(self, firstName = None, lastName = None, initial = None, title = None, role:Role = Role.COLLABORATOR, id = -1 ):
         analyst = Analyst(firstName=firstName, lastName= lastName, initial=initial, title=title, role=role, id=id )
-        analyst.setId(self.__updateAnalyst(analyst.toDocument()))
+        analyst.setId(self.updateAnalyst(analyst.toDocument()))
         self.__analyst.append(analyst)
 
     def loadAllAnalystFromDatabase(self):
         self.__analyst = self.__getAllAnalyst()
 
-    def __updateAnalyst(self, analyst):
-        analystDocument = analyst.toDocument()
-        self.__database.storeAnalyst(analystDocument)
+    def updateAnalyst(self, analyst):
+        i = 0
+        while i < len(self.__analyst):
+            if self.__analyst[i].getId() == analyst.getId():
+                self.__analyst[i] = analyst
+                analystDocument = analyst.toDocument()
+                self.__database.storeAnalyst(analystDocument)
         return
 
     def getAnalyst(self, analyst):

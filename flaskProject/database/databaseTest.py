@@ -197,7 +197,8 @@ logs = log_handler.getAllLogs()
 analysts = analyst_handler.getAllAnalyst()
 for analyst in analysts:
     print(analyst.getId())
-    print(analyst.getFirstName())
+    print(analyst.setFirstName("test_name"))
+    analyst_handler.updateAnalyst(analyst)
 
 event_handler = EventHandler()
 event = event_handler.getEvent()
