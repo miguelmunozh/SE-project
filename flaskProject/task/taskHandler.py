@@ -1,6 +1,9 @@
-from flaskProject.task.task import Task, Progress, Priority, datetime
-from flaskProject.database.db import Db
-from flaskProject.analyst.analyst import Analyst
+from task.task import Task
+from task.progress import Progress
+from task.priority import Priority
+from task.task import datetime
+from database.db import Db
+from analyst.analyst import Analyst
 
 class TaskHandler:
     def __init__(self, task: list = []):

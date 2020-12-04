@@ -1,5 +1,5 @@
-from flaskProject.attachment.attachment import Attachment
-from flaskProject.database.db import Db
+from attachment.attachment import Attachment
+from database.db import Db
 
 class AttachmentHandler:
     def __init__(self, attachment_ids: list = []):

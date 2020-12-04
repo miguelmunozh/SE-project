@@ -38,10 +38,16 @@
     <p>{{ finding.getClassification().value }}</p>
     <hr>
     <h4>Evidence</h4>
-    <p>{{ finding.getEvidence() }}</p>
+    <p>{{ finding.getAllEvidence() }}</p>
+    <hr>
+    <h4>Task Association</h4>
+    <a type="submit" href="{{ url_for('TaskView', task=taskParent) }}">
+                        <h4 class="mb-1">{{ taskName }}</h4>
+                    </a>
+
     <hr>
     <h4>Related Findings</h4>
-        {% for t in findingsName %}
+    {% for t in findingsName %}
         <ul>
             <li style="list-style-type: circle">
                 {{ t }}
@@ -65,7 +71,7 @@
     <h3>Analyst Information</h3>
     <hr>
     <h4>Analyst initials</h4>
-    {% for t in finding.getAnalystAssigned() %}
+    {% for t in findingsAnalysts %}
         <ul>
             <li style="list-style-type: circle">
                 {{ t }}
@@ -75,7 +81,7 @@
     <hr>
     <hr>
     <h4>Collaborator</h4>
-        {% for t in finding.getCollaboratorsAssigned() %}
+    {% for t in findingsAnalystsC %}
         <ul>
             <li style="list-style-type: circle">
                 {{ t }}

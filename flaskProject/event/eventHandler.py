@@ -1,5 +1,7 @@
-from flaskProject.database.db import Db
-from flaskProject.event.event import Event, EventType, EventClassification
+from database.db import Db
+from event.event import Event
+from event.eventType import EventType
+from event.eventClassification import EventClassification
 
 
 class EventHandler:
@@ -7,7 +9,6 @@ class EventHandler:
         self.__event = event
         self.__database = Db.getInstance()
         self.__loadEventFromDatabase()
-        print("Hello")
 
     def getEvent(self):
         return self.__event

@@ -1,6 +1,8 @@
-from flaskProject.task.subtask import Subtask, Progress, datetime
-from flaskProject.database.db import Db
-from flaskProject.analyst.analyst import Analyst
+from task.subtask import Subtask
+from task.progress import Progress
+from task.subtask import datetime
+from database.db import Db
+from analyst.analyst import Analyst
 
 class SubtaskHandler:
 

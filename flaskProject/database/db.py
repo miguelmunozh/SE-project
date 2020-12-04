@@ -1,7 +1,7 @@
 import pymongo
 from pymongo import MongoClient
 from gridfs import GridFS
-from flaskProject.log.log import LogEntry
+from log.log import LogEntry
 
 
 class Db:

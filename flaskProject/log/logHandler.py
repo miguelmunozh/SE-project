@@ -1,5 +1,5 @@
-from flaskProject.database.db import LogEntry
-from flaskProject.database.db import Db
+from database.db import LogEntry
+from database.db import Db
 
 class LogHandler:
     def __init__(self):
@@ -17,8 +17,8 @@ class LogHandler:
     def findLogEntry(self, LogEntry):
         return self.__getLogEntry(LogEntry)
 
-    def __getLogEntry(self, logEntry):
-        logEntryDoc = logEntry.toDocument()
+    def __getLogEntry(self, LogEntry):
+        logEntryDoc = LogEntry.toDocument()
         return LogEntry.convertDocument(self.__database.findLogEntry(logEntryDoc))
 
     def __getAllLogsFromDatabase(self):

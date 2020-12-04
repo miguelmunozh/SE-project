@@ -1,15 +1,15 @@
-from flaskProject.finding.findingStatus import FindingStatus
-from flaskProject.finding.findingType import FindingType
-from flaskProject.finding.findingClassification import FindingClassification
-from flaskProject.security_objectives.integrity import Integrity
-from flaskProject.security_objectives.confidentiality import Confidentiality
-from flaskProject.security_objectives.availability import Availability
-from flaskProject.finding.posture import Posture
-from flaskProject.finding.relevance import Relevance
-from flaskProject.finding.effectivenessRating import EffectivenessRating
-from flaskProject.finding.impactLevel import ImpactLevel
-from flaskProject.finding.severityCategoryCode import SeverityCategoryCode
-from flaskProject.attachment.attachmentHandler import AttachmentHandler
+from finding.findingStatus import FindingStatus
+from finding.findingType import FindingType
+from finding.findingClassification import FindingClassification
+from security_objectives.integrity import Integrity
+from security_objectives.confidentiality import Confidentiality
+from security_objectives.availability import Availability
+from finding.posture import Posture
+from finding.relevance import Relevance
+from finding.effectivenessRating import EffectivenessRating
+from finding.impactLevel import ImpactLevel
+from finding.severityCategoryCode import SeverityCategoryCode
+from attachment.attachmentHandler import AttachmentHandler
 
 
 class Finding:

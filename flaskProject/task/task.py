@@ -1,6 +1,6 @@
-from flaskProject.task.progress import Progress
-from flaskProject.task.priority import Priority
-from flaskProject.attachment.attachment import Attachment
+from task.progress import Progress
+from task.priority import Priority
+from attachment.attachment import Attachment
 from datetime import datetime
 
 class Task:

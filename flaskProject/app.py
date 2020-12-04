@@ -1,38 +1,51 @@
 import os
-from datetime import datetime, date
 
-import xlsxwriter
 from bson import ObjectId
 from flask import Flask, render_template, url_for, request, redirect
 from flask_bootstrap import Bootstrap
 from database.databaseHandler import DatabaseHandler
 from forms import *
 from Helper import *
-from objectsHandler import *
 from reportsHandler import generateERB, generateFinalTecReport, createRiskMatrixReport
+from event.eventHandler import *
+from system.systemHandler import *
+from task.taskHandler import *
+from task.subtaskHandler import *
+from finding.findingHandler import *
+from analyst.analystHandler import *
+
+# get instance of handlers
+eventHandler = EventHandler()
+systemHandler = SystemHandler()
+taskHandler = TaskHandler()
+subtaskHandler = SubtaskHandler()
+findingHandler = FindingHandler()
+analystHandler = AnalystHandler()
+db = DatabaseHandler()
 
 app = Flask(__name__)
 Bootstrap(app)
 # needed for flask-wtforms
 app.config['SECRET_KEY'] = 'encrypted'
 
-# get instance of db
-db = DatabaseHandler()
-
 # analyst to pass as parameter to the updateEvent function,(will be deleted when we can know which analyst entered
 # the system)
 analyst = Analyst("jonathan", "roman", "jr", ["jr", "sr"], Role.LEAD)
 notEvent = False
-events = db.getAllEvents()
+events = eventHandler.getEventFromDatabase()
 
 # check if there is an event in the db
-if len(events) == 0:
+if events == None:
     notEvent = True
     event = None
+else:
+    event = events
+
+
 # check if there is a non archived event, is so set it as current event
-for e in events:
-    if not e.getArchiveStatus():
-        event = e
+# for e in events:
+#     if not e.getArchiveStatus():
+#         event = e
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -66,10 +79,10 @@ def SetupContentView():
 def CreateAnalyst():
     errorMessage = ''
     initialsCoalition = False
-    events = db.getAllEvents()
-    for e in events:
-        if not e.getArchiveStatus():
-            event = e
+    events = eventHandler.getEventFromDatabase()
+    if not events.getArchiveStatus():
+        event = events
+
     form = CreateAnalystForm()
 
     if 'createAnalyst' in request.form:
@@ -77,24 +90,24 @@ def CreateAnalyst():
         titleList = list(form.CreateAnalystTitle.data.split("-"))
 
         # check for initials in db to avoid collisions
-        for init in db.getAllAnalyst():
+        for init in analystHandler.getAllAnalyst():
             if form.CreateAnalystInitials.data == init.getInitial():
                 initialsCoalition = True
                 errorMessage = "initials already exist in the Data Base"
 
                 return redirect(url_for("CreateAnalyst"))
-        # if there is not collition in the db, then create the new analyst
+        # if there is not coalition in the db, then create the new analyst
         if initialsCoalition == False:
-            a = createAnalyst(form.CreateAnalystFName.data,
-                              form.CreateAnalystLName.data,
-                              form.CreateAnalystInitials.data,
-                              titleList,
-                              form.CreateAnalystRole.data)
-            db.updateAnalyst(a)
+            analystHandler.appendAnalyst(form.CreateAnalystFName.data,
+                                         form.CreateAnalystLName.data,
+                                         form.CreateAnalystInitials.data,
+                                         titleList,
+                                         form.CreateAnalystRole.data)
 
-        # add this analyst to the event team of actual event
-        event.getEventTeam().append(a.getInitial())
-        db.updateEvent(analyst, event)
+            # add this analyst to the event team of actual event
+            event.getEventTeam().append(form.CreateAnalystInitials.data)
+            eventHandler.updateEvent(analyst, event)
+
         return redirect(url_for("EventView"))
 
     return render_template('CreateAnalyst.html', form=form, errorMessage=errorMessage)
@@ -103,7 +116,7 @@ def CreateAnalyst():
 @app.route('/EditAnalyst/<initial>', methods=['GET', 'POST'])
 def EditAnalyst(initial):
     global analyst
-    for a in db.getAllAnalyst():
+    for a in analystHandler.getAllAnalyst():
         if a.getInitial() == initial:
             m = a
 
@@ -127,7 +140,7 @@ def EditAnalyst(initial):
         if initial in event.getEventTeam():
             event.getEventTeam().remove(initial)
             event.getEventTeam().append(form.EditAnalystInitials.data)
-            db.updateEvent(analyst, event)
+            eventHandler.updateEvent(analyst, event)
 
         titles = form.EditAnalystTitle.data
         titleList = list(titles.split("-"))
@@ -138,7 +151,8 @@ def EditAnalyst(initial):
         m.setTitle(titleList)
         m.setInitial(form.EditAnalystInitials.data)
         m.setRole(form.EditAnalystRole.data)
-        db.updateAnalyst(m)
+
+        analystHandler.updateAnalyst(m)
         return redirect(url_for('EventView'))
 
     return render_template('EditAnalyst.html', form=form, analys=m.getInitial())
@@ -148,41 +162,121 @@ def EditAnalyst(initial):
 @app.route('/EventView/<string:initial>', methods=['GET', 'POST'])
 def deleteAnalyst(initial):
     global analyst
-    events = db.getAllEvents()
-    for e in events:
-        if e.getArchiveStatus() == False:
-            event = e
+    events = eventHandler.getEventFromDatabase()
+    if events != None:
+        event = events
+
     # get the event list of analyst initials and remove the selected one (will change when we store a list of
     # analysts instead of a list of initials)
     if initial in event.getEventTeam():
         event.getEventTeam().remove(initial)
-        db.updateEvent(analyst, event)
+        ana = analystHandler.getAllAnalyst()[0]
+        eventHandler.updateEvent(ana, event)
 
     # delete analyst object from the db as well
-    for analyst in db.getAllAnalyst():
+    for analyst in analystHandler.getAllAnalyst():
         if analyst.getInitial() == initial:
             db.deleteAnalyst(analyst)
-    return redirect(url_for('EventView'))
+
+    return redirect(url_for('EventView', event=eventHandler.getEvent()))
+
+
+@app.route('/CreateEvent', methods=['GET', 'POST'])
+def CreateEvent():
+    global analyst
+    # create a form from the forms.py file (need to import the file)
+    form = CreateEventForm()
+
+    # check if the create event button has been pressed, if so create an event obj
+    if 'createEvent' in request.form:
+        # delete current event, systems, everything from the db, to handle only one event at a time
+        for subtask in subtaskHandler.getAllsubTask():
+            db.deleteSubtask(analyst, subtask)
+        for task in taskHandler.getAllTask():
+            db.deleteTask(analyst, task)
+        for system in systemHandler.getAllSystems():
+            db.deleteSystem(analyst, system)
+        for analyst in analystHandler.getAllAnalyst():
+            db.deleteAnalyst(analyst)
+
+        # if there is an event, delete to create the new one
+        e = eventHandler.getEvent()
+        if e != None:
+            print("event deleted to create a new one")
+            db.deleteEvent(analyst, e)
+
+        # get analysts lists together, (will change when we store a list of analysts instead of a list of initials)
+        lead = form.EventLeadAnalysts.data
+        list1 = list(lead.split("-"))
+
+        nonLead = form.EventAnalysts.data
+        list2 = list(nonLead.split("-"))
+        # represents the event team which is a list including lead and non-lead analysts
+        initialsList = list1 + list2
+
+        # list of analyst objects (to use later, when we change initials for analysts objects)
+        # create an analyst per each pair of initials entered by the user when the event is created
+        for initials in list1:
+            analystHandler.appendAnalyst(None, None, initials, None, Role.LEAD)
+
+        for initials in list2:
+            analystHandler.appendAnalyst(None, None, initials, None, Role.ANALYST)
+            # list of analysts to be passed as eventName parameter in event creation
+
+        eventHandler.createEvent(analyst,
+                                 form.EventName.data,
+                                 form.EventDescription.data,
+                                 form.EventType.data,
+                                 1.0,
+                                 form.AssessmentDate.data.strftime('%m/%d/%Y'),
+                                 form.SCTG.data,
+                                 form.OrganizationName.data,
+                                 form.EventClassification.data,
+                                 form.EventClassifiedBy.data,
+                                 form.EventDerivedFrom.data,
+                                 form.DeclassificationDate.data.strftime('%m/%d/%Y'),
+                                 form.CustomerName.data,
+                                 False,
+                                 initialsList)
+
+        # redirect to the right page after creating the form
+        return redirect(url_for("EventView", event=eventHandler.getEvent()))
+
+    return render_template('CreateEvent.html', form=form)
 
 
 @app.route('/EventView', methods=['GET', 'POST'])
 def EventView():
     global analyst
     global notEvent
-    events = db.getAllEvents()
-    for e in events:
-        if e.getArchiveStatus() == False:
-            event = e
-    if notEvent:
+    events = eventHandler.getEvent()
+    if events != None:
+        event = events
+    else:
         event = None
+    # if notEvent:
+    #     event = None
+
+    leads = []
+    nonLeads = []
+    list = eventHandler.getEventFromDatabase().getEventTeam()
+    for ana in list:
+        for a in analystHandler.getAllAnalyst():
+            if ana == a.getInitial() and a.getRole() == Role.LEAD:
+                leads.append(ana)
+
+            if ana == a.getInitial() and a.getRole() != Role.LEAD:
+                nonLeads.append(ana)
+
     # get lists of analysts initials to display in event view
     leadList = []
-    for ana in db.getAllAnalyst():
+    for ana in analystHandler.getAllAnalyst():
+
         if ana.getRole() == Role.LEAD:
             leadList.append(ana.getInitial())
 
     nonleadList = []
-    for ana in db.getAllAnalyst():
+    for ana in analystHandler.getAllAnalyst():
         if ana.getRole() != Role.LEAD:
             nonleadList.append(ana.getInitial())
 
@@ -191,20 +285,20 @@ def EventView():
         # event.setArchiveStatus(True)
         # db.updateEvent(analyst, event)
         # delete event and its systems, tasks, etc since well deal only with one event at a time
-        for subtask in db.getAllSubtasks():
+        for subtask in subtaskHandler.getAllsubTask():
             db.deleteSubtask(analyst, subtask)
-        for task in db.getAllTasks():
+        for task in taskHandler.getAllTask():
             db.deleteTask(analyst, task)
-        for system in db.getAllSystems():
+        for system in systemHandler.getAllSystems():
             db.deleteSystem(analyst, system)
-        for analyst in db.getAllAnalyst():
+        for analyst in analystHandler.getAllAnalyst():
             db.deleteAnalyst(analyst)
-        for event in db.getAllEvents():
-            db.deleteEvent(analyst, event)
+        db.deleteEvent(analyst, event)
         return redirect(url_for('SetupContentView'))
 
     # pass event as parameter to use the event variable in the EventView.html
-    return render_template('EventView.html', event=event, db=db, leadList=leadList, nonleadList=nonleadList)
+    return render_template('EventView.html', event=eventHandler.getEventFromDatabase(), db=db, leadList=leads,
+                           nonleadList=nonLeads)
 
 
 @app.route('/EditEvent', methods=['GET', 'POST'])
@@ -243,69 +337,10 @@ def EditEvent():
         event.setSecurityClassificationTitleGuide(form.EditEventSCTG.data)
         event.setEventClassification(form.EditEventClassification.data)
 
-        db.updateEvent(analyst, event)
+        eventHandler.updateEvent(analyst, event)
         return redirect(url_for("EventView"))
 
     return render_template('EditEvent.html', event=event, form=form)  # pass parameter to populate with placeholders
-
-
-@app.route('/CreateEvent', methods=['GET', 'POST'])
-def CreateEvent():
-    global analyst
-    # create a form from the forms.py file (need to import the file)
-    form = CreateEventForm()
-
-    # check if the create event button has been pressed, if so create an event obj
-    if 'createEvent' in request.form:
-        # delete current event, systems, everything from the db, to handle only one event at a time
-        for subtask in db.getAllSubtasks():
-            db.deleteSubtask(analyst, subtask)
-        for task in db.getAllTasks():
-            db.deleteTask(analyst, task)
-        for system in db.getAllSystems():
-            db.deleteSystem(analyst, system)
-        for analyst in db.getAllAnalyst():
-            db.deleteAnalyst(analyst)
-        for event in db.getAllEvents():
-            db.deleteEvent(analyst, event)
-
-        # get analysts lists together, (will change when we store a list of analysts instead of a list of initials)
-        lead = form.EventLeadAnalysts.data
-        list1 = list(lead.split("-"))
-
-        nonLead = form.EventAnalysts.data
-        list2 = list(nonLead.split("-"))
-        # represents the event team which is a list including lead and non-lead analysts
-        initialsList = list1 + list2
-
-        # list of analyst objects (to use later, when we change initials for analysts objects)
-        eventTeam = []
-        # create an analyst per each pair of initials entered by the user when the event is created
-        for initials in initialsList:
-            analyst = Analyst(None, None, initials, None, None)
-            db.updateAnalyst(analyst)
-            # list of analysts to be passed as eventName parameter in event creation
-            eventTeam.append(analyst)
-
-        newEvent = createEvent(form.EventName.data,
-                               form.EventDescription.data,
-                               form.EventType.data,
-                               1.0,
-                               form.AssessmentDate.data.strftime('%m/%d/%Y'),
-                               form.SCTG.data,
-                               form.OrganizationName.data,
-                               form.EventClassification.data,
-                               form.EventClassifiedBy.data,
-                               form.EventDerivedFrom.data,
-                               form.DeclassificationDate.data.strftime('%m/%d/%Y'),
-                               form.CustomerName.data,
-                               False,
-                               initialsList)
-        db.updateEvent(analyst, newEvent)
-        # redirect to the right page after creating the form
-        return redirect(url_for("EventView", event=event))
-
-    return render_template('CreateEvent.html', form=form)
 
 
 @app.route('/CreateSystem', methods=['GET', 'POST'])
@@ -328,19 +363,19 @@ def CreateSystem():
         rooms = form.systemRoom.data
         roomsList = list(rooms.split("-"))
 
-        system = createSystem(form.systemName.data,
-                              form.systemDescription.data,
-                              locationsList,
-                              routersList,
-                              switchesList,
-                              roomsList,
-                              form.systemTestPlan.data,
-                              False,
-                              form.systemConfidentiality.data,
-                              form.systemIntegrity.data,
-                              form.systemAvailability.data)
+        systemHandler.appendSystem(analyst,
+                                   form.systemName.data,
+                                   form.systemDescription.data,
+                                   locationsList,
+                                   routersList,
+                                   switchesList,
+                                   roomsList,
+                                   form.systemTestPlan.data,
+                                   False,
+                                   form.systemConfidentiality.data,
+                                   form.systemIntegrity.data,
+                                   form.systemAvailability.data)
 
-        db.updateSystem(analyst, system)
         return redirect(url_for("Systems"))
 
     return render_template('CreateSystem.html', form=form)
@@ -348,24 +383,21 @@ def CreateSystem():
 
 @app.route('/SystemView/<system>', methods=['GET', 'POST'])
 def SystemView(system):
-    for s in db.getAllSystems():
-        if s.getId() == ObjectId(system):
-            sys = db.getSystem(s)
+    systemHandler.loadSystems()
+    sys = systemHandler.getSystem(ObjectId(system))
 
     # check if archive event button has been pressed, if so, set it to be archived and redirect to main page
     if 'ArchiveSystem' in request.form:
         sys.setArchiveStatus(True)
-        db.updateSystem(analyst, sys)
+        systemHandler.updateSystem(sys, analyst)
         return redirect(url_for('Systems'))
-
     return render_template('SystemView.html', system=sys)
 
 
 @app.route('/EditSystem/<system>', methods=['GET', 'POST'])
 def EditSystem(system):
-    for s in db.getAllSystems():
-        if s.getId() == ObjectId(system):
-            sys = db.getSystem(s)
+    # systemHandler.loadSystems()
+    sys = systemHandler.getSystem(ObjectId(system))
 
     form = EditSystemForm()
     # populate the form with the data of the system to edit
@@ -406,7 +438,7 @@ def EditSystem(system):
         sys.setRoom(roomsList)
         sys.setTestplan(form.EditSystemTestPlan.data)
 
-        db.updateSystem(analyst, sys)
+        systemHandler.updateSystem(sys, analyst)
         return redirect(url_for("SystemView", system=sys.getId()))
 
     return render_template('EditSystem.html', form=form, system=sys)
@@ -415,8 +447,9 @@ def EditSystem(system):
 @app.route('/Systems')
 def Systems():
     # get list of systems for this event and pass them as parameter (currently returning all systems in db)
+    systemHandler.loadSystems()
     systemList = []
-    for system in db.getAllSystems():
+    for system in systemHandler.getAllSystems():
         if system.getArchiveStatus() == False:
             systemList.append(system)
 
@@ -426,42 +459,45 @@ def Systems():
 # function to archive a system from event and db
 @app.route('/Systems/<system>', methods=['GET', 'POST'])
 def ArchiveSystem(system):
-    for s in db.getAllSystems():
-        if s.getId() == ObjectId(system):
-            s.setArchiveStatus(True)
-            db.updateSystem(analyst, s)
-            return redirect(url_for('Systems'))
+    sys = systemHandler.getSystem(ObjectId(system))
+    sys.setArchiveStatus(True)
+    systemHandler.updateSystem(sys, analyst)
+
     return redirect(url_for('Systems'))
 
 
 # function to restore a system from event and db
 @app.route('/ArchiveContentView/<system>', methods=['GET', 'POST'])
 def RestoreSystem(system):
-    for s in db.getAllSystems():
-        if s.getId() == ObjectId(system):
-            s.setArchiveStatus(False)
-            db.updateSystem(analyst, s)
-            return redirect(url_for('ArchiveContentView'))
+    sys = systemHandler.getSystem(ObjectId(system))
+    sys.setArchiveStatus(False)
+    systemHandler.updateSystem(sys, analyst)
+
     return redirect(url_for('ArchiveContentView'))
 
 
 @app.route('/CreateTask', methods=['GET', 'POST'])
 def CreateTask():
+    systemHandler.loadSystems()
+    taskHandler.loadTask()
     # pass these lists as arguments to populate select fields with data from the db
-    form = CreateTaskForm(tasks=db.getAllTasks(), analysts=db.getAllAnalyst(), collaborators=db.getAllAnalyst())
+    form = CreateTaskForm(tasks=taskHandler.getAllTask(), analysts=analystHandler.getAllAnalyst(),
+                          collaborators=analystHandler.getAllAnalyst(), systems=systemHandler.getAllSystems())
 
     if 'createTask' in request.form:
-        task = createTask(form.taskName.data,
-                          form.taskDescription.data,
-                          form.taskPriority.data,
-                          form.taskProgress.data,
-                          form.taskDueDate.data.strftime('%m/%d/%Y'),
-                          form.taskAttachment.data,
-                          form.associationToTask.data,
-                          form.taskAnalystAssignment.data,
-                          form.taskCollaboratorAssignment.data,
-                          False)
-        db.updateTask(analyst, task)
+        taskHandler.appendTask(analyst,
+                               form.taskName.data,
+                               form.taskDescription.data,
+                               form.taskPriority.data,
+                               form.taskProgress.data,
+                               form.taskDueDate.data.strftime('%m/%d/%Y'),
+                               form.associationToTask.data,
+                               form.taskAnalystAssignment.data,
+                               form.taskCollaboratorAssignment.data,
+                               False,
+                               form.associationToSystem.data,
+                               form.taskAttachment.data)
+
         return redirect(url_for("Tasks"))
 
     return render_template('CreateTask.html', form=form)
@@ -469,68 +505,82 @@ def CreateTask():
 
 @app.route('/TaskView/<task>', methods=['GET', 'POST'])
 def TaskView(task):
-    for t in db.getAllTasks():
-        if t.getId() == ObjectId(task):
-            # task1 = db.getTask(t)
-            task1 = t
+    taskHandler.loadTask()
+    task1 = taskHandler.getTask(ObjectId(task))
     # display names of associated tasks instead of the id numbers stored in db
     # if we dont store the unique id number we might get repeated tasks/analysts if they have the same name...
     taskName = []
     for task0 in task1.getAssociationToTask():
-        for t in db.getAllTasks():
+        for t in taskHandler.getAllTask():
             if ObjectId(task0) == t.getId():
                 taskName.append(t.getTitle())
+
+    systemHandler.loadSystems()
+    if task1.getAssociationToSystem():
+        systemParent = ObjectId(task1.getAssociationToSystem()[0])
+        systemName = systemHandler.getSystem(ObjectId(task1.getAssociationToSystem()[0])).getName()
+    else:
+        systemParent = ""
+        systemName = ""
+
+    # print(os.path.abspath(task1.getAttachment()))
 
     # check if archive task button has been pressed, if so, set it to be archived and redirect
     if 'ArchiveTask' in request.form:
         task1.setArchiveStatus(True)
-        db.updateTask(analyst, task1)
+        taskHandler.updateTask(task1, analyst)
         return redirect(url_for('Tasks'))
 
     if 'DemoteTask' in request.form:
-        subtask = createSubtask(task1.getTitle(),
-                                task1.getDescription(),
-                                task1.getProgress(),
-                                task1.getDueDate(),
-                                task1.getAttachment(),
-                                task1.getAssociationToTask(),
-                                task1.getAnalystAssigment(),
-                                task1.getCollaboratorAssignment(), False)
-        db.updateSubtask(analyst, subtask)
+        subtaskHandler.appendSubtask(analyst,
+                                     task1.getTitle(),
+                                     task1.getDescription(),
+                                     task1.getProgress(),
+                                     task1.getDueDate(),
+                                     [],
+                                     task1.getAnalystAssigment(),
+                                     task1.getCollaboratorAssignment(),
+                                     False,
+                                     task1.getAttachment())
         db.deleteTask(analyst, task1)
         return redirect(url_for('Tasks'))
 
-    return render_template('TaskView.html', task=task1, taskName=taskName)
+    return render_template('TaskView.html', task=task1, taskName=taskName, systemParent=systemParent,
+                           systemName=systemName)
 
 
 @app.route('/DemoteTask/<task>', methods=['GET', 'POST'])
 def DemoteTask(task):
-    for t in db.getAllTasks():
-        if t.getId() == ObjectId(task):
-            task1 = db.getTask(t)
-    subtask = createSubtask(task1.getTitle(),
-                            task1.getDescription(),
-                            task1.getProgress(),
-                            task1.getDueDate(),
-                            task1.getAttachment(),
-                            task1.getAssociationToTask(),
-                            task1.getAnalystAssigment(),
-                            task1.getCollaboratorAssignment(), False)
-    db.updateSubtask(analyst, subtask)
+    taskHandler.loadTask()
+    task1 = taskHandler.getTask(ObjectId(task))
+
+    subtaskHandler.appendSubtask(analyst,
+                                 task1.getTitle(),
+                                 task1.getDescription(),
+                                 task1.getProgress(),
+                                 task1.getDueDate(),
+                                 [],
+                                 task1.getAnalystAssigment(),
+                                 task1.getCollaboratorAssignment(),
+                                 False,
+                                 task1.getAttachment())
+
     db.deleteTask(analyst, task1)
     return redirect(url_for('Tasks'))
 
 
 @app.route('/EditTask/<task>', methods=['GET', 'POST'])
 def EditTask(task):
-    for t in db.getAllTasks():
-        if t.getId() == ObjectId(task):
-            task1 = db.getTask(t)
+    taskHandler.loadTask()
+    systemHandler.loadSystems()
+    task1 = taskHandler.getTask(ObjectId(task))
     form = EditTaskForm()
 
-    form.associationToTask.choices = [(c.getId(), c.getTitle()) for c in db.getAllTasks()]
-    form.taskAnalystAssignment.choices = [(c.getInitial(), c.getInitial()) for c in db.getAllAnalyst()]
-    form.taskCollaboratorAssignment.choices = [(c.getInitial(), c.getInitial()) for c in db.getAllAnalyst()]
+    form.associationToTask.choices = [(c.getId(), c.getTitle()) for c in taskHandler.getAllTask()]
+    form.taskAnalystAssignment.choices = [(c.getInitial(), c.getInitial()) for c in analystHandler.getAllAnalyst()]
+    form.taskCollaboratorAssignment.choices = [(c.getInitial(), c.getInitial()) for c in analystHandler.getAllAnalyst()]
+    form.associationToSystem.choices = [(system.getId(), system.getName()) for system in systemHandler.getAllSystems()]
+
     # populate the form with the data of the task to edit
     if request.method == 'GET':
         form.taskName.data = task1.getTitle()
@@ -538,10 +588,12 @@ def EditTask(task):
         form.taskPriority.data = task1.getPriority()
         form.taskProgress.data = task1.getProgress()
         form.taskDueDate.data = datetime.strptime(task1.getDueDate(), '%m/%d/%Y')
-        form.taskAttachment.data = task1.getAttachment()
+        # i dont know how to edit the attachments
+        # form.taskAttachment.data = task1.getAttachment()
         form.associationToTask.data = task1.getAssociationToTask()
         form.taskAnalystAssignment.data = task1.getAnalystAssigment()
         form.taskCollaboratorAssignment.data = task1.getCollaboratorAssignment()
+        form.associationToSystem.data = task1.getAssociationToSystem()[0]
 
     if 'editTask' in request.form:
         task1.setTitle(form.taskName.data)
@@ -549,12 +601,13 @@ def EditTask(task):
         task1.setPriority(form.taskPriority.data)
         task1.setProgress(form.taskProgress.data)
         task1.setDueDate(form.taskDueDate.data.strftime('%m/%d/%Y'))
-        task1.setAttachment(form.taskAttachment.data)
+        # task1.appendAttachment(form.taskAttachment.data)
         task1.setAssociationToTask(form.associationToTask.data)
         task1.setAnalystAssigment(form.taskAnalystAssignment.data)
         task1.setCollaboratorAssignment(form.taskCollaboratorAssignment.data)
+        task1.setAssociationToSystem(form.associationToSystem.data)
 
-        db.updateTask(analyst, task1)
+        taskHandler.updateTask(task1, analyst)
         return redirect(url_for("TaskView", task=task1.getId()))
 
     return render_template('EditTask.html', form=form, task=task1)
@@ -563,8 +616,9 @@ def EditTask(task):
 @app.route('/Tasks')
 def Tasks():
     # get list of systems for this event and pass them as parameter (currently returning all systems in db)
+    taskHandler.loadTask()
     tasksList = []
-    for task in db.getAllTasks():
+    for task in taskHandler.getAllTask():
         if task.getArchiveStatus() == False:
             tasksList.append(task)
     return render_template('Tasks.html', tasksList=tasksList)
@@ -573,39 +627,40 @@ def Tasks():
 # function to archive a system from event and db
 @app.route('/Tasks/<task>', methods=['GET', 'POST'])
 def ArchiveTask(task):
-    for y in db.getAllTasks():
-        if y.getId() == ObjectId(task):
-            y.setArchiveStatus(True)
-            db.updateTask(analyst, y)
-            return redirect(url_for('Tasks'))
+    taskHandler.loadTask()
+    tsk = taskHandler.getTask(ObjectId(task))
+    tsk.setArchiveStatus(True)
+    taskHandler.updateTask(tsk, analyst)
     return redirect(url_for('Tasks'))
 
 
 @app.route('/RestoreTask/<task>', methods=['GET', 'POST'])
 def RestoreTask(task):
-    for r in db.getAllTasks():
-        if r.getId() == ObjectId(task):
-            r.setArchiveStatus(False)
-            db.updateTask(analyst, r)
-            return redirect(url_for('ArchiveContentView'))
+    taskHandler.loadTask()
+    tsk = taskHandler.getTask(ObjectId(task))
+    tsk.setArchiveStatus(False)
+    taskHandler.updateTask(tsk, analyst)
+
     return redirect(url_for('ArchiveContentView'))
 
 
 @app.route('/CreateSubTask', methods=['GET', 'POST'])
 def CreateSubTask():
-    form = CreateSubtaskForm(subtasks=db.getAllSubtasks(), analysts=db.getAllAnalyst(),
-                             collaborators=db.getAllAnalyst())
+    taskHandler.loadTask()
+    form = CreateSubtaskForm(tasks=taskHandler.getAllTask(), analysts=analystHandler.getAllAnalyst(),
+                             collaborators=analystHandler.getAllAnalyst())
 
     if 'createSubtask' in request.form:
-        subtask = createSubtask(form.subTaskName.data,
-                                form.subTaskDescription.data,
-                                Progress.getMember(form.subTaskProgress.data),
-                                form.subTaskDueDate.data.strftime('%m/%d/%Y'),
-                                form.subTaskAttachment.data,
-                                form.associationToSubtask.data,
-                                form.subTaskAnalystAssignment.data,
-                                form.subTaskCollaboratorAssignment.data, False)
-        db.updateSubtask(analyst, subtask)
+        subtaskHandler.appendSubtask(analyst,
+                                     form.subTaskName.data,
+                                     form.subTaskDescription.data,
+                                     Progress.getMember(form.subTaskProgress.data),
+                                     form.subTaskDueDate.data.strftime('%m/%d/%Y'),
+                                     form.associationTask.data,
+                                     form.subTaskAnalystAssignment.data,
+                                     form.subTaskCollaboratorAssignment.data,
+                                     False,
+                                     form.subTaskAttachment.data)
         return redirect(url_for("Subtasks"))
 
     return render_template('CreateSubTask.html', form=form)
@@ -613,13 +668,13 @@ def CreateSubTask():
 
 @app.route('/EditSubTask/<subtask>', methods=['GET', 'POST'])
 def EditSubTask(subtask):
-    for sub in db.getAllSubtasks():
-        if sub.getId() == ObjectId(subtask):
-            subT = db.getSubtask(sub)
+    taskHandler.loadTask()
+    subT = subtaskHandler.getSubtask(ObjectId(subtask))
     form = EditSubtaskForm()
-    form.associationToSubtask.choices = [(c.getId(), c.getTitle()) for c in db.getAllSubtasks()]
-    form.subTaskAnalystAssignment.choices = [(c.getInitial(), c.getInitial()) for c in db.getAllAnalyst()]
-    form.subTaskCollaboratorAssignment.choices = [(c.getInitial(), c.getInitial()) for c in db.getAllAnalyst()]
+    form.associationTask.choices = [(c.getId(), c.getTitle()) for c in taskHandler.getAllTask()]
+    form.subTaskAnalystAssignment.choices = [(c.getInitial(), c.getInitial()) for c in analystHandler.getAllAnalyst()]
+    form.subTaskCollaboratorAssignment.choices = [(c.getInitial(), c.getInitial()) for c in
+                                                  analystHandler.getAllAnalyst()]
 
     # populate the form with the data of the system to edit
     if request.method == 'GET':
@@ -627,8 +682,8 @@ def EditSubTask(subtask):
         form.subTaskDescription.data = subT.getDescription()
         form.subTaskProgress.data = subT.getProgress()
         form.subTaskDueDate.data = datetime.strptime(subT.getDueDate(), '%m/%d/%Y')
-        form.subTaskAttachment.data = subT.getAttachment()
-        form.associationToSubtask.data = subT.getAssociationToTask()
+        # form.subTaskAttachment.data = subT.getAttachment()
+        # form.associationTask.data = subT.getAssociationToTask()
         form.subTaskAnalystAssignment.data = subT.getAnalystAssigment()
         form.subTaskCollaboratorAssignment.data = subT.getCollaboratorAssignment()
 
@@ -637,11 +692,12 @@ def EditSubTask(subtask):
         subT.setDescription(form.subTaskDescription.data)
         subT.setProgress(form.subTaskProgress.data)
         subT.setDueDate(form.subTaskDueDate.data.strftime('%m/%d/%Y'))
-        subT.setAttachment(form.subTaskAttachment.data)
-        subT.setAssociationToTask(form.associationToSubtask.data)
+        # subT.setAttachment(form.subTaskAttachment.data)
+        # subT.setAssociationToTask(form.associationTask.data)
         subT.setAnalystAssigment(form.subTaskAnalystAssignment.data)
         subT.setCollaboratorAssignment(form.subTaskCollaboratorAssignment.data)
-        db.updateSubtask(analyst, subT)
+
+        subtaskHandler.updateSubtask(subT, analyst)
         return redirect(url_for("SubTaskView", subtask=subT.getId()))
 
     return render_template('EditSubTask.html', form=form, subtask=subT)
@@ -649,75 +705,69 @@ def EditSubTask(subtask):
 
 @app.route('/SubTaskView/<subtask>', methods=['GET', 'POST'])
 def SubTaskView(subtask):
-    for sub in db.getAllSubtasks():
-        if sub.getId() == ObjectId(subtask):
-            subT = sub
-    # display names of associated subtasks
-    subtaskName = []
-    for subtask in subT.getAssociationToTask():
-        for t in db.getAllSubtasks():
-            if ObjectId(subtask) == t.getId():
-                subtaskName.append(t.getTitle())
+    subtaskHandler.loadSubtask()
+    taskHandler.loadTask()
+    subT = subtaskHandler.getSubtask(ObjectId(subtask))
+
+    if subT.getAssociationToTask():
+        taskParent = ObjectId(subT.getAssociationToTask()[0])
+        taskName = taskHandler.getTask(ObjectId(subT.getAssociationToTask()[0])).getTitle()
+    else:
+        taskParent = ""
+        taskName = ""
 
     # check if archive event button has been pressed, if so, set it to be archived and redirect to main page
     if 'ArchiveSubtask' in request.form:
         subT.setArchiveStatus(True)
-        db.updateSubtask(analyst, subT)
+        subtaskHandler.updateSubtask(subT, analyst)
+
         return redirect(url_for('Subtasks'))
     if 'PromoteToTask' in request.form:
-        task = createTask(subT.getTitle(),
-                          subT.getDescription(),
-                          Priority.MEDIUM.value,
-                          subT.getProgress(),
-                          subT.getDueDate(),
-                          subT.getAttachment(),
-                          subT.getAssociationToTask(),
-                          subT.getAnalystAssigment(),
-                          subT.getCollaboratorAssignment(),
-                          False)
-        db.updateTask(analyst, task)
+        taskHandler.appendTask(analyst,
+                               subT.getTitle(),
+                               subT.getDescription(),
+                               Priority.MEDIUM.value,
+                               subT.getProgress(),
+                               subT.getDueDate(),
+                               subT.getAssociationToTask(),
+                               subT.getAnalystAssigment(),
+                               subT.getCollaboratorAssignment(),
+                               False,
+                               None,
+                               subT.getAttachment())
         db.deleteSubtask(analyst, subT)
         return redirect(url_for('Tasks'))
 
-    return render_template('SubTaskView.html', subtask=subT, subtaskName=subtaskName)
+    return render_template('SubTaskView.html', subtask=subT, taskParent=taskParent, taskName=taskName)
 
 
 @app.route('/PromoteToTask/<subtask>', methods=['GET', 'POST'])
 def PromoteToTask(subtask):
-    for sub in db.getAllSubtasks():
-        if sub.getId() == ObjectId(subtask):
-            subT = sub
-    task = createTask(subT.getTitle(),
-                      subT.getDescription(),
-                      Priority.MEDIUM.value,
-                      subT.getProgress(),
-                      subT.getDueDate(),
-                      subT.getAttachment(),
-                      subT.getAssociationToTask(),
-                      subT.getAnalystAssigment(),
-                      subT.getCollaboratorAssignment(),
-                      False)
-    db.updateTask(analyst, task)
+    subT = subtaskHandler.getSubtask(ObjectId(subtask))
+    taskHandler.appendTask(analyst,
+                           subT.getTitle(),
+                           subT.getDescription(),
+                           Priority.MEDIUM.value,
+                           subT.getProgress(),
+                           subT.getDueDate(),
+                           subT.getAssociationToTask(),
+                           subT.getAnalystAssigment(),
+                           subT.getCollaboratorAssignment(),
+                           False,
+                           None,
+                           subT.getAttachment())
+
     db.deleteSubtask(analyst, subT)
     return redirect(url_for('Subtasks'))
 
 
 @app.route('/Subtasks')
 def Subtasks():
+    subtaskHandler.loadSubtask()
     subTasksList = []
-    for subtask in db.getAllSubtasks():
+    for subtask in subtaskHandler.getAllsubTask():
         if subtask.getArchiveStatus() == False:
             subTasksList.append(subtask)
-
-        # analystAssg = []
-        # for initials in subtask.getAnalystAssigment():
-        #     for anal in db.getAllAnalyst():
-        #         if ObjectId(initials) == anal.getId():
-        #             analystAssg.append(anal.getInitial())
-        #             for initials in subtask.getCollaboratorAssignment():
-        #                 if ObjectId(initials) == anal.getId():
-        #                     analystAssg.append(anal.getInitial())
-        #                     print(analystAssg)
 
     return render_template('Subtasks.html', subTasksList=subTasksList)
 
@@ -725,57 +775,56 @@ def Subtasks():
 # function to archive a system from event and db
 @app.route('/Subtasks/<subtask>', methods=['GET', 'POST'])
 def ArchiveSubtask(subtask):
-    for y in db.getAllSubtasks():
-        if y.getId() == ObjectId(subtask):
-            y.setArchiveStatus(True)
-            db.updateSubtask(analyst, y)
-            return redirect(url_for('Subtasks'))
+    subtaskHandler.loadSubtask()
+    subT = subtaskHandler.getSubtask(ObjectId(subtask))
+    subT.setArchiveStatus(True)
+    subtaskHandler.updateSubtask(subT, analyst)
+
     return redirect(url_for('Subtasks'))
 
 
 @app.route('/RestoreSubtask/<subtask>', methods=['GET', 'POST'])
 def RestoreSubtask(subtask):
-    for s in db.getAllSubtasks():
-        if s.getId() == ObjectId(subtask):
-            s.setArchiveStatus(False)
-            db.updateSubtask(analyst, s)
-            return redirect(url_for('ArchiveContentView'))
+    subT = subtaskHandler.getSubtask(ObjectId(subtask))
+    subT.setArchiveStatus(False)
+    subtaskHandler.updateSubtask(subT, analyst)
     return redirect(url_for('ArchiveContentView'))
 
 
 @app.route('/CreateFinding', methods=['GET', 'POST'])
 def CreateFinding():
-    # TO-DO: create lists of non-archived objects
-    form = CreateFindingForm(findings=db.getAllFindings(), analysts=db.getAllAnalyst(),
-                             collaborators=db.getAllAnalyst())
+    taskHandler.loadTask()
+    form = CreateFindingForm(findings=findingHandler.getAllFindings(), analysts=analystHandler.getAllAnalyst(),
+                             collaborators=analystHandler.getAllAnalyst(), tasks=taskHandler.getAllTask())
     if 'createFinding' in request.form:
         # if I just pass form.findingPosture.data we would get the same result, so what is the diff?
         # print(Posture.getMember(form.findingPosture.data))
         # cast this to enum type
-        finding = createFinding(form.findingHostName.data,
-                                form.findingIPPort.data,
-                                form.findingDescription.data,
-                                FindingStatus.getMember(form.findingStatus.data),
-                                FindingType.getMember(form.findingType.data),
-                                FindingClassification.getMember(form.findingClassification.data),
-                                form.associationToFinding.data,
-                                form.findingEvidence.data,
-                                False,
-                                Confidentiality.getMember(form.findingConfidentiality.data),
-                                Integrity.getMember(form.findingIntegrity.data),
-                                Availability.getMember(form.findingAvailability.data),
-                                form.findingAnalystAssignment.data,
-                                Posture.getMember(form.findingPosture.data),
-                                form.mitigationBriefDescription.data,
-                                form.mitigationLongDescription.data,
-                                Relevance.getMember(int(form.findingThreatRelevance.data)),
-                                EffectivenessRating.getMember(int(form.findingEffectivenessRating.data)),
-                                form.impactDescription.data,
-                                ImpactLevel.getMember(int(form.impactLevel.data)),
-                                SeverityCategoryCode.getMember(int(form.severityCategoryCode.data)),
-                                form.findingLongDescription.data,
-                                form.findingCollaboratorAssignment.data)
-        db.updateFinding(analyst, finding)
+        findingHandler.appendFinding(analyst,
+                                     form.findingHostName.data,
+                                     form.findingIPPort.data,
+                                     form.findingDescription.data,
+                                     FindingStatus.getMember(form.findingStatus.data),
+                                     FindingType.getMember(form.findingType.data),
+                                     FindingClassification.getMember(form.findingClassification.data),
+                                     form.associationToFinding.data,
+                                     form.findingEvidence.data,
+                                     False,
+                                     Confidentiality.getMember(form.findingConfidentiality.data),
+                                     Integrity.getMember(form.findingIntegrity.data),
+                                     Availability.getMember(form.findingAvailability.data),
+                                     form.findingAnalystAssignment.data,
+                                     Posture.getMember(form.findingPosture.data),
+                                     form.mitigationBriefDescription.data,
+                                     form.mitigationLongDescription.data,
+                                     Relevance.getMember(int(form.findingThreatRelevance.data)),
+                                     EffectivenessRating.getMember(int(form.findingEffectivenessRating.data)),
+                                     form.impactDescription.data,
+                                     ImpactLevel.getMember(int(form.impactLevel.data)),
+                                     SeverityCategoryCode.getMember(int(form.severityCategoryCode.data)),
+                                     form.findingLongDescription.data,
+                                     form.findingCollaboratorAssignment.data,
+                                     form.associationTask.data)
         return redirect(url_for("FindingsView"))
 
     return render_template('CreateFinding.html', form=form)
@@ -783,8 +832,9 @@ def CreateFinding():
 
 @app.route('/FindingsView')
 def FindingsView():
+    findingHandler.loadFindings()
     findingsList = []
-    for finding in db.getAllFindings():
+    for finding in findingHandler.getAllFindings():
         if finding.getArchiveStatus() == False:
             findingsList.append(finding)
     return render_template('FindingsView.html', findingsList=findingsList)
@@ -792,38 +842,55 @@ def FindingsView():
 
 @app.route('/FindingView/<finding>', methods=['GET', 'POST'])
 def FindingView(finding):
-    for f in db.getAllFindings():
-        if f.getid() == ObjectId(finding):
-            find = f
-    # display names of associated subtasks
+    taskHandler.loadTask()
+    findingHandler.loadFindings()
+    find = findingHandler.getFinding(ObjectId(finding))
+    # display names of associated findings
     findingsName = []
     for finding in find.getAssociationTo():
-        for t in db.getAllFindings():
+        for t in findingHandler.getAllFindings():
             if ObjectId(finding) == t.getid():
                 findingsName.append(t.getHostName())
+
+    if find.getAssociatedTask():
+        taskParent = ObjectId(find.getAssociatedTask()[0])
+        taskName = taskHandler.getTask(taskParent).getTitle()
+    else:
+        taskParent = ""
+        taskName = ""
+
+    findingsAnalysts = []
+    for analys in find.getAnalystAssigned():
+        for t in analystHandler.getAllAnalyst():
+            if ObjectId(analys) == t.getId():
+                findingsAnalysts.append(t.getInitial())
+    findingsAnalystsC = []
+    for analys in find.getCollaboratorsAssigned():
+        for t in analystHandler.getAllAnalyst():
+            if ObjectId(analys) == t.getId():
+                findingsAnalystsC.append(t.getInitial())
 
     # check if archive event button has been pressed, if so, set it to be archived and redirect to main page
     if 'ArchiveFinding' in request.form:
         find.setArchiveStatus(True)
-        db.updateFinding(analyst, find)
+        findingHandler.updateFinding(find, analyst)
         return redirect(url_for('FindingsView'))
 
-    if 'DeleteFinding' in request.form:
-        db.deleteFinding(analyst, find)
-        return redirect(url_for('FindingsView'))
+    return render_template('FindingView.html', finding=find, findingsName=findingsName,taskParent=taskParent,taskName=taskName,findingsAnalysts=findingsAnalysts,findingsAnalystsC=findingsAnalystsC)
 
-    return render_template('FindingView.html', finding=find, findingsName=findingsName)
 
 
 @app.route('/EditFinding/<finding>', methods=['GET', 'POST'])
 def EditFinding(finding):
-    for f in db.getAllFindings():
-        if f.getid() == ObjectId(finding):
-            find = f
+    findingHandler.loadFindings()
+    find = findingHandler.getFinding(ObjectId(finding))
+
     form = EditFindingForm()
-    form.associationToFinding.choices = [(c.getid(), c.getHostName()) for c in db.getAllFindings()]
-    form.findingAnalystAssignment.choices = [(c.getId(), c.getInitial()) for c in db.getAllAnalyst()]
-    form.findingCollaboratorAssignment.choices = [(c.getId(), c.getInitial()) for c in db.getAllAnalyst()]
+    form.associationToFinding.choices = [(c.getid(), c.getHostName()) for c in findingHandler.getAllFindings()]
+    form.findingAnalystAssignment.choices = [(c.getId(), c.getInitial()) for c in analystHandler.getAllAnalyst()]
+    form.findingCollaboratorAssignment.choices = [(c.getId(), c.getInitial()) for c in analystHandler.getAllAnalyst()]
+    form.associationTask.choices = [(task.getId(), task.getTitle()) for task in taskHandler.getAllTask()]
+
     # populate the form with the data of the system to edit
     if request.method == 'GET':
         form.findingHostName.data = find.getHostName()
@@ -832,13 +899,9 @@ def EditFinding(finding):
         form.findingLongDescription.data = find.getLongDescription()
         form.findingStatus.data = find.getStatus()
         form.findingType.data = find.getType()
-        # cannot set relevance impact level and severity code to pre populate the form
-        # print(Relevance.getMember(find.getRelevance().value))
-        # print(find.getRelevance())
-        # print(type(find.getRelevance().value))
         form.findingClassification.data = find.getClassification()
         form.associationToFinding.data = find.getAssociationTo()
-        form.findingEvidence.data = find.getEvidence()
+        # form.findingEvidence.data = find.getEvidence()
         form.findingAnalystAssignment.data = find.getAnalystAssigned()
         form.findingCollaboratorAssignment.data = find.getCollaboratorsAssigned()
         form.findingPosture.data = find.getPosture()
@@ -849,6 +912,7 @@ def EditFinding(finding):
         form.impactDescription.data = find.getImpactDescription()
         form.impactLevel.data = find.getImpactLevel()
         form.severityCategoryCode.data = find.getSeverityCategoryCode()
+        form.associationTask.data = find.getAssociatedTask()[0]
 
     if 'editFinding' in request.form:
         find.setHostName(form.findingHostName.data)
@@ -859,7 +923,7 @@ def EditFinding(finding):
         find.setType(form.findingType.data)
         find.setClassification(form.findingClassification.data)
         find.setAssociationTo(form.associationToFinding.data)
-        find.setEvidence(form.findingEvidence.data)
+        # find.setEvidence(form.findingEvidence.data)
         find.setAnalystAssigned(form.findingAnalystAssignment.data)
         find.setCollaboratorAssigned(form.findingCollaboratorAssignment.data)
         find.setPosture(form.findingPosture.data)
@@ -871,8 +935,9 @@ def EditFinding(finding):
         find.setImpactDescription(form.impactDescription.data)
         find.setImpactLevel(ImpactLevel.getMember(int(form.impactLevel.data)))
         find.setSeverityCategoryCode(SeverityCategoryCode.getMember(int(form.severityCategoryCode.data)))
+        find.setAssociatedTask(form.associationTask.data)
 
-        db.updateFinding(analyst, find)
+        findingHandler.updateFinding(find,analyst)
         return redirect(url_for("FindingView", finding=find.getid()))
     return render_template('EditFinding.html', form=form, finding=find)
 
@@ -880,21 +945,17 @@ def EditFinding(finding):
 # function to archive a system from event and db
 @app.route('/ArchiveFinding/<finding>', methods=['GET', 'POST'])
 def ArchiveFinding(finding):
-    for y in db.getAllFindings():
-        if y.getid() == ObjectId(finding):
-            y.setArchiveStatus(True)
-            db.updateFinding(analyst, y)
-            return redirect(url_for('FindingsView'))
+    find = findingHandler.getFinding(ObjectId(finding))
+    find.setArchiveStatus(True)
+    findingHandler.updateFinding(find, analyst)
     return redirect(url_for('FindingsView'))
 
 
 @app.route('/RestoreFinding/<finding>', methods=['GET', 'POST'])
 def RestoreFinding(finding):
-    for r in db.getAllFindings():
-        if r.getid() == ObjectId(finding):
-            r.setArchiveStatus(False)
-            db.updateFinding(analyst, r)
-            return redirect(url_for('ArchiveContentView'))
+    find = findingHandler.getFinding(ObjectId(finding))
+    find.setArchiveStatus(False)
+    findingHandler.updateFinding(find, analyst)
     return redirect(url_for('ArchiveContentView'))
 
 
@@ -905,21 +966,25 @@ def GenerateReport():
 
 @app.route('/ArchiveContentView')
 def ArchiveContentView():
+    systemHandler.loadSystems()
+    taskHandler.loadTask()
+    # subtaskHandler.loadSubtask()
+    findingHandler.loadFindings()
     archivedSystemList = []
-    for archivedsystem in db.getAllSystems():
+    for archivedsystem in systemHandler.getAllSystems():
         if archivedsystem.getArchiveStatus() == True:
             archivedSystemList.append(archivedsystem)
     archivedTasksList = []
-    for archivedTask in db.getAllTasks():
+    for archivedTask in taskHandler.getAllTask():
         if archivedTask.getArchiveStatus() == True:
             archivedTasksList.append(archivedTask)
     archivedSubtasksList = []
-    for archivedSubtask in db.getAllSubtasks():
+    for archivedSubtask in subtaskHandler.getAllsubTask():
         if archivedSubtask.getArchiveStatus() == True:
             archivedSubtasksList.append(archivedSubtask)
 
     archivedFindingsList = []
-    for archivedFinding in db.getAllFindings():
+    for archivedFinding in findingHandler.getAllFindings():
         if archivedFinding.getArchiveStatus() == True:
             archivedFindingsList.append(archivedFinding)
     return render_template('ArchiveContentView.html', archivedSystemList=archivedSystemList,
@@ -1023,25 +1088,25 @@ def EventTree():
 def RiskMatrixReport():
     print("RiskMatrixReport")
     findingsList = []
-    for finding in db.getAllFindings():
+    for finding in findingHandler.getAllFindings():
         if finding.getArchiveStatus() == False:
             findingsList.append(finding)
 
     # Code to generate RiskMatrixReport
-    createRiskMatrixReport(findingsList,event)
-    
+    createRiskMatrixReport(findingsList, event)
+
     return render_template('FindingsView.html', findingsList=findingsList)
 
 
 @app.route('/ERBReport')
 def ERBReport():
     findingsList = []
-    for finding in db.getAllFindings():
+    for finding in findingHandler.getAllFindings():
         if finding.getArchiveStatus() == False:
             findingsList.append(finding)
 
     systemsList = []
-    for system in db.getAllSystems():
+    for system in systemHandler.getAllSystems():
         if finding.getArchiveStatus() == False:
             systemsList.append(system)
 
@@ -1055,7 +1120,7 @@ def ERBReport():
 def FinalTechnicalReport():
     print("FinalTechnicalReport")
     findingsList = []
-    for finding in db.getAllFindings():
+    for finding in findingHandler.getAllFindings():
         if finding.getArchiveStatus() == False:
             findingsList.append(finding)
 
@@ -1066,24 +1131,24 @@ def FinalTechnicalReport():
 
 @app.route('/AnalystProgressSummaryContentView/<initials>', methods=['GET', 'POST'])
 def AnalystProgressSummaryContentView(initials):
-    for analyst in db.getAllAnalyst():
+    for analyst in analystHandler.getAllAnalyst():
         if analyst.getInitial() == initials:
             a = analyst
 
     findingsList = []
-    for finding in db.getAllFindings():
+    for finding in findingHandler.getAllFindings():
         for aanalyst in finding.getAnalystAssigned():
             if a.getInitial() == aanalyst:
                 findingsList.append(finding)
 
     tasksList = []
-    for task in db.getAllTasks():
+    for task in taskHandler.getAllTask():
         for aanalyst in task.getAnalystAssigment():
             if a.getInitial() == aanalyst:
                 tasksList.append(task)
 
     subTasksList = []
-    for subtask in db.getAllSubtasks():
+    for subtask in subtaskHandler.getAllsubTask():
         for aanalyst in subtask.getAnalystAssigment():
             if a.getInitial() == aanalyst:
                 subTasksList.append(subtask)

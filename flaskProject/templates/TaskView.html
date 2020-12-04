@@ -37,7 +37,7 @@
     <h4>Task Attachment </h4>
     <p>{{ task.getAttachment() }}</p>
     <hr>
-    <h4>task Association To Task </h4>
+    <h4>Task Association To Task </h4>
     {% for t in taskName %}
         <ul>
             <li style="list-style-type: circle">
@@ -47,6 +47,11 @@
     {% endfor %}
     <hr>
 
+    <h4>Task Association To System </h4>
+    <a type="submit" href="{{ url_for('SystemView', system=systemParent) }}">
+                        <h4 class="mb-1">{{ systemName }}</h4>
+                    </a>
+    <hr>
     <h4>analyst: </h4>
     {% for analyst in task.getAnalystAssigment() %}
         <ul>

@@ -27,7 +27,7 @@
                             </li>
                         </ul>
                     {% endfor %}
-                    <h5>System: system 1</h5>
+                    <h5>System: {{ task.getAssociationToSystem()[0] }}</h5>
                     <h5>Due date: {{ task.getDueDate() }}</h5>
                 </div>
                 <p class="mb-1">{{ task.getDescription() }}</p>

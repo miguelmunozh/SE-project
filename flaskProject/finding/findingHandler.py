@@ -1,7 +1,7 @@
-from flaskProject.finding.Finding import Finding, FindingType, FindingStatus, FindingClassification, Confidentiality,\
+from finding.Finding import Finding, FindingType, FindingStatus, FindingClassification, Confidentiality,\
     ImpactLevel, Integrity, Availability, Posture, Relevance, EffectivenessRating, SeverityCategoryCode
-from flaskProject.database.db import Db
-from flaskProject.analyst.analyst import Analyst
+from database.db import Db
+from analyst.analyst import Analyst
 
 class FindingHandler:
     def __init__(self, finding: list = []):

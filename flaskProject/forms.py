@@ -180,14 +180,15 @@ class CreateTaskForm(FlaskForm):
                                         (Progress.NOT_APPLICABLE.value, "Not Applicable")])
 
     taskDueDate = DateField('Task Due Date', validators=[DataRequired()])
-    taskAttachment = StringField("Task Attachment")
+    taskAttachment = FileField("Task Attachment")
     # task associated to another task?    # these 3 are lists
     # MAYBE SHOW A LIST OF TASKS AND ANALYSTS TO SELECT ONE FROM THEM
     associationToTask = SelectMultipleField("Association to Task", choices=[])
     taskAnalystAssignment = SelectMultipleField("Task Analyst Assignment", choices=[])
     taskCollaboratorAssignment = SelectMultipleField("Task Collaborator Assignment", choices=[])
+    associationToSystem = SelectMultipleField("Association to System", choices=[])
 
-    def __init__(self, tasks=None, analysts=None, collaborators=None):
+    def __init__(self, tasks=None, analysts=None, collaborators=None, systems=None):
         super().__init__()  # calls the base initialisation and then...
         if tasks:
             self.associationToTask.choices = [(task.getId(), task.getTitle()) for task in tasks]
@@ -196,7 +197,8 @@ class CreateTaskForm(FlaskForm):
         if collaborators:
             self.taskCollaboratorAssignment.choices = [(collaborator.getInitial(), collaborator.getInitial()) for
                                                        collaborator in collaborators]
-
+        if systems:
+            self.associationToSystem.choices = [(system.getId(), system.getName()) for system in systems]
 
 class EditTaskForm(FlaskForm):
     taskName = StringField("Task Name", validators=[DataRequired()])
@@ -214,13 +216,13 @@ class EditTaskForm(FlaskForm):
                                         (Progress.COMPLETE.value, "Complete"),
                                         (Progress.NOT_APPLICABLE.value, "Not Applicable")])
     taskDueDate = DateField('Task Due Date', validators=[DataRequired()])
-    taskAttachment = StringField("Task Attachment")
+    taskAttachment = FileField("Task Attachment")
     # task associated to another task? show a list of tasks with the same parent system
     # select field populated with those tasks and a default value
     associationToTask = SelectMultipleField("Association to Task", choices=[])
     taskAnalystAssignment = SelectMultipleField("Task Analyst Assignment", choices=[])
-    # selectable list?
     taskCollaboratorAssignment = SelectMultipleField("Task Collaborator Assignment", choices=[])
+    associationToSystem = SelectMultipleField("Association to System", choices=[])
 
 
 class CreateSubtaskForm(FlaskForm):
@@ -236,17 +238,17 @@ class CreateSubtaskForm(FlaskForm):
                                            (Progress.COMPLETE.value, "Complete"),
                                            (Progress.NOT_APPLICABLE.value, "Not Applicable")])
     subTaskDueDate = DateField('Subtask Due Date', validators=[DataRequired()])
-    subTaskAttachment = StringField("Subtask Attachment")
+    subTaskAttachment = FileField("Subtask Attachment")
     # task associated to another task
-    associationToSubtask = SelectMultipleField("Association to Task", choices=[])
+    associationTask = SelectMultipleField("Association to Task", choices=[])
     subTaskAnalystAssignment = SelectMultipleField("Subtask Analyst Assignment", choices=[])
     subTaskCollaboratorAssignment = SelectMultipleField("Subtask Collaborator Assignment", choices=[])
 
     # this is to populate the select fields with info from the db
-    def __init__(self, subtasks=None, analysts=None, collaborators=None):
+    def __init__(self, tasks=None, analysts=None, collaborators=None):
         super().__init__()  # calls the base initialisation and then...
-        if subtasks:
-            self.associationToSubtask.choices = [(task.getId(), task.getTitle()) for task in subtasks]
+        if tasks:
+            self.associationTask.choices = [(task.getId(), task.getTitle()) for task in tasks]
         if analysts:
             self.subTaskAnalystAssignment.choices = [(analyst.getInitial(), analyst.getInitial()) for analyst in
                                                      analysts]
@@ -268,10 +270,10 @@ class EditSubtaskForm(FlaskForm):
                                            (Progress.COMPLETE.value, "Complete"),
                                            (Progress.NOT_APPLICABLE.value, "Not Applicable")])
     subTaskDueDate = DateField('Subtask Due Date', validators=[DataRequired()])
-    subTaskAttachment = StringField("Subtask Attachment")
+    subTaskAttachment = FileField("Subtask Attachment")
     # subtask associated to another subtask? it is a list of subtasks with the same task as parent
     # select field populated with those tasks and a default value
-    associationToSubtask = SelectMultipleField("Association to Task", choices=[])
+    associationTask = SelectMultipleField("Association to Task", choices=[])
     subTaskAnalystAssignment = SelectMultipleField("Subtask Analyst Assignment", choices=[])
     subTaskCollaboratorAssignment = SelectMultipleField("Subtask Collaborator Assignment", choices=[])
 
@@ -285,6 +287,8 @@ class CreateFindingForm(FlaskForm):
                                 choices=[(FindingStatus.OPEN.value, "Open"),
                                          (FindingStatus.CLOSED.value, "Closed")],
                                 validators=[DataRequired()])
+    associationTask = SelectMultipleField("Association to Task", choices=[])
+
     findingType = SelectField("Finding Type",
                               choices=[
                                   (FindingType.CREDENTIALS_COMPLEXITY.value, "Credentials Complexity"),
@@ -311,7 +315,7 @@ class CreateFindingForm(FlaskForm):
                                                   "Information")], validators=[DataRequired()])
     associationToFinding = SelectMultipleField("Finding Association To Finding", choices=[])
     # EVIDENCE IS A FILE NOT A STRING
-    findingEvidence = StringField("Finding Evidence", validators=[DataRequired()])
+    findingEvidence = FileField("Finding Evidence", validators=[DataRequired()])
 
     # Finding Impact
     findingConfidentiality = SelectField("Finding Confidentiality",
@@ -398,7 +402,7 @@ class CreateFindingForm(FlaskForm):
     # this is to populate the select fields with info from the db
 
 
-    def __init__(self, findings=None, analysts=None, collaborators=None):
+    def __init__(self, findings=None, analysts=None, collaborators=None, tasks=None):
         super().__init__()
         if findings:
             self.associationToFinding.choices = [(finding.getid(), finding.getHostName()) for finding in findings]
@@ -408,6 +412,8 @@ class CreateFindingForm(FlaskForm):
         if collaborators:
             self.findingCollaboratorAssignment.choices = [(collaborator.getInitial(), collaborator.getInitial()) for
                                                           collaborator in collaborators]
+        if tasks:
+            self.associationTask.choices = [(task.getId(), task.getTitle()) for task in tasks]
 
 
 class EditFindingForm(FlaskForm):
@@ -419,6 +425,8 @@ class EditFindingForm(FlaskForm):
                                 choices=[(FindingStatus.OPEN.value, "Open"),
                                          (FindingStatus.CLOSED.value, "Closed")],
                                 validators=[DataRequired()])
+    associationTask = SelectMultipleField("Association to Task", choices=[])
+
     findingType = SelectField("Finding Type",
                               choices=[
                                   (FindingType.CREDENTIALS_COMPLEXITY.value, "Credentials Complexity"),
@@ -446,7 +454,7 @@ class EditFindingForm(FlaskForm):
 
     associationToFinding = SelectMultipleField("Finding Association To Finding")
     # EVIDENCE IS A FILE NOT A STRING
-    findingEvidence = StringField("Finding Evidence", validators=[DataRequired()])
+    findingEvidence = FileField("Finding Evidence", validators=[DataRequired()])
 
     # Finding Analyst Information
     findingAnalystAssignment = SelectMultipleField("Finding Analyst Assignment", validators=[DataRequired()])

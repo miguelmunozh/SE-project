@@ -1,16 +1,13 @@
-from flaskProject.analyst.analyst import Analyst
-from flaskProject.event.event import Event
-from flaskProject.log.log import LogEntry
-from flaskProject.database.db import Db
+from analyst.analyst import Analyst
+from event.event import Event
+from log.log import LogEntry
+from database.db import Db
 
 
 class DatabaseHandler:
     def __init__(self):
         self.__db = Db.getInstance()
         return
-
-
-
 
     def deleteEvent(self, analyst, event):
         eventDoc = event.toDocument()
@@ -22,7 +19,6 @@ class DatabaseHandler:
         analystDoc = analyst.toDocument()
         self.__db.removeAnalyst(analystDoc)
         return
-
 
     def deleteSystem(self, analyst, system):
         systemDoc = system.toDocument()

@@ -33,14 +33,10 @@
     <h4>Due date: </h4>
     <p>{{ subtask.getDueDate() }}</p>
     <hr>
-    <h4>subtask Association To subtask </h4>
-    {% for t in subtaskName %}
-        <ul>
-            <li style="list-style-type: circle">
-                {{ t }}
-            </li>
-        </ul>
-    {% endfor %}
+    <h4>subtask Association To Task </h4>
+    <a type="submit" href="{{ url_for('TaskView', task=taskParent) }}">
+                        <h4 class="mb-1">{{ taskName }}</h4>
+                    </a>
     <hr>
     <h4>analyst </h4>
     {% for analyst in subtask.getAnalystAssigment() %}

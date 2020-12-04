@@ -1,40 +1,40 @@
 from bson import ObjectId
 from PIL import Image
 
-from flaskProject.system.systemHandler import SystemHandler
-from flaskProject.finding.findingHandler import FindingHandler
-from flaskProject.task.taskHandler import TaskHandler
-from flaskProject.task.subtaskHandler import SubtaskHandler
-from flaskProject.log.logHandler import LogHandler
-from flaskProject.analyst.analystHandler import AnalystHandler
-from flaskProject.event.eventHandler import EventHandler
-from flaskProject.log.log import LogEntry
+from system.systemHandler import SystemHandler
+from finding.findingHandler import FindingHandler
+from task.taskHandler import TaskHandler
+from task.subtaskHandler import SubtaskHandler
+from log.logHandler import LogHandler
+from analyst.analystHandler import AnalystHandler
+from event.eventHandler import EventHandler
+from log.log import LogEntry
 
-from flaskProject.database.databaseHandler import DatabaseHandler, Db
-from flaskProject.event.event import Event
-from flaskProject.event.eventType import EventType
-from flaskProject.event.eventClassification import EventClassification
-from flaskProject.analyst.analyst import Analyst
-from flaskProject.analyst.role import Role
-from flaskProject.finding.Finding import Finding
-from flaskProject.finding.findingStatus import FindingStatus
-from flaskProject.finding.findingType import FindingType
-from flaskProject.finding.findingClassification import FindingClassification
-from flaskProject.finding.posture import Posture
-from flaskProject.finding.relevance import Relevance
-from flaskProject.finding.effectivenessRating import EffectivenessRating
-from flaskProject.finding.impactLevel import ImpactLevel
-from flaskProject.finding.severityCategoryCode import SeverityCategoryCode
-from flaskProject.system.system import System, Availability, Confidentiality, Integrity
+from database.databaseHandler import DatabaseHandler, Db
+from event.event import Event
+from event.eventType import EventType
+from event.eventClassification import EventClassification
+from analyst.analyst import Analyst
+from analyst.role import Role
+from finding.Finding import Finding
+from finding.findingStatus import FindingStatus
+from finding.findingType import FindingType
+from finding.findingClassification import FindingClassification
+from finding.posture import Posture
+from finding.relevance import Relevance
+from finding.effectivenessRating import EffectivenessRating
+from finding.impactLevel import ImpactLevel
+from finding.severityCategoryCode import SeverityCategoryCode
+from system.system import System, Availability, Confidentiality, Integrity
 from datetime import date
 from datetime import datetime
 
-from flaskProject.task.priority import Priority
-from flaskProject.task.progress import Progress
-from flaskProject.task.subtask import Subtask
-from flaskProject.task.task import Task
-from flaskProject.attachment.attachment import Attachment
-from flaskProject.attachment.attachmentHandler import AttachmentHandler
+from task.priority import Priority
+from task.progress import Progress
+from task.subtask import Subtask
+from task.task import Task
+from attachment.attachment import Attachment
+from attachment.attachmentHandler import AttachmentHandler
 
 # dbHandler = DatabaseHandler()
 attHandler = AttachmentHandler()
@@ -45,39 +45,46 @@ attHandler = AttachmentHandler()
 
 analyst = Analyst("jonathan", "roman", "jr", ["jr","sr"], Role.LEAD)
 
+analyst2 = Analyst("jonathan2", "roman2", "jr2", ["jr2","sr2"], Role.COLLABORATOR)
+
 task_handler = TaskHandler()
 finding_handler = FindingHandler()
 subtask_handler = SubtaskHandler()
 system_handler = SystemHandler()
 log_handler = LogHandler()
 analyst_handler = AnalystHandler()
+event_handler = EventHandler()
 
+analyst_handler.appendAnalyst("jonathan3", "roman3", "jr3", ["jr3","sr3"], Role.COLLABORATOR)
 
+analysts = analyst_handler.getAllAnalyst()
+for analyst in analysts:
+    print(analyst.getFirstName())
 
-task_handler.appendTask(analyst=analyst,
-                        title="test_title",
-                        description="test_description",
-                        priority=Priority.HIGH,
-                        progress=Progress.ASSIGNED,
-                        dueDate=datetime.today().strftime("%m/%d/%Y"),
-                        associationToTask=[],
-                        analystAssignment= ["jr", "ls"],
-                        collaboratorAssignment=["jK"],
-                        archiveStatus=False,
-                        attachment=[],
-                        associationToSystem= "system_test"
-                        )
-tasks = task_handler.loadTask()
-tasks = task_handler.getAllTask()
-task_id = -1
-for task in tasks:
-    testid = attHandler.appendAttachment('C:\\Users\\jonat\\Desktop\\software2Team\\flaskProject\\images\\Capture.PNG',
-                                         "Capture.PNG")
-    task.appendAttachment(testid)
-    task_handler.updateTask(analyst=analyst, task=task)
-    attHandler.loadAttachments(task.getAttachment())
-    # attHandler.find_and_open_attachment(testid)
-    task_id = task.getId()
+# task_handler.appendTask(analyst=analyst,
+#                         title="test_title",
+#                         description="test_description",
+#                         priority=Priority.HIGH,
+#                         progress=Progress.ASSIGNED,
+#                         dueDate=datetime.today().strftime("%m/%d/%Y"),
+#                         associationToTask=[],
+#                         analystAssignment= ["jr", "ls"],
+#                         collaboratorAssignment=["jK"],
+#                         archiveStatus=False,
+#                         attachment=[],
+#                         associationToSystem= "system_test"
+#                         )
+# tasks = task_handler.loadTask()
+# tasks = task_handler.getAllTask()
+# task_id = -1
+# for task in tasks:
+#     testid = attHandler.appendAttachment('C:\\Users\\jonat\\Desktop\\software2Team\\flaskProject\\images\\Capture.PNG',
+#                                          "Capture.PNG")
+#     task.appendAttachment(testid)
+#     task_handler.updateTask(analyst=analyst, task=task)
+#     attHandler.loadAttachments(task.getAttachment())
+#     # attHandler.find_and_open_attachment(testid)
+#     task_id = task.getId()
 
 # finding_handler.appendFinding(analyst=analyst,
 #                               hostName="test_hostname",
@@ -115,24 +122,24 @@ for task in tasks:
 #     print(finding2.getid())
 #     print(finding2.getDescription())
 
-subtask_handler.appendSubtask(analyst=analyst,
-                              title="test_tittle",
-                              description="test_description",
-                              progress=Progress.IN_PROGRESS,
-                              dueDate=datetime.today().strftime("%m/%d/%Y"),
-                              associationToTask=["test1", "test2"],
-                              analystAssignment=["jr", "ls"],
-                              collaboratorAssignment=["jk", "jr"],
-                              archiveStatus=False)
-
-subtasks = subtask_handler.getAllsubTask()
-for subtask in subtasks:
-    testid = attHandler.appendAttachment('C:\\Users\\jonat\\Desktop\\software2Team\\flaskProject\\images\\Capture.PNG',
-                                         "Capture.PNG")
-    subtask.appendAttachment(testid)
-    subtask_handler.updateSubtask(analyst=analyst, subtask=subtask)
-    attHandler.loadAttachments(subtask.getAttachment())
-    # attHandler.find_and_open_attachment(testid)
+# subtask_handler.appendSubtask(analyst=analyst,
+#                               title="test_tittle",
+#                               description="test_description",
+#                               progress=Progress.IN_PROGRESS,
+#                               dueDate=datetime.today().strftime("%m/%d/%Y"),
+#                               associationToTask=["test1", "test2"],
+#                               analystAssignment=["jr", "ls"],
+#                               collaboratorAssignment=["jk", "jr"],
+#                               archiveStatus=False)
+#
+# subtasks = subtask_handler.getAllsubTask()
+# for subtask in subtasks:
+#     testid = attHandler.appendAttachment('C:\\Users\\jonat\\Desktop\\software2Team\\flaskProject\\images\\Capture.PNG',
+#                                          "Capture.PNG")
+#     subtask.appendAttachment(testid)
+#     subtask_handler.updateSubtask(analyst=analyst, subtask=subtask)
+#     attHandler.loadAttachments(subtask.getAttachment())
+#     # attHandler.find_and_open_attachment(testid)
 
 
 # finding_handler.appendFinding(analyst=analyst,
@@ -169,40 +176,52 @@ for subtask in subtasks:
 #     attHandler.loadAttachments(finding.getAllEvidence())
 #     attHandler.find_and_open_attachment(testid)
 
-system_handler.appendSystem(analyst=analyst,
-                            name="test_system",
-                            description="test_description",
-                            location=["location_1", "location_2"],
-                            router=["router_1", "router_2"],
-                            switch=["switch1", "switch2"],
-                            room=["room1, room2"],
-                            testPlan="test_plan_test",
-                            archiveStatus=False,
-                            confidentiality=Confidentiality.INFO,
-                            integrity=Integrity.INFO,
-                            availability=Availability.INFO)
-system_handler.loadSystems()
-systems = system_handler.getAllSystems()
-for system in systems:
-    print(system.getId())
-    system2 = system_handler.getSystem(system.getId())
-    print(system2.getId())
-    system2.setDescription("test_description_3")
-    system_handler.updateSystem(analyst=analyst, system=system2)
-log_handler.updateLogHandler()
-logs = log_handler.getAllLogs()
-# for log in logs:
-#     print(log.getAction())
 
-analysts = analyst_handler.getAllAnalyst()
-for analyst in analysts:
-    print(analyst.getId())
-    print(analyst.getFirstName())
+#
+# system_handler.appendSystem(analyst=analyst,
+#                             name="test_system",
+#                             description="test_description",
+#                             location=["location_1", "location_2"],
+#                             router=["router_1", "router_2"],
+#                             switch=["switch1", "switch2"],
+#                             room=["room1, room2"],
+#                             testPlan="test_plan_test",
+#                             archiveStatus=False,
+#                             confidentiality=Confidentiality.INFO,
+#                             integrity=Integrity.INFO,
+#                             availability=Availability.INFO)
+# system_handler.loadSystems()
+# systems = system_handler.getAllSystems()
+# for system in systems:
+#     print(system.getId())
+#     system2 = system_handler.getSystem(system.getId())
+#     print(system2.getId())
+#     system2.setDescription("test_description_3")
+#     system_handler.updateSystem(analyst=analyst, system=system2)
+# log_handler.updateLogHandler()
+# logs = log_handler.getAllLogs()
+# # for log in logs:
+# #     print(log.getAction())
+#
+# analysts = analyst_handler.getAllAnalyst()
+# for analyst in analysts:
+#     print(analyst.getId())
+#     print(analyst.setFirstName("test_name"))
+#     analyst_handler.updateAnalyst(analyst)
+#
+# event_handler = EventHandler()
+# event = event_handler.getEvent()
+# print(event.getId())
+# print(event.getName())
 
-event_handler = EventHandler()
-event = event_handler.getEvent()
-print(event.getId())
-print(event.getName())
+# event_handler.createEvent(analyst=analyst, name= "name_test", description= "description",
+#                           type= EventType.VERIFICATION_OF_FIXES, version= 1.0,
+#                           date= datetime.today().strftime("%m/%d/%Y"), organizationName="org_name",
+#                           securityClassificationTitleGuide= "guide", eventClassification=EventClassification.TOP_SECRET,
+#                           classifiedBy= ["thisguy", "thatguy"], derivedFrom=["item_derivedby"],
+#                           declassificationDate= datetime.today().strftime("%m/%d/%Y"),
+#                           customerName="customer_name", archiveStatus=False,
+#                           eventTeam=["jr","jt", "ct"])
 
     # task_handler.updateTask(task = task, analyst= analyst)
 # task2 = task_handler.getTask(task_id)

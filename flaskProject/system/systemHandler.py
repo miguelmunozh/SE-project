@@ -1,6 +1,9 @@
-from flaskProject.system.system import System, Confidentiality, Availability, Integrity
-from flaskProject.database.db import Db
-from flaskProject.analyst.analyst import Analyst
+from system.system import System
+from security_objectives.confidentiality import Confidentiality
+from security_objectives.availability import Availability
+from security_objectives.integrity import Integrity
+from database.db import Db
+from analyst.analyst import Analyst
 
 class SystemHandler:
 
