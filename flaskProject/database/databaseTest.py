@@ -222,6 +222,14 @@ for analyst in analysts:
 #                           declassificationDate= datetime.today().strftime("%m/%d/%Y"),
 #                           customerName="customer_name", archiveStatus=False,
 #                           eventTeam=["jr","jt", "ct"])
+event_handler.createEvent(analyst=analyst, name= "name_test", description= "description",
+                          type= EventType.VERIFICATION_OF_FIXES, version= 1.0,
+                          date= datetime.today().strftime("%m/%d/%Y"), organizationName="org_name",
+                          securityClassificationTitleGuide= "guide", eventClassification=EventClassification.TOP_SECRET,
+                          classifiedBy= ["thisguy", "thatguy"], derivedFrom=["item_derivedby"],
+                          declassificationDate= datetime.today().strftime("%m/%d/%Y"),
+                          customerName="customer_name", archiveStatus=False,
+                          eventTeam=["jr","jt", "ct"])
 
     # task_handler.updateTask(task = task, analyst= analyst)
 # task2 = task_handler.getTask(task_id)
