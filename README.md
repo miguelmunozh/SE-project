@@ -42,6 +42,6 @@ Mongodb local server should be installed using the installation tool. The tool c
 https://www.mongodb.com/try/download/community
 
 ## How to run
-
-
+Inside the folder flaskProject there is a file called apppy, just select that file and run it. 
+After that you will be promted an ip address, then you will need to click on it to be directed to the app.
 
