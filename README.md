@@ -26,9 +26,22 @@ The PyMongo library allows interaction with the MongoDB database through Python;
 pip install pymongo
 
 ```
+The XlsxWriter is a Python module that can be used to write text, numbers, formulas and hyperlinks to multiple worksheets in an Excel 2007+ XLSX file.
+```bash
+pip install xlsxwriter 
+```
+The python-docx is a Python library for creating and updating Microsoft Word (.docx) files.
+```bash
+pip install python-docx 
+```
+The python-pptx is a Python library for creating and updating PowerPoint (.pptx) files.
+```bash
+pip install python-pptx
+```
 Mongodb local server should be installed using the installation tool. The tool can be found at the following url:
 https://www.mongodb.com/try/download/community
 
 ## How to run
+
 
 
