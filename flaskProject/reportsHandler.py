@@ -7,12 +7,12 @@ from pptx import Presentation
 from pptx.chart.data import CategoryChartData
 from pptx.enum.chart import XL_CHART_TYPE
 from pptx.util import Inches, Pt
-from database.databaseHandler import DatabaseHandler
-from Helper import *
 
-# get instance of db
-db = DatabaseHandler()
+from log.logHandler import LogHandler
+from analyst.analystHandler import AnalystHandler
 
+logsHandler = LogHandler()
+analystHandler = AnalystHandler()
 
 def generateERB(event, findingsList, systemsList):
     # Code to generate ERB Report
@@ -329,7 +329,7 @@ def generateFinalTecReport(event, findingsList):
 
     # get event team, get the analysts ann their first and last name here
     names = []
-    for analyst in db.getAllAnalyst():
+    for analyst in analystHandler.getAllAnalyst():
         for initial in event.getEventTeam():
             if initial == analyst.getInitial():
                 mystr = analyst.getFirstName()
@@ -733,10 +733,14 @@ def generateFinalTecReport(event, findingsList):
     for finding in findingsList:
         if finding.getType().value == 'Encryption':
             lackEnc = finding
+        else:
+            lackEnc = finding
 
     missPatch = None
     for finding in findingsList:
         if finding.getType().value == 'Missing Patches':
+            missPatch = finding
+        else:
             missPatch = finding
 
     # create a table for the finding with the encryption type
@@ -1152,7 +1156,7 @@ def createRiskMatrixReport(findingsList, event):
     changeLogs.merge_range(row, 5, row, 9, "CHANGES", cell_format)
     row += 1
 
-    for logEntry in db.getAllLogs():
+    for logEntry in logsHandler.getAllLogs():
         changeLogs.merge_range(row, 1, row, 2, logEntry.getTime(), cards_format)
         changeLogs.merge_range(row, 3, row, 4, str(logEntry.getId()), cards_format)
         changeLogs.merge_range(row, 5, row, 9, logEntry.getAction(), cards_format)

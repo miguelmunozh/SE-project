@@ -3,7 +3,6 @@ import os
 from bson import ObjectId
 from flask import Flask, render_template, url_for, request, redirect
 from flask_bootstrap import Bootstrap
-from database.databaseHandler import DatabaseHandler
 from forms import *
 from Helper import *
 from reportsHandler import generateERB, generateFinalTecReport, createRiskMatrixReport
@@ -21,7 +20,6 @@ taskHandler = TaskHandler()
 subtaskHandler = SubtaskHandler()
 findingHandler = FindingHandler()
 analystHandler = AnalystHandler()
-db = DatabaseHandler()
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -32,7 +30,7 @@ app.config['SECRET_KEY'] = 'encrypted'
 # the system)
 analyst = Analyst("jonathan", "roman", "jr", ["jr", "sr"], Role.LEAD)
 notEvent = False
-events = eventHandler.getEventFromDatabase()
+events = eventHandler.getEvent()
 
 # check if there is an event in the db
 if events == None:
@@ -79,7 +77,7 @@ def SetupContentView():
 def CreateAnalyst():
     errorMessage = ''
     initialsCoalition = False
-    events = eventHandler.getEventFromDatabase()
+    events = eventHandler.getEvent()
     if not events.getArchiveStatus():
         event = events
 
@@ -116,6 +114,7 @@ def CreateAnalyst():
 @app.route('/EditAnalyst/<initial>', methods=['GET', 'POST'])
 def EditAnalyst(initial):
     global analyst
+    analystHandler.loadAllAnalystFromDatabase()
     for a in analystHandler.getAllAnalyst():
         if a.getInitial() == initial:
             m = a
@@ -174,9 +173,9 @@ def deleteAnalyst(initial):
         eventHandler.updateEvent(ana, event)
 
     # delete analyst object from the db as well
-    for analyst in analystHandler.getAllAnalyst():
-        if analyst.getInitial() == initial:
-            db.deleteAnalyst(analyst)
+    # for analyst in analystHandler.getAllAnalyst():
+    #     if analyst.getInitial() == initial:
+    #         db.removeAnalyst(analyst)
 
     return redirect(url_for('EventView', event=eventHandler.getEvent()))
 
@@ -189,21 +188,22 @@ def CreateEvent():
 
     # check if the create event button has been pressed, if so create an event obj
     if 'createEvent' in request.form:
-        # delete current event, systems, everything from the db, to handle only one event at a time
-        for subtask in subtaskHandler.getAllsubTask():
-            db.deleteSubtask(analyst, subtask)
-        for task in taskHandler.getAllTask():
-            db.deleteTask(analyst, task)
-        for system in systemHandler.getAllSystems():
-            db.deleteSystem(analyst, system)
-        for analyst in analystHandler.getAllAnalyst():
-            db.deleteAnalyst(analyst)
+        # # delete current event, systems, everything from the db, to handle only one event at a time
+        # for subtask in subtaskHandler.getAllsubTask():
+        #     subtask.setArchiveStatus(True)
+        # for task in taskHandler.getAllTask():
+        #     task.setArchiveStatus(True)
+        # for system in systemHandler.getAllSystems():
+        #     system.setArchiveStatus(True)
+        # for analyst in analystHandler.getAllAnalyst():
+        #     db.deleteAnalyst(analyst)
 
         # if there is an event, delete to create the new one
-        e = eventHandler.getEvent()
-        if e != None:
-            print("event deleted to create a new one")
-            db.deleteEvent(analyst, e)
+        # e = eventHandler.getEvent()
+        # if e != None:
+        #     print("event deleted to create a new one")
+        #     a = eventHandler.getEvent(e)
+        #     a.setArchiveStatus(True)
 
         # get analysts lists together, (will change when we store a list of analysts instead of a list of initials)
         lead = form.EventLeadAnalysts.data
@@ -286,18 +286,17 @@ def EventView():
         # db.updateEvent(analyst, event)
         # delete event and its systems, tasks, etc since well deal only with one event at a time
         for subtask in subtaskHandler.getAllsubTask():
-            db.deleteSubtask(analyst, subtask)
+            subtask.setArchiveStatus(True)
         for task in taskHandler.getAllTask():
-            db.deleteTask(analyst, task)
+            task.setArchiveStatus(True)
         for system in systemHandler.getAllSystems():
-            db.deleteSystem(analyst, system)
-        for analyst in analystHandler.getAllAnalyst():
-            db.deleteAnalyst(analyst)
-        db.deleteEvent(analyst, event)
+            system.setArchiveStatus(True)
+
+        event.setArchiveStatus(True)
         return redirect(url_for('SetupContentView'))
 
     # pass event as parameter to use the event variable in the EventView.html
-    return render_template('EventView.html', event=eventHandler.getEventFromDatabase(), db=db, leadList=leads,
+    return render_template('EventView.html', event=eventHandler.getEventFromDatabase(), leadList=leads,
                            nonleadList=nonLeads)
 
 
@@ -542,7 +541,7 @@ def TaskView(task):
                                      task1.getCollaboratorAssignment(),
                                      False,
                                      task1.getAttachment())
-        db.deleteTask(analyst, task1)
+        task1.setArchiveStatus(True)
         return redirect(url_for('Tasks'))
 
     return render_template('TaskView.html', task=task1, taskName=taskName, systemParent=systemParent,
@@ -565,7 +564,7 @@ def DemoteTask(task):
                                  False,
                                  task1.getAttachment())
 
-    db.deleteTask(analyst, task1)
+    task1.setArchiveStatus(True)
     return redirect(url_for('Tasks'))
 
 
@@ -705,7 +704,7 @@ def EditSubTask(subtask):
 
 @app.route('/SubTaskView/<subtask>', methods=['GET', 'POST'])
 def SubTaskView(subtask):
-    subtaskHandler.loadSubtask()
+    # subtaskHandler.loadSubtask()
     taskHandler.loadTask()
     subT = subtaskHandler.getSubtask(ObjectId(subtask))
 
@@ -735,7 +734,7 @@ def SubTaskView(subtask):
                                False,
                                None,
                                subT.getAttachment())
-        db.deleteSubtask(analyst, subT)
+        subT.setArchiveStatus(True)
         return redirect(url_for('Tasks'))
 
     return render_template('SubTaskView.html', subtask=subT, taskParent=taskParent, taskName=taskName)
@@ -757,13 +756,13 @@ def PromoteToTask(subtask):
                            None,
                            subT.getAttachment())
 
-    db.deleteSubtask(analyst, subT)
+    subT.setArchiveStatus(True)
     return redirect(url_for('Subtasks'))
 
 
 @app.route('/Subtasks')
 def Subtasks():
-    subtaskHandler.loadSubtask()
+    # subtaskHandler.loadSubtask()
     subTasksList = []
     for subtask in subtaskHandler.getAllsubTask():
         if subtask.getArchiveStatus() == False:
@@ -1086,6 +1085,8 @@ def EventTree():
 
 @app.route('/RiskMatrixReport')
 def RiskMatrixReport():
+    findingHandler.loadFindings()
+
     print("RiskMatrixReport")
     findingsList = []
     for finding in findingHandler.getAllFindings():
@@ -1100,6 +1101,8 @@ def RiskMatrixReport():
 
 @app.route('/ERBReport')
 def ERBReport():
+    findingHandler.loadFindings()
+
     findingsList = []
     for finding in findingHandler.getAllFindings():
         if finding.getArchiveStatus() == False:
@@ -1119,6 +1122,7 @@ def ERBReport():
 @app.route('/FinalTechnicalReport')
 def FinalTechnicalReport():
     print("FinalTechnicalReport")
+    findingHandler.loadFindings()
     findingsList = []
     for finding in findingHandler.getAllFindings():
         if finding.getArchiveStatus() == False:
